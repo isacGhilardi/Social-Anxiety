@@ -1,14 +1,15 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿namespace Social_Anxiety;
 
-namespace Social_Anxiety
+public partial class App : Application
 {
-    public partial class App : Application
+    public App()
     {
-        public App()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
+    }
 
-
+    protected override Window CreateWindow(
+        IActivationState? activationState)
+    {
+        return new Window(new AppShell());
     }
 }
