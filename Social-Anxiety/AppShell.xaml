@@ -7,7 +7,6 @@
     Title="Social_Anxiety">
 
     <ShellContent
-        Title="Home"
         ContentTemplate="{DataTemplate local:OnboardingPage}"
         Route="OnboardingPage" />
 
