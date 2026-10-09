@@ -1,4 +1,4 @@
-﻿vv<?xml version="1.0" encoding="UTF-8" ?>
+﻿<?xml version="1.0" encoding="UTF-8" ?>
 <ResourceDictionary 
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
@@ -19,6 +19,11 @@
     <Color x:Key="Magenta">#D600AA</Color>
     <Color x:Key="MidnightBlue">#190649</Color>
     <Color x:Key="OffBlack">#1f1f1f</Color>
+    <Color x:Key="Secondary">#CFA7E5</Color>
+    <Color x:Key="Tertiary">#2B0B98</Color>
+    <Color x:Key="PrimaryDarkText">#242424</Color>
+    <Color x:Key="PrimaryDark">#ac99ea</Color>
+    <Color x:Key="SecondaryDarkText">#9880e5</Color>
 
     <Color x:Key="Gray100">#E1E1E1</Color>
     <Color x:Key="Gray200">#C8C8C8</Color>
@@ -43,4 +48,34 @@
     <SolidColorBrush x:Key="Gray600Brush" Color="{StaticResource Gray600}"/>
     <SolidColorBrush x:Key="Gray900Brush" Color="{StaticResource Gray900}"/>
     <SolidColorBrush x:Key="Gray950Brush" Color="{StaticResource Gray950}"/>
+    <Color x:Key="CalmeBlue">#E4EBF8</Color>
+    <Color x:Key="CalmeBlueDark">#293C59</Color>
+    <Color x:Key="CalmeTrack">#D8E2F1</Color>
+    <Color x:Key="CalmeTrackDark">#425572</Color>
+    <Color x:Key="CalmeBg">#F5F7FB</Color>
+    <Color x:Key="CalmeBgDark">#141E2E</Color>
+    <Color x:Key="CalmePurple">#70578B</Color>
+    <Color x:Key="CalmePurpleDark">#D7C0F5</Color>
+    <Color x:Key="CalmeText">#253952</Color>
+    <Color x:Key="CalmeTextDark">#EAF0FA</Color>
+    <Color x:Key="CalmeMuted">#56677C</Color>
+    <Color x:Key="CalmeMutedDark">#B5C4D8</Color>
+    <Color x:Key="CalmeOn">#FFFFFF</Color>
+    <Color x:Key="CalmeOnDark">#1C2D4D</Color>
+    <Color x:Key="CalmePrimary">#435F91</Color>
+    <Color x:Key="CalmePrimaryDark">#B5C9FF</Color>
+    <Color x:Key="CalmeSuccess">#276C54</Color>
+    <Color x:Key="CalmeSuccessDark">#A8E0C5</Color>
+    <Color x:Key="CalmeSurface">#FFFFFF</Color>
+    <Color x:Key="CalmeSurfaceDark">#202D40</Color>
+    <Color x:Key="CalmeSubtle">#ECF0F6</Color>
+    <Color x:Key="CalmeSubtleDark">#304159</Color>
+    <Color x:Key="CalmeMint">#DDEFEA</Color>
+    <Color x:Key="CalmeMintDark">#24423F</Color>
+    <Color x:Key="CalmeBorder">#7D8BA1</Color>
+    <Color x:Key="CalmeBorderDark">#8194AD</Color>
+    <Color x:Key="CalmeLilac">#EBE5F6</Color>
+    <Color x:Key="CalmeLilacDark">#3C324E</Color>
+    <Color x:Key="CalmeTeal">#286B65</Color>
+    <Color x:Key="CalmeTealDark">#9DE0D2</Color>
 </ResourceDictionary>
