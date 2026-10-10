@@ -307,7 +307,7 @@
             </VerticalStackLayout>
         </ScrollView>
         <VerticalStackLayout Grid.Row="2" Padding="24,8,24,16">
-            <Button Text="{Binding SupportText}" Style="{StaticResource CalmeButton}" BackgroundColor="{AppThemeBinding Light={StaticResource CalmeMint}, Dark={StaticResource CalmeMintDark}}" TextColor="{AppThemeBinding Light={StaticResource CalmeTeal}, Dark={StaticResource CalmeTealDark}}" CornerRadius="99" MinimumHeightRequest="44" Padding="12,10" Clicked="OnSupportClicked"/>
+            <Button Text="{Binding SupportText}" Style="{StaticResource CalmeButton}" BackgroundColor="{AppThemeBinding Light={StaticResource CalmeMint}, Dark={StaticResource CalmeMintDark}}" TextColor="{AppThemeBinding Light={StaticResource CalmeTeal}, Dark={StaticResource CalmeTealDark}}" CornerRadius="18" MinimumHeightRequest="40" Padding="18" Clicked="OnSupportClicked"/>
         </VerticalStackLayout>
     </Grid>
 </ContentPage>
