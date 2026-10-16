@@ -21,6 +21,7 @@ namespace Social_Anxiety
 #if DEBUG
     		builder.Logging.AddDebug();
 #endif
+            builder.Services.AddSingleton<OnboardingState>();
 
             return builder.Build();
         }
