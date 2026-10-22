@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Social_Anxiety.BreathePage" Title="Respiração guiada" Style="{StaticResource FlowPage}">
+    <Grid RowDefinitions="*,Auto">
+        <ScrollView>
+            <VerticalStackLayout Padding="24,8,24,28" Spacing="16">
+                <Label Text="UMA PAUSA, SEM PRESSA"  Style="{StaticResource FlowSmall}" />
+                <Label Text="Volte ao seu ritmo."  Style="{StaticResource FlowHeading}" SemanticProperties.HeadingLevel="Level1"/>
+                <Label Text="Encontre uma posição confortável. Se houver desconforto, pare e respire naturalmente."  Style="{StaticResource FlowCopy}" />
+                <Grid WidthRequest="258" HeightRequest="258" HorizontalOptions="Center" AutomationId="breathe-visual">
+                    <Border StrokeShape="Ellipse" Stroke="{AppThemeBinding Light={StaticResource CalmeTrack}, Dark={StaticResource CalmeTrackDark}}" StrokeThickness="1" />
+                    <Border x:Name="BreathHalo" StrokeShape="Ellipse" StrokeThickness="0" BackgroundColor="{AppThemeBinding Light={StaticResource CalmeBlue}, Dark={StaticResource CalmeBlueDark}}" Scale="0.82" Opacity="0.5" />
+                    <Border x:Name="BreathCircle" StrokeShape="Ellipse" Stroke="{AppThemeBinding Light={StaticResource CalmeTeal}, Dark={StaticResource CalmeTealDark}}" StrokeThickness="1" BackgroundColor="{AppThemeBinding Light={StaticResource CalmeMint}, Dark={StaticResource CalmeMintDark}}" Scale="0.64" />
+                    <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="8" InputTransparent="True">
+                        <Image Source="wind.png" WidthRequest="46" HeightRequest="46"/>
+                        <Label Text="Calme" x:Name="Countdown" Style="{StaticResource FlowCardTitle}" HorizontalTextAlignment="Center" AutomationId="breathe-countdown"/>
+
+                    </VerticalStackLayout>
+                </Grid>
+                <Label Text="Quando quiser, comece." x:Name="PhaseLabel" Style="{StaticResource FlowCardTitle}" HorizontalTextAlignment="Center" AutomationId="breathe-phase"/>
+                <Label Text="Inspire 4 s · pausa opcional 2 s · expire 6 s" x:Name="PhaseCaption" Style="{StaticResource FlowCopy}" HorizontalTextAlignment="Center"/>
+                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12"><Label Text="Pular a pausa de segurar"  Style="{StaticResource FlowCopy}" VerticalOptions="Center"/>
+                <Switch x:Name="SkipHoldSwitch" Grid.Column="1" AutomationId="breathe-skip-hold" SemanticProperties.Description="Pular pausa de segurar a respiração" Toggled="OnSkipHoldToggled" /></Grid>
+                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12"><Label Text="Reduzir movimentos"  Style="{StaticResource FlowCopy}" VerticalOptions="Center"/>
+                <Switch x:Name="ReducedMotionSwitch" Grid.Column="1" AutomationId="breathe-reduced-motion" SemanticProperties.Description="Reduzir movimentos" Toggled="OnReducedMotionToggled" /></Grid>
+                <Button Text="Começar" Clicked="OnToggleClicked" AutomationId="breathe-toggle" Style="{StaticResource CalmeButton}" x:Name="ToggleButton"/>
+                <Button Text="Encerrar prática" Clicked="OnFinishClicked" AutomationId="breathe-finish" Style="{StaticResource CalmeTextButton}" x:Name="FinishButton" IsVisible="False"/>
+                <Label Text="" x:Name="ElapsedLabel" Style="{StaticResource FlowSmall}" HorizontalTextAlignment="Center" AutomationId="breathe-elapsed"/>
+
+            </VerticalStackLayout>
+        </ScrollView>
+        <VerticalStackLayout Grid.Row="1" Padding="24,8,24,12" Spacing="8">
+            <Button Text="Preciso de apoio agora" Clicked="OnSupportClicked" AutomationId="open-support" Style="{StaticResource FlowSupportButton}" />
+
+        </VerticalStackLayout>
+    </Grid>
+</ContentPage>

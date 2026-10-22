@@ -6,8 +6,12 @@
         {
             InitializeComponent();
 
-            // Rota do Registro individual (detalhe de um check-in): record?index=N
             Routing.RegisterRoute("record", typeof(RecordPage));
+            Routing.RegisterRoute("checkin", typeof(CheckinPage));
+            Routing.RegisterRoute("feedback", typeof(FeedbackPage));
+            Routing.RegisterRoute("history", typeof(HistoryPage));
+            Routing.RegisterRoute("breathe", typeof(BreathePage));
+            Routing.RegisterRoute("breatheFinish", typeof(BreatheFinishPage));
         }
     }
 }
