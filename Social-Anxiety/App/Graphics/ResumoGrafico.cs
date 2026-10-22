@@ -4,9 +4,9 @@ namespace Social_Anxiety;
 
 public class ResumoGrafico : IDrawable
 {
-    private readonly int[] valores;
+    private readonly CheckinRecord[] valores;
 
-    public ResumoGrafico(int[] registros)
+    public ResumoGrafico(CheckinRecord[] registros)
     {
         valores = registros;
     }
@@ -70,21 +70,22 @@ public class ResumoGrafico : IDrawable
             float x = valores.Length == 1
                 ? esquerda + largura / 2
                 : esquerda + i * distancia;
-            float y = topo + altura - (valores[i] - 1) * altura / 4;
+            float y = topo + altura - (valores[i].Score - 1) * altura / 4;
 
             if (i > 0)
             {
                 float xAnterior = esquerda + (i - 1) * distancia;
                 float yAnterior =
-                    topo + altura - (valores[i - 1] - 1) * altura / 4;
+                    topo + altura - (valores[i - 1].Score - 1) * altura / 4;
 
                 canvas.DrawLine(xAnterior, yAnterior, x, y);
             }
 
             canvas.FillCircle(x, y, 4);
 
-            canvas.DrawString(
-                (i + 1).ToString(),
+            if (i == 0 || i == valores.Length - 1 || i % Math.Max(1, valores.Length / 4) == 0)
+                canvas.DrawString(
+                valores[i].Date.ToString("dd/MM"),
                 x,
                 topo + altura + 20,
                 Microsoft.Maui.Graphics.HorizontalAlignment.Center);

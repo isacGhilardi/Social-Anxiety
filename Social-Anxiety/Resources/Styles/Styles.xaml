@@ -18,7 +18,7 @@
                     <VisualState x:Name="Normal"><VisualState.Setters><Setter Property="Opacity" Value="1" /></VisualState.Setters></VisualState>
                     <VisualState x:Name="Disabled"><VisualState.Setters><Setter Property="Opacity" Value="0.62" /></VisualState.Setters></VisualState>
                     <VisualState x:Name="Pressed"><VisualState.Setters><Setter Property="Opacity" Value="0.8" /></VisualState.Setters></VisualState>
-                    <VisualState x:Name="Focused"><VisualState.Setters><Setter Property="BorderWidth" Value="3" /><Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource CalmeTeal}, Dark={StaticResource CalmeTealDark}}" /></VisualState.Setters></VisualState>
+                    <VisualState x:Name="Focused" />
                 </VisualStateGroup>
             </VisualStateGroupList>
         </Setter>
