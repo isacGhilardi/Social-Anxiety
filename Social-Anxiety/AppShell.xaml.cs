@@ -5,6 +5,14 @@
         public AppShell()
         {
             InitializeComponent();
+
+            Routing.RegisterRoute("record", typeof(RecordPage));
+            Routing.RegisterRoute("checkin", typeof(CheckinPage));
+            Routing.RegisterRoute("feedback", typeof(FeedbackPage));
+            Routing.RegisterRoute("history", typeof(HistoryPage));
+            Routing.RegisterRoute("breathe", typeof(BreathePage));
+            Routing.RegisterRoute("breatheFinish", typeof(BreatheFinishPage));
         }
     }
 }
+        

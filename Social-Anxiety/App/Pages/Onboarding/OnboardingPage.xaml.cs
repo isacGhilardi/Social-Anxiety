@@ -112,7 +112,12 @@ public partial class OnboardingPage : ContentPage
         navigating = true;
         try
         {
-            await Navigation.PushAsync(new OnboardingPage(state, destination), false);
+            if (destination == "home")
+                await Shell.Current.GoToAsync("//home");
+            else if (destination is "checkin" or "breathe")
+                await Shell.Current.GoToAsync(destination);
+            else
+                await Navigation.PushAsync(new OnboardingPage(state, destination), false);
         }
         finally
         {

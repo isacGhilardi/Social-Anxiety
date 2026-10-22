@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Social_Anxiety.CheckinPage" Title="Seu check-in" Style="{StaticResource FlowPage}">
+    <Grid RowDefinitions="*,Auto">
+        <ScrollView>
+            <VerticalStackLayout Padding="24,8,24,28" Spacing="16">
+                <Label Text="Como você se percebe hoje?"  Style="{StaticResource FlowHeading}" SemanticProperties.HeadingLevel="Level1"/>
+                <Label Text="Ao pensar em situações sociais, quanta ansiedade você percebeu?"  Style="{StaticResource FlowCopy}" />
+                <Grid ColumnDefinitions="*,*,*,*,*" ColumnSpacing="8">
+                <Button Text="1" Clicked="OnScoreClicked" AutomationId="score-1" Style="{StaticResource FlowScore}" x:Name="Score1" Grid.Column="0" CommandParameter="1"/>
+                <Button Text="2" Clicked="OnScoreClicked" AutomationId="score-2" Style="{StaticResource FlowScore}" x:Name="Score2" Grid.Column="1" CommandParameter="2"/>
+                <Button Text="3" Clicked="OnScoreClicked" AutomationId="score-3" Style="{StaticResource FlowScore}" x:Name="Score3" Grid.Column="2" CommandParameter="3"/>
+                <Button Text="4" Clicked="OnScoreClicked" AutomationId="score-4" Style="{StaticResource FlowScore}" x:Name="Score4" Grid.Column="3" CommandParameter="4"/>
+                <Button Text="5" Clicked="OnScoreClicked" AutomationId="score-5" Style="{StaticResource FlowScore}" x:Name="Score5" Grid.Column="4" CommandParameter="5"/>
+                </Grid>
+                <Grid ColumnDefinitions="*,*"><Label Text="1 · Pouca ansiedade"  Style="{StaticResource FlowSmall}" />
+                <Label Text="5 · Muita ansiedade"  Style="{StaticResource FlowSmall}" Grid.Column="1" HorizontalTextAlignment="End"/>
+                </Grid>
+                <Label Text="Não há resposta certa ou errada." x:Name="SelectedScore" Style="{StaticResource FlowCopy}" AutomationId="checkin-selected"/>
+                <Border Style="{StaticResource FlowCard}" BackgroundColor="{AppThemeBinding Light={StaticResource CalmeMint}, Dark={StaticResource CalmeMintDark}}"><VerticalStackLayout Spacing="12">
+                <Label Text="Escolha a percepção que mais se aproxima do seu dia. Você pode mudar antes de salvar."  Style="{StaticResource FlowCopy}" />
+                </VerticalStackLayout></Border>
+                <Label Text="" x:Name="ErrorMessage" Style="{StaticResource FlowCopy}" AutomationId="checkin-error"/>
+                <Button Text="Salvar meu check-in" Clicked="OnSaveClicked" AutomationId="checkin-save" Style="{StaticResource CalmeButton}" x:Name="SaveButton" IsEnabled="False"/>
+                <Label Text="Esta escala é um registro pessoal. Não é um inventário clínico nem um resultado diagnóstico."  Style="{StaticResource FlowSmall}" />
+
+            </VerticalStackLayout>
+        </ScrollView>
+        <VerticalStackLayout Grid.Row="1" Padding="24,8,24,12" Spacing="8">
+            <Button Text="Preciso de apoio agora" Clicked="OnSupportClicked" AutomationId="open-support" Style="{StaticResource FlowSupportButton}" />
+
+        </VerticalStackLayout>
+    </Grid>
+</ContentPage>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Social_Anxiety.FeedbackPage" Title="Um cuidado por você" Style="{StaticResource FlowPage}">
+    <Grid RowDefinitions="*,Auto">
+        <ScrollView>
+            <VerticalStackLayout Padding="24,8,24,28" Spacing="16">
+                <Label Text="Check-in salvo"  Style="{StaticResource FlowHeading}" AutomationId="feedback-title"/>
+                <Label Text="Seu registro foi guardado neste aparelho. Você pode acompanhar como seus dias mudam."  Style="{StaticResource FlowCopy}" />
+                <Border Style="{StaticResource FlowCard}" BackgroundColor="{AppThemeBinding Light={StaticResource CalmeBlue}, Dark={StaticResource CalmeBlueDark}}"><VerticalStackLayout Spacing="12">
+                <Label Text="" x:Name="SavedScore" Style="{StaticResource FlowCardTitle}" AutomationId="feedback-score"/>
+                </VerticalStackLayout></Border>
+                <Label Text="" x:Name="ErrorMessage" Style="{StaticResource FlowCopy}" />
+                <Label Text="Cada dia pode ser diferente. Um registro não define você."  Style="{StaticResource FlowCopy}" />
+                <Label Text="Este app não realiza diagnósticos e não substitui acompanhamento profissional."  Style="{StaticResource FlowSmall}" />
+                <Button Text="Ver meu histórico" Clicked="OnHistoryClicked" AutomationId="feedback-history" Style="{StaticResource CalmeButton}" />
+                <Button Text="Voltar ao início" Clicked="OnHomeClicked" AutomationId="feedback-home" Style="{StaticResource CalmeTextButton}" />
+
+            </VerticalStackLayout>
+        </ScrollView>
+        <VerticalStackLayout Grid.Row="1" Padding="24,8,24,12" Spacing="8">
+            <Button Text="Preciso de apoio agora" Clicked="OnSupportClicked" AutomationId="open-support" Style="{StaticResource FlowSupportButton}" />
+
+        </VerticalStackLayout>
+    </Grid>
+</ContentPage>
