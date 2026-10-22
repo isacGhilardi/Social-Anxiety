@@ -5,9 +5,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:Social_Anxiety"
     Title="Calme" FlyoutBehavior="Disabled" Shell.NavBarIsVisible="False">
-
-    <ShellContent
-    ContentTemplate="{DataTemplate local:OnboardingPage}"
-    Route="welcome" />
+    <ShellContent ContentTemplate="{DataTemplate local:OnboardingPage}" Route="welcome" />
     <ShellContent Title="Início" ContentTemplate="{DataTemplate local:MainPage}" Route="home" />
 </Shell>
