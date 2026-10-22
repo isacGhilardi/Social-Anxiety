@@ -1,0 +1,313 @@
+<?xml version="1.0" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:local="clr-namespace:Social_Anxiety" x:Class="Social_Anxiety.OnboardingPage" x:DataType="local:OnboardingPage" NavigationPage.HasNavigationBar="False" Shell.TabBarIsVisible="False" SafeAreaEdges="Container" BackgroundColor="{AppThemeBinding Light={StaticResource CalmeBg}, Dark={StaticResource CalmeBgDark}}">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="OnboardingText" TargetType="Label">
+                <Setter Property="FontFamily" Value="Nunito"/>
+                <Setter Property="FontSize" Value="16"/>
+                <Setter Property="LineHeight" Value="1.25"/>
+                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource CalmeText}, Dark={StaticResource CalmeTextDark}}"/>
+            </Style>
+            <Style x:Key="OnboardingCopy" TargetType="Label" BasedOn="{StaticResource OnboardingText}">
+                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource CalmeMuted}, Dark={StaticResource CalmeMutedDark}}"/>
+            </Style>
+            <Style x:Key="OnboardingHeading" TargetType="Label" BasedOn="{StaticResource OnboardingText}">
+                <Setter Property="FontFamily" Value="NunitoExtraBold"/>
+                <Setter Property="FontSize" Value="28"/>
+                <Setter Property="CharacterSpacing" Value="-0.5"/>
+                <Setter Property="SemanticProperties.HeadingLevel" Value="Level1"/>
+            </Style>
+            <Style x:Key="OnboardingDisplay" TargetType="Label" BasedOn="{StaticResource OnboardingHeading}">
+                <Setter Property="FontSize" Value="34"/>
+            </Style>
+            <Style x:Key="OnboardingCardTitle" TargetType="Label" BasedOn="{StaticResource OnboardingText}">
+                <Setter Property="FontFamily" Value="NunitoExtraBold"/>
+                <Setter Property="FontSize" Value="22"/>
+            </Style>
+            <Style x:Key="OnboardingListTitle" TargetType="Label" BasedOn="{StaticResource OnboardingCardTitle}">
+                <Setter Property="FontSize" Value="18"/>
+            </Style>
+            <Style x:Key="OnboardingBadge" TargetType="Label" BasedOn="{StaticResource OnboardingCardTitle}">
+                <Setter Property="FontSize" Value="12"/>
+                <Setter Property="CharacterSpacing" Value="0.3"/>
+            </Style>
+            <Style x:Key="OnboardingSmall" TargetType="Label" BasedOn="{StaticResource OnboardingCopy}">
+                <Setter Property="FontSize" Value="14"/>
+            </Style>
+            <Style x:Key="OnboardingChevron" TargetType="Label" BasedOn="{StaticResource OnboardingCopy}">
+                <Setter Property="FontSize" Value="24"/>
+            </Style>
+            <Style x:Key="OnboardingCard" TargetType="Border">
+                <Setter Property="Padding" Value="20"/>
+                <Setter Property="StrokeThickness" Value="0"/>
+                <Setter Property="StrokeShape" Value="RoundRectangle 24"/>
+                <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource CalmeSurface}, Dark={StaticResource CalmeSurfaceDark}}"/>
+            </Style>
+            <Style x:Key="OnboardingChoice" TargetType="RadioButton">
+                <Setter Property="FontFamily" Value="NunitoExtraBold"/>
+                <Setter Property="FontSize" Value="16"/>
+                <Setter Property="MinimumHeightRequest" Value="64"/>
+                <Setter Property="Padding" Value="16"/>
+                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource CalmeText}, Dark={StaticResource CalmeTextDark}}"/>
+                <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource CalmeSurface}, Dark={StaticResource CalmeSurfaceDark}}"/>
+                <Style.Triggers>
+                    <Trigger TargetType="RadioButton" Property="IsChecked" Value="True">
+                        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource CalmeBlue}, Dark={StaticResource CalmeBlueDark}}"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <Grid RowDefinitions="Auto,*,Auto">
+        <Grid ColumnDefinitions="Auto,*" Padding="18,8" ColumnSpacing="6">
+            <Button Text="‹" WidthRequest="48" FontSize="28" Style="{StaticResource CalmeTextButton}" IsVisible="{Binding CanGoBack}" SemanticProperties.Description="Voltar" Clicked="OnBackClicked"/>
+            <Label Grid.Column="1" Text="{Binding HeaderTitle}" Style="{StaticResource OnboardingCardTitle}" VerticalOptions="Center"/>
+        </Grid>
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Spacing="16" Padding="24,8,24,28">
+                <VerticalStackLayout Spacing="16" IsVisible="{Binding IsWelcome}">
+                    <Border HorizontalOptions="Start" Padding="12,6" StrokeThickness="0" StrokeShape="RoundRectangle 99" BackgroundColor="{AppThemeBinding Light={StaticResource CalmeMint}, Dark={StaticResource CalmeMintDark}}">
+                        <Label Text="UM ESPAÇO PARA VOCÊ" Style="{StaticResource OnboardingBadge}" TextColor="{AppThemeBinding Light={StaticResource CalmeTeal}, Dark={StaticResource CalmeTealDark}}"/>
+                    </Border>
+                    <Grid HeightRequest="204">
+                        <Border WidthRequest="198" HeightRequest="198" HorizontalOptions="Center" VerticalOptions="Center" StrokeShape="Ellipse" Stroke="{AppThemeBinding Light={StaticResource CalmeTrack}, Dark={StaticResource CalmeTrackDark}}" BackgroundColor="{AppThemeBinding Light={StaticResource CalmeBlue}, Dark={StaticResource CalmeBlueDark}}">
+                            <Border WidthRequest="156" HeightRequest="156" HorizontalOptions="Center" VerticalOptions="Center" StrokeThickness="0" StrokeShape="Ellipse" BackgroundColor="{AppThemeBinding Light={StaticResource CalmeMint}, Dark={StaticResource CalmeMintDark}}">
+                                <Image Source="leaf.png" WidthRequest="66" HeightRequest="66"/>
+                            </Border>
+                        </Border>
+                    </Grid>
+                    <Label Text="Mais calma.&#10;No seu tempo." Style="{StaticResource OnboardingDisplay}"/>
+                    <Label Text="Conheça suas emoções e encontre pequenas formas de lidar com a ansiedade social." Style="{StaticResource OnboardingCopy}"/>
+                    <HorizontalStackLayout HorizontalOptions="Center" Spacing="8" Padding="0,3" SemanticProperties.Description="Passo 1 de 4">
+                        <Border WidthRequest="24" HeightRequest="8" StrokeThickness="0" StrokeShape="RoundRectangle 99" BackgroundColor="{AppThemeBinding Light={StaticResource CalmePrimary}, Dark={StaticResource CalmePrimaryDark}}"/>
+                        <Border WidthRequest="8" HeightRequest="8" StrokeThickness="0" StrokeShape="RoundRectangle 99" BackgroundColor="{AppThemeBinding Light={StaticResource CalmeTrack}, Dark={StaticResource CalmeTrackDark}}"/>
+                        <Border WidthRequest="8" HeightRequest="8" StrokeThickness="0" StrokeShape="RoundRectangle 99" BackgroundColor="{AppThemeBinding Light={StaticResource CalmeTrack}, Dark={StaticResource CalmeTrackDark}}"/>
+                        <Border WidthRequest="8" HeightRequest="8" StrokeThickness="0" StrokeShape="RoundRectangle 99" BackgroundColor="{AppThemeBinding Light={StaticResource CalmeTrack}, Dark={StaticResource CalmeTrackDark}}"/>
+                    </HorizontalStackLayout>
+                    <Button Text="Conhecer o Calme" Style="{StaticResource CalmeButton}" CommandParameter="purpose" Clicked="OnNavigateClicked"/>
+                    <Button Text="Já tenho uma conta" Style="{StaticResource CalmeTextButton}" CommandParameter="login" Clicked="OnNavigateClicked"/>
+                </VerticalStackLayout>
+                <VerticalStackLayout Spacing="16" IsVisible="{Binding IsPurpose}">
+                    <Border HorizontalOptions="Start" Padding="12,6" StrokeThickness="0" StrokeShape="RoundRectangle 99" BackgroundColor="{AppThemeBinding Light={StaticResource CalmeBlue}, Dark={StaticResource CalmeBlueDark}}">
+                        <Label Text="PERCEBER · ACOLHER · PRATICAR" Style="{StaticResource OnboardingBadge}" TextColor="{AppThemeBinding Light={StaticResource CalmePrimary}, Dark={StaticResource CalmePrimaryDark}}"/>
+                    </Border>
+                    <Grid HeightRequest="156">
+                        <Border WidthRequest="148" HeightRequest="148" HorizontalOptions="Center" VerticalOptions="Center" StrokeShape="Ellipse" Stroke="{AppThemeBinding Light={StaticResource CalmeTrack}, Dark={StaticResource CalmeTrackDark}}" BackgroundColor="{AppThemeBinding Light={StaticResource CalmeBlue}, Dark={StaticResource CalmeBlueDark}}">
+                            <Border WidthRequest="116" HeightRequest="116" HorizontalOptions="Center" VerticalOptions="Center" StrokeThickness="0" StrokeShape="Ellipse" BackgroundColor="{AppThemeBinding Light={StaticResource CalmeMint}, Dark={StaticResource CalmeMintDark}}">
+                                <Image Source="wind.png" WidthRequest="66" HeightRequest="66"/>
+                            </Border>
+                        </Border>
+                    </Grid>
+                    <Label Text="Um pequeno cuidado,&#10;um dia de cada vez." Style="{StaticResource OnboardingHeading}"/>
+                    <Label Text="Registre como você se sente, perceba padrões e pratique no seu ritmo." Style="{StaticResource OnboardingCopy}"/>
+                    <Border Style="{StaticResource OnboardingCard}" Padding="0">
+                        <Grid MinimumHeightRequest="88">
+                            <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12" Padding="16" InputTransparent="True">
+                                <Border WidthRequest="40" HeightRequest="40" VerticalOptions="Center" StrokeThickness="0" StrokeShape="RoundRectangle 12" BackgroundColor="{AppThemeBinding Light={StaticResource CalmeBlue}, Dark={StaticResource CalmeBlueDark}}">
+                                    <Image Source="heart.png" WidthRequest="24" HeightRequest="24"/>
+                                </Border>
+                                <VerticalStackLayout Grid.Column="1" Spacing="4" VerticalOptions="Center">
+                                    <Label Text="Seu check-in emocional" Style="{StaticResource OnboardingListTitle}"/>
+                                    <Label Text="Um minuto para olhar para você" Style="{StaticResource OnboardingSmall}"/>
+                                </VerticalStackLayout>
+                                <Label Text="›" Style="{StaticResource OnboardingChevron}" Grid.Column="2"/>
+                            </Grid>
+                            <Button Style="{StaticResource CalmeTextButton}" SemanticProperties.Description="Seu check-in emocional. Um minuto para olhar para você" CommandParameter="checkin" Clicked="OnNavigateClicked"/>
+                        </Grid>
+                    </Border>
+                    <Border Style="{StaticResource OnboardingCard}" Padding="0">
+                        <Grid MinimumHeightRequest="88">
+                            <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12" Padding="16" InputTransparent="True">
+                                <Border WidthRequest="40" HeightRequest="40" VerticalOptions="Center" StrokeThickness="0" StrokeShape="RoundRectangle 12" BackgroundColor="{AppThemeBinding Light={StaticResource CalmeBlue}, Dark={StaticResource CalmeBlueDark}}">
+                                    <Image Source="path.png" WidthRequest="24" HeightRequest="24"/>
+                                </Border>
+                                <VerticalStackLayout Grid.Column="1" Spacing="4" VerticalOptions="Center">
+                                    <Label Text="Pequenos passos" Style="{StaticResource OnboardingListTitle}"/>
+                                    <Label Text="Práticas e desafios que você escolhe" Style="{StaticResource OnboardingSmall}"/>
+                                </VerticalStackLayout>
+                                <Label Text="›" Style="{StaticResource OnboardingChevron}" Grid.Column="2"/>
+                            </Grid>
+                            <Button Style="{StaticResource CalmeTextButton}" SemanticProperties.Description="Pequenos passos. Práticas e desafios que você escolhe" CommandParameter="challenges" Clicked="OnNavigateClicked"/>
+                        </Grid>
+                    </Border>
+                    <HorizontalStackLayout HorizontalOptions="Center" Spacing="8" Padding="0,3" SemanticProperties.Description="Passo 2 de 4">
+                        <Border WidthRequest="8" HeightRequest="8" StrokeThickness="0" StrokeShape="RoundRectangle 99" BackgroundColor="{AppThemeBinding Light={StaticResource CalmeTrack}, Dark={StaticResource CalmeTrackDark}}"/>
+                        <Border WidthRequest="24" HeightRequest="8" StrokeThickness="0" StrokeShape="RoundRectangle 99" BackgroundColor="{AppThemeBinding Light={StaticResource CalmePrimary}, Dark={StaticResource CalmePrimaryDark}}"/>
+                        <Border WidthRequest="8" HeightRequest="8" StrokeThickness="0" StrokeShape="RoundRectangle 99" BackgroundColor="{AppThemeBinding Light={StaticResource CalmeTrack}, Dark={StaticResource CalmeTrackDark}}"/>
+                        <Border WidthRequest="8" HeightRequest="8" StrokeThickness="0" StrokeShape="RoundRectangle 99" BackgroundColor="{AppThemeBinding Light={StaticResource CalmeTrack}, Dark={StaticResource CalmeTrackDark}}"/>
+                    </HorizontalStackLayout>
+                    <Button Text="Continuar" Style="{StaticResource CalmeButton}" CommandParameter="boundary" Clicked="OnNavigateClicked"/>
+                </VerticalStackLayout>
+                <VerticalStackLayout Spacing="16" IsVisible="{Binding IsBoundary}">
+                    <Grid HeightRequest="156">
+                        <Border WidthRequest="148" HeightRequest="148" HorizontalOptions="Center" VerticalOptions="Center" StrokeShape="Ellipse" Stroke="{AppThemeBinding Light={StaticResource CalmeTrack}, Dark={StaticResource CalmeTrackDark}}" BackgroundColor="{AppThemeBinding Light={StaticResource CalmeBlue}, Dark={StaticResource CalmeBlueDark}}">
+                            <Border WidthRequest="116" HeightRequest="116" HorizontalOptions="Center" VerticalOptions="Center" StrokeThickness="0" StrokeShape="Ellipse" BackgroundColor="{AppThemeBinding Light={StaticResource CalmeMint}, Dark={StaticResource CalmeMintDark}}">
+                                <Image Source="heart.png" WidthRequest="66" HeightRequest="66"/>
+                            </Border>
+                        </Border>
+                    </Grid>
+                    <Label Text="Cuidado também é&#10;pedir ajuda." Style="{StaticResource OnboardingHeading}"/>
+                    <Border Style="{StaticResource OnboardingCard}" BackgroundColor="{AppThemeBinding Light={StaticResource CalmeMint}, Dark={StaticResource CalmeMintDark}}">
+                        <VerticalStackLayout Spacing="12">
+                            <Label Text="O Calme não faz diagnósticos" Style="{StaticResource OnboardingCardTitle}"/>
+                            <Label Text="Este app não substitui acompanhamento profissional." Style="{StaticResource OnboardingCopy}"/>
+                        </VerticalStackLayout>
+                    </Border>
+                    <Label Text="Se a ansiedade trouxer sofrimento ou atrapalhar sua rotina, procure um profissional de saúde." Style="{StaticResource OnboardingCopy}"/>
+                    <HorizontalStackLayout HorizontalOptions="Center" Spacing="8" Padding="0,3" SemanticProperties.Description="Passo 3 de 4">
+                        <Border WidthRequest="8" HeightRequest="8" StrokeThickness="0" StrokeShape="RoundRectangle 99" BackgroundColor="{AppThemeBinding Light={StaticResource CalmeTrack}, Dark={StaticResource CalmeTrackDark}}"/>
+                        <Border WidthRequest="8" HeightRequest="8" StrokeThickness="0" StrokeShape="RoundRectangle 99" BackgroundColor="{AppThemeBinding Light={StaticResource CalmeTrack}, Dark={StaticResource CalmeTrackDark}}"/>
+                        <Border WidthRequest="24" HeightRequest="8" StrokeThickness="0" StrokeShape="RoundRectangle 99" BackgroundColor="{AppThemeBinding Light={StaticResource CalmePrimary}, Dark={StaticResource CalmePrimaryDark}}"/>
+                        <Border WidthRequest="8" HeightRequest="8" StrokeThickness="0" StrokeShape="RoundRectangle 99" BackgroundColor="{AppThemeBinding Light={StaticResource CalmeTrack}, Dark={StaticResource CalmeTrackDark}}"/>
+                    </HorizontalStackLayout>
+                    <Button Text="Entendi, vamos continuar" Style="{StaticResource CalmeButton}" CommandParameter="motive" Clicked="OnNavigateClicked"/>
+                    <Button Text="Quando buscar ajuda?" Style="{StaticResource CalmeTextButton}" CommandParameter="help" Clicked="OnNavigateClicked"/>
+                </VerticalStackLayout>
+                <VerticalStackLayout Spacing="16" IsVisible="{Binding IsMotive}">
+                    <Border HorizontalOptions="Start" Padding="12,6" StrokeThickness="0" StrokeShape="RoundRectangle 99" BackgroundColor="{AppThemeBinding Light={StaticResource CalmeBlue}, Dark={StaticResource CalmeBlueDark}}">
+                        <Label Text="COMECE DO SEU JEITO" Style="{StaticResource OnboardingBadge}" TextColor="{AppThemeBinding Light={StaticResource CalmePrimary}, Dark={StaticResource CalmePrimaryDark}}"/>
+                    </Border>
+                    <Label Text="O que te trouxe&#10;até aqui?" Style="{StaticResource OnboardingHeading}"/>
+                    <Label Text="Escolha o que faz sentido para você agora. Você pode mudar depois." Style="{StaticResource OnboardingCopy}"/>
+                    <Border Stroke="{AppThemeBinding Light={StaticResource CalmeBorder}, Dark={StaticResource CalmeBorderDark}}" StrokeThickness="1" StrokeShape="RoundRectangle 16">
+                        <RadioButton Content="Entender meus sentimentos" Value="Entender meus sentimentos" GroupName="{Binding MotiveGroup}" IsChecked="{Binding IsFeelingsSelected, Mode=OneWay}" Style="{StaticResource OnboardingChoice}" CheckedChanged="OnMotiveCheckedChanged"/>
+                    </Border>
+                    <Border Stroke="{AppThemeBinding Light={StaticResource CalmeBorder}, Dark={StaticResource CalmeBorderDark}}" StrokeThickness="1" StrokeShape="RoundRectangle 16">
+                        <RadioButton Content="Aprender a lidar com a ansiedade" Value="Aprender a lidar com a ansiedade" GroupName="{Binding MotiveGroup}" IsChecked="{Binding IsAnxietySelected, Mode=OneWay}" Style="{StaticResource OnboardingChoice}" CheckedChanged="OnMotiveCheckedChanged"/>
+                    </Border>
+                    <Border Stroke="{AppThemeBinding Light={StaticResource CalmeBorder}, Dark={StaticResource CalmeBorderDark}}" StrokeThickness="1" StrokeShape="RoundRectangle 16">
+                        <RadioButton Content="Dar pequenos passos sociais" Value="Dar pequenos passos sociais" GroupName="{Binding MotiveGroup}" IsChecked="{Binding IsSocialSelected, Mode=OneWay}" Style="{StaticResource OnboardingChoice}" CheckedChanged="OnMotiveCheckedChanged"/>
+                    </Border>
+                    <HorizontalStackLayout HorizontalOptions="Center" Spacing="8" Padding="0,3" SemanticProperties.Description="Passo 4 de 4">
+                        <Border WidthRequest="8" HeightRequest="8" StrokeThickness="0" StrokeShape="RoundRectangle 99" BackgroundColor="{AppThemeBinding Light={StaticResource CalmeTrack}, Dark={StaticResource CalmeTrackDark}}"/>
+                        <Border WidthRequest="8" HeightRequest="8" StrokeThickness="0" StrokeShape="RoundRectangle 99" BackgroundColor="{AppThemeBinding Light={StaticResource CalmeTrack}, Dark={StaticResource CalmeTrackDark}}"/>
+                        <Border WidthRequest="8" HeightRequest="8" StrokeThickness="0" StrokeShape="RoundRectangle 99" BackgroundColor="{AppThemeBinding Light={StaticResource CalmeTrack}, Dark={StaticResource CalmeTrackDark}}"/>
+                        <Border WidthRequest="24" HeightRequest="8" StrokeThickness="0" StrokeShape="RoundRectangle 99" BackgroundColor="{AppThemeBinding Light={StaticResource CalmePrimary}, Dark={StaticResource CalmePrimaryDark}}"/>
+                    </HorizontalStackLayout>
+                    <Button Text="{Binding ContinueText}" IsEnabled="{Binding CanContinue}" Style="{StaticResource CalmeButton}" CommandParameter="access" Clicked="OnNavigateClicked"/>
+                    <Button Text="Prefiro explorar primeiro" Style="{StaticResource CalmeTextButton}" CommandParameter="access" Clicked="OnNavigateClicked"/>
+                </VerticalStackLayout>
+                <VerticalStackLayout Spacing="16" IsVisible="{Binding IsAccess}">
+                    <Grid HeightRequest="156">
+                        <Border WidthRequest="148" HeightRequest="148" HorizontalOptions="Center" VerticalOptions="Center" StrokeShape="Ellipse" Stroke="{AppThemeBinding Light={StaticResource CalmeTrack}, Dark={StaticResource CalmeTrackDark}}" BackgroundColor="{AppThemeBinding Light={StaticResource CalmeBlue}, Dark={StaticResource CalmeBlueDark}}">
+                            <Border WidthRequest="116" HeightRequest="116" HorizontalOptions="Center" VerticalOptions="Center" StrokeThickness="0" StrokeShape="Ellipse" BackgroundColor="{AppThemeBinding Light={StaticResource CalmeMint}, Dark={StaticResource CalmeMintDark}}">
+                                <Image Source="leaf.png" WidthRequest="66" HeightRequest="66"/>
+                            </Border>
+                        </Border>
+                    </Grid>
+                    <Label Text="Este espaço é seu." Style="{StaticResource OnboardingHeading}"/>
+                    <Label Text="Crie uma conta para continuar seu cuidado ou explore como convidado." Style="{StaticResource OnboardingCopy}"/>
+                    <Button Text="Criar minha conta" Style="{StaticResource CalmeButton}" CommandParameter="signup" Clicked="OnNavigateClicked"/>
+                    <Button Text="Já tenho uma conta" Style="{StaticResource CalmeTextButton}" CommandParameter="login" Clicked="OnNavigateClicked"/>
+                    <Button Text="Continuar como convidado" Style="{StaticResource CalmeTextButton}" CommandParameter="home" Clicked="OnNavigateClicked"/>
+                    <Border Style="{StaticResource OnboardingCard}" BackgroundColor="{AppThemeBinding Light={StaticResource CalmeMint}, Dark={StaticResource CalmeMintDark}}">
+                        <VerticalStackLayout Spacing="12">
+                            <Label Text="No seu ritmo" Style="{StaticResource OnboardingCardTitle}"/>
+                            <Label Text="Você não precisa de uma conta para usar as técnicas de apoio." Style="{StaticResource OnboardingCopy}"/>
+                        </VerticalStackLayout>
+                    </Border>
+                </VerticalStackLayout>
+                <VerticalStackLayout Spacing="16" IsVisible="{Binding IsSupport}">
+                    <Border HorizontalOptions="Start" Padding="12,6" StrokeThickness="0" StrokeShape="RoundRectangle 99" BackgroundColor="{AppThemeBinding Light={StaticResource CalmeMint}, Dark={StaticResource CalmeMintDark}}">
+                        <Label Text="VOCÊ PODE FAZER UMA PAUSA" Style="{StaticResource OnboardingBadge}" TextColor="{AppThemeBinding Light={StaticResource CalmeTeal}, Dark={StaticResource CalmeTealDark}}"/>
+                    </Border>
+                    <Label Text="Vamos com calma,&#10;um instante de cada vez." Style="{StaticResource OnboardingHeading}"/>
+                    <Label Text="Escolha uma prática que pareça confortável. Você pode trocar ou parar quando quiser." Style="{StaticResource OnboardingCopy}"/>
+                    <Border Style="{StaticResource OnboardingCard}" Padding="0">
+                        <Grid MinimumHeightRequest="88">
+                            <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12" Padding="16" InputTransparent="True">
+                                <Border WidthRequest="40" HeightRequest="40" VerticalOptions="Center" StrokeThickness="0" StrokeShape="RoundRectangle 12" BackgroundColor="{AppThemeBinding Light={StaticResource CalmeBlue}, Dark={StaticResource CalmeBlueDark}}">
+                                    <Image Source="wind.png" WidthRequest="24" HeightRequest="24"/>
+                                </Border>
+                                <VerticalStackLayout Grid.Column="1" Spacing="4" VerticalOptions="Center">
+                                    <Label Text="Respiração guiada" Style="{StaticResource OnboardingListTitle}"/>
+                                    <Label Text="Acompanhe um ritmo suave" Style="{StaticResource OnboardingSmall}"/>
+                                </VerticalStackLayout>
+                                <Label Text="›" Style="{StaticResource OnboardingChevron}" Grid.Column="2"/>
+                            </Grid>
+                            <Button Style="{StaticResource CalmeTextButton}" SemanticProperties.Description="Respiração guiada. Acompanhe um ritmo suave" CommandParameter="breathe" Clicked="OnNavigateClicked"/>
+                        </Grid>
+                    </Border>
+                    <Border Style="{StaticResource OnboardingCard}" Padding="0">
+                        <Grid MinimumHeightRequest="88">
+                            <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12" Padding="16" InputTransparent="True">
+                                <Border WidthRequest="40" HeightRequest="40" VerticalOptions="Center" StrokeThickness="0" StrokeShape="RoundRectangle 12" BackgroundColor="{AppThemeBinding Light={StaticResource CalmeBlue}, Dark={StaticResource CalmeBlueDark}}">
+                                    <Image Source="leaf.png" WidthRequest="24" HeightRequest="24"/>
+                                </Border>
+                                <VerticalStackLayout Grid.Column="1" Spacing="4" VerticalOptions="Center">
+                                    <Label Text="STOP" Style="{StaticResource OnboardingListTitle}"/>
+                                    <Label Text="Pare, respire, observe e prossiga" Style="{StaticResource OnboardingSmall}"/>
+                                </VerticalStackLayout>
+                                <Label Text="›" Style="{StaticResource OnboardingChevron}" Grid.Column="2"/>
+                            </Grid>
+                            <Button Style="{StaticResource CalmeTextButton}" SemanticProperties.Description="STOP. Pare, respire, observe e prossiga" CommandParameter="stop" Clicked="OnNavigateClicked"/>
+                        </Grid>
+                    </Border>
+                    <Border Style="{StaticResource OnboardingCard}" Padding="0">
+                        <Grid MinimumHeightRequest="88">
+                            <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12" Padding="16" InputTransparent="True">
+                                <Border WidthRequest="40" HeightRequest="40" VerticalOptions="Center" StrokeThickness="0" StrokeShape="RoundRectangle 12" BackgroundColor="{AppThemeBinding Light={StaticResource CalmeBlue}, Dark={StaticResource CalmeBlueDark}}">
+                                    <Image Source="heart.png" WidthRequest="24" HeightRequest="24"/>
+                                </Border>
+                                <VerticalStackLayout Grid.Column="1" Spacing="4" VerticalOptions="Center">
+                                    <Label Text="ACALME-SE" Style="{StaticResource OnboardingListTitle}"/>
+                                    <Label Text="Acolha o que sente, passo a passo" Style="{StaticResource OnboardingSmall}"/>
+                                </VerticalStackLayout>
+                                <Label Text="›" Style="{StaticResource OnboardingChevron}" Grid.Column="2"/>
+                            </Grid>
+                            <Button Style="{StaticResource CalmeTextButton}" SemanticProperties.Description="ACALME-SE. Acolha o que sente, passo a passo" CommandParameter="acalme" Clicked="OnNavigateClicked"/>
+                        </Grid>
+                    </Border>
+                    <Label Text="Se precisar de alguém, buscar ajuda também é uma forma de cuidado." Style="{StaticResource OnboardingCopy}"/>
+                    <Button Text="Buscar ajuda profissional" Style="{StaticResource CalmeButton}" CommandParameter="help" Clicked="OnNavigateClicked"/>
+                </VerticalStackLayout>
+                <VerticalStackLayout Spacing="16" IsVisible="{Binding IsHelp}">
+                    <Border HorizontalOptions="Start" Padding="12,6" StrokeThickness="0" StrokeShape="RoundRectangle 99" BackgroundColor="{AppThemeBinding Light={StaticResource CalmeMint}, Dark={StaticResource CalmeMintDark}}">
+                        <Label Text="VOCÊ NÃO PRECISA LIDAR SOZINHO(A)" Style="{StaticResource OnboardingBadge}" TextColor="{AppThemeBinding Light={StaticResource CalmeTeal}, Dark={StaticResource CalmeTealDark}}"/>
+                    </Border>
+                    <Label Text="Buscar ajuda é&#10;um cuidado com você." Style="{StaticResource OnboardingHeading}"/>
+                    <Label Text="Você pode procurar um profissional em qualquer momento. Não é preciso esperar a situação piorar." Style="{StaticResource OnboardingCopy}"/>
+                    <Border Style="{StaticResource OnboardingCard}" BackgroundColor="{AppThemeBinding Light={StaticResource CalmeSurface}, Dark={StaticResource CalmeSurfaceDark}}">
+                        <VerticalStackLayout Spacing="12">
+                            <Label Text="Quando considerar apoio?" Style="{StaticResource OnboardingCardTitle}"/>
+                            <Label Text="Quando o sofrimento se repete, você evita situações importantes ou a ansiedade interfere no estudo, trabalho, sono ou relações." Style="{StaticResource OnboardingCopy}"/>
+                        </VerticalStackLayout>
+                    </Border>
+                    <Border Style="{StaticResource OnboardingCard}" BackgroundColor="{AppThemeBinding Light={StaticResource CalmeSurface}, Dark={StaticResource CalmeSurfaceDark}}">
+                        <VerticalStackLayout Spacing="12">
+                            <Label Text="Converse com um profissional" Style="{StaticResource OnboardingCardTitle}"/>
+                            <Label Text="Um psicólogo ou médico pode ouvir sua história e orientar os próximos passos." Style="{StaticResource OnboardingCopy}"/>
+                        </VerticalStackLayout>
+                    </Border>
+                    <Border Style="{StaticResource OnboardingCard}" BackgroundColor="{AppThemeBinding Light={StaticResource CalmeSurface}, Dark={StaticResource CalmeSurfaceDark}}">
+                        <VerticalStackLayout Spacing="12">
+                            <Label Text="Procure caminhos de acesso" Style="{StaticResource OnboardingCardTitle}"/>
+                            <Label Text="Uma Unidade Básica de Saúde (UBS) pode orientar sobre os serviços de saúde disponíveis na sua região." Style="{StaticResource OnboardingCopy}"/>
+                        </VerticalStackLayout>
+                    </Border>
+                    <Border Style="{StaticResource OnboardingCard}" BackgroundColor="{AppThemeBinding Light={StaticResource CalmeBlue}, Dark={StaticResource CalmeBlueDark}}">
+                        <VerticalStackLayout Spacing="12">
+                            <Label Text="CVV · apoio emocional · 188" Style="{StaticResource OnboardingCardTitle}"/>
+                            <Label Text="Atendimento gratuito, 24 horas por dia. Uma escuta quando você precisa conversar." Style="{StaticResource OnboardingCopy}"/>
+                        </VerticalStackLayout>
+                    </Border>
+                    <Border Style="{StaticResource OnboardingCard}" BackgroundColor="{AppThemeBinding Light={StaticResource CalmeSurface}, Dark={StaticResource CalmeSurfaceDark}}">
+                        <VerticalStackLayout Spacing="12">
+                            <Label Text="Se houver risco imediato" Style="{StaticResource OnboardingCardTitle}"/>
+                            <Label Text="Ligue para o SAMU 192 ou procure um serviço de urgência. Se possível, peça companhia a alguém de confiança.&#10;&#10;O CVV oferece apoio emocional e não substitui atendimento de emergência." Style="{StaticResource OnboardingCopy}"/>
+                        </VerticalStackLayout>
+                    </Border>
+                    <Label Text="Este app não substitui acompanhamento profissional e não realiza diagnósticos." Style="{StaticResource OnboardingCopy}"/>
+                </VerticalStackLayout>
+                <VerticalStackLayout Spacing="16" IsVisible="{Binding IsPlaceholder}">
+                    <Label Text="{Binding PlaceholderTitle}" Style="{StaticResource OnboardingHeading}"/>
+                    <Label Text="Esta funcionalidade ainda não foi implementada nesta versão do Calme." Style="{StaticResource OnboardingCopy}"/>
+                    <Button Text="Voltar" Style="{StaticResource CalmeTextButton}" Clicked="OnBackClicked"/>
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+        </ScrollView>
+        <VerticalStackLayout Grid.Row="2" Padding="24,8,24,16">
+            <Button Text="{Binding SupportText}" Style="{StaticResource CalmeButton}" BackgroundColor="{AppThemeBinding Light={StaticResource CalmeMint}, Dark={StaticResource CalmeMintDark}}" TextColor="{AppThemeBinding Light={StaticResource CalmeTeal}, Dark={StaticResource CalmeTealDark}}" CornerRadius="18" MinimumHeightRequest="40" Padding="18" Clicked="OnSupportClicked"/>
+        </VerticalStackLayout>
+    </Grid>
+</ContentPage>
