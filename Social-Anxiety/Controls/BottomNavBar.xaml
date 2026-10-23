@@ -6,25 +6,27 @@
     <Grid ColumnDefinitions="*,*,*,*,*"
             HeightRequest="80"
             BackgroundColor="{StaticResource White}">
-        <Border Grid.Column="0"
-                BackgroundColor="{StaticResource SoftBlue}"
-                StrokeShape="RoundRectangle 100"
-                StrokeThickness="0"
-                Padding="16,8"
-                HorizontalOptions="Center"
-                VerticalOptions="Center">
-            <Label Text="Início" 
-                   FontFamily="Nunito"
-                   LineBreakMode="WordWrap"
-                   MaxLines="1"
-                   TextColor="{StaticResource Muted}"
-                   FontSize="12"
-                   FontAttributes="Bold"
-                   HorizontalTextAlignment="Center"
-                   VerticalTextAlignment="Center"
-               />
+        <Border
+    Grid.Column="0"
+    BackgroundColor="{StaticResource SoftBlue}"
+    StrokeShape="RoundRectangle 100"
+    StrokeThickness="0"
+    Padding="8,8"
+    HorizontalOptions="Center"
+    VerticalOptions="Center">
+
+            <Label
+        Text="Início"
+        FontFamily="NunitoBold"
+        FontSize="12"
+        TextColor="{StaticResource Primary}"
+        LineBreakMode="NoWrap"
+        MaxLines="1"
+        HorizontalTextAlignment="Center"
+        VerticalTextAlignment="Center" />
+
         </Border>
-        
+
         <Label Text="Histórico" Grid.Column="1"
                FontFamily="Nunito"
                TextColor="{StaticResource Muted}"
