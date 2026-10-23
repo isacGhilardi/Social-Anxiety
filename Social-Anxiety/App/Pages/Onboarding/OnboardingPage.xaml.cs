@@ -127,11 +127,11 @@ public partial class OnboardingPage : ContentPage
             if (destination == "guest")
             {
                 await session.StartGuestAsync();
-                await Shell.Current.GoToAsync("//home");
+                await App.EnterHomeAsync();
             }
             else if (destination == "home")
                 await Shell.Current.GoToAsync("//home");
-            else if (destination is "checkin" or "breathe")
+            else if (destination is "checkin" or "breathe" or "signup" or "login")
                 await Shell.Current.GoToAsync(destination);
             else
                 await Navigation.PushAsync(new OnboardingPage(state, session, destination), false);

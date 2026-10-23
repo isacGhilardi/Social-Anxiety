@@ -11,6 +11,13 @@ public partial class App : Application
     public static Task OpenSupport() => Shell.Current.Navigation.PushAsync(CreateOnboardingPage("support"), false);
     public static Task OpenHelp() => Shell.Current.Navigation.PushAsync(CreateOnboardingPage("help"), false);
 
+    /// <summary>Depois de abrir uma sessão: o onboarding não aparece mais e a home vira a raiz.</summary>
+    public static Task EnterHomeAsync()
+    {
+        Preferences.Default.Set(OnboardingDoneKey, true);
+        return Shell.Current.GoToAsync("//home");
+    }
+
     private static OnboardingPage CreateOnboardingPage(string route)
     {
         var services = IPlatformApplication.Current!.Services;

@@ -102,6 +102,27 @@ function Test-Flow([string]$name, [scriptblock]$body) {
     }
 }
 
+function Set-Text([string]$id, [string]$value) {
+    (Find-Control $id).GetCurrentPattern([System.Windows.Automation.ValuePattern]::Pattern).SetValue($value)
+    Start-Sleep -Milliseconds 150
+}
+
+function Restart-Calme {
+    $app.Kill()
+    $app.WaitForExit()
+    Start-Calme
+}
+
+# Fecha o app e apaga só a sessão salva da identidade de teste: reabre na tela de acesso.
+function Clear-Session {
+    $app.Kill()
+    $app.WaitForExit()
+    $session = Join-Path (Split-Path -Parent $dataDirectory) 'Settings/securestorage.dat'
+    if (Test-Path -LiteralPath $session) { Remove-Item -LiteralPath $session }
+    Start-Calme
+    Find-Control 'Criar minha conta' | Out-Null
+}
+
 try {
     # Pasta exclusiva da identidade de teste: banco, sessão e preferências começam do zero.
     $testAppDirectory = Split-Path -Parent $dataDirectory
@@ -109,24 +130,55 @@ try {
     [IO.Directory]::CreateDirectory($dataDirectory) | Out-Null
     [IO.File]::WriteAllText($dataPath, '[]')
     Start-Calme
-    Test-Flow 'Sem sessão, reabrir vai ao acesso e o convidado chega ao início' {
+    Test-Flow 'Sem sessão, reabrir vai direto ao acesso' {
         Click-Control 'Conhecer o Calme'
         Click-Control 'Continuar'
         Click-Control 'Entendi, vamos continuar'
         Click-Control 'Prefiro explorar primeiro'
         Find-Control 'Criar minha conta' | Out-Null
-        $app.Kill()
-        $app.WaitForExit()
-        Start-Calme
+        Restart-Calme
         Find-Control 'Criar minha conta' | Out-Null
+    }
+    Test-Flow 'Cadastro valida campos, abre a sessão e continua após reabrir' {
+        Click-Control 'Criar minha conta'
+        Set-Text 'signup-name' 'Pessoa Teste'
+        Set-Text 'signup-email' 'Pessoa.Teste@Exemplo.com'
+        Set-Text 'signup-password' '12345'
+        Click-Control 'signup-submit'
+        Assert-Equal (Find-Control 'signup-error').Current.Name 'Confira seu nome, e-mail e senha. A senha precisa ter pelo menos 6 caracteres.' 'Validação do cadastro não apareceu'
+        Set-Text 'signup-password' 'senha-ficticia'
+        Click-Control 'signup-submit'
+        Wait-Text 'home-greeting' 'Olá, Pessoa Teste.'
+        Restart-Calme
+        Wait-Text 'home-greeting' 'Olá, Pessoa Teste.'
+    }
+    Test-Flow 'Login errado e e-mail repetido mostram mensagens, login certo entra' {
+        Clear-Session
+        Click-Control 'Já tenho uma conta'
+        Set-Text 'login-email' 'pessoa.teste@exemplo.com'
+        Set-Text 'login-password' 'senha-errada'
+        Click-Control 'login-submit'
+        Assert-Equal (Find-Control 'login-error').Current.Name 'E-mail ou senha incorretos.' 'Mensagem de login incorreta'
+        Click-Control 'Criar uma conta'
+        Set-Text 'signup-name' 'Outra Pessoa'
+        Set-Text 'signup-email' ' PESSOA.TESTE@exemplo.com '
+        Set-Text 'signup-password' 'outra-senha'
+        Click-Control 'signup-submit'
+        Assert-Equal (Find-Control 'signup-error').Current.Name 'Este e-mail já tem uma conta. Que tal entrar?' 'E-mail repetido foi aceito'
+        Click-Control 'Já tenho uma conta'
+        Set-Text 'login-email' 'pessoa.teste@exemplo.com'
+        Set-Text 'login-password' 'senha-ficticia'
+        Click-Control 'login-submit'
+        Wait-Text 'home-greeting' 'Olá, Pessoa Teste.'
+    }
+    Test-Flow 'Convidado chega ao início' {
+        Clear-Session
         Click-Control 'Continuar como convidado'
         Find-Control 'home-checkin' | Out-Null
         Assert-Equal (Find-Control 'home-greeting').Current.Name 'Olá, que bom ter você.' 'Saudação de convidado incorreta'
     }
     Test-Flow 'Convidado reabre o aplicativo direto no início' {
-        $app.Kill()
-        $app.WaitForExit()
-        Start-Calme
+        Restart-Calme
         Find-Control 'home-checkin' | Out-Null
         Assert-Equal (Find-Control 'home-greeting').Current.Name 'Olá, que bom ter você.' 'Sessão de convidado não foi restaurada'
     }

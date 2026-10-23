@@ -14,7 +14,6 @@ sealed class TempDatabase : IAsyncDisposable
     public async ValueTask DisposeAsync()
     {
         await Database.CloseAsync();
-        SQLite.SQLiteAsyncConnection.ResetPool();
         if (Directory.Exists(directory)) Directory.Delete(directory, true);
     }
 }
