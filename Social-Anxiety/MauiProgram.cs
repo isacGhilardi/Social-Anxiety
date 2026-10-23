@@ -22,6 +22,7 @@ namespace Social_Anxiety
     		builder.Logging.AddDebug();
 #endif
             builder.Services.AddSingleton<OnboardingState>();
+            builder.Services.AddSingleton(_ => new Data.CalmeDatabase(Path.Combine(FileSystem.AppDataDirectory, "calme.db3")));
 
             return builder.Build();
         }
