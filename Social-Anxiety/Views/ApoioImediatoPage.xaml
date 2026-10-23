@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="Social_Anxiety.Views.ApoioImediatoPage"
+    Title="Apoio imediato"
+    Shell.NavBarIsVisible="False"
+    BackgroundColor="{AppThemeBinding Light={StaticResource CalmeBg}, Dark={StaticResource CalmeBgDark}}">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="24,32" Spacing="20">
+
+            <Label
+                Text="Apoio imediato"
+                FontFamily="NunitoExtraBold"
+                FontSize="28"
+                TextColor="{AppThemeBinding Light={StaticResource CalmeText}, Dark={StaticResource CalmeTextDark}}" />
+
+            <Label
+                Text="Escolha uma prática rápida para cuidar de você neste momento."
+                FontFamily="Nunito"
+                FontSize="16"
+                TextColor="{AppThemeBinding Light={StaticResource CalmeMuted}, Dark={StaticResource CalmeMutedDark}}" />
+
+            <Border
+                Style="{StaticResource CardStyle}"
+                BackgroundColor="{AppThemeBinding Light={StaticResource CalmeSurface}, Dark={StaticResource CalmeSurfaceDark}}">
+
+                <VerticalStackLayout Spacing="12">
+                    <Label
+                        Text="Respiração consciente"
+                        FontFamily="NunitoExtraBold"
+                        FontSize="20"
+                        TextColor="{AppThemeBinding Light={StaticResource CalmeText}, Dark={StaticResource CalmeTextDark}}" />
+
+                    <Label
+                        Text="Faça uma pausa e observe sua respiração, sem forçar o ritmo."
+                        FontFamily="Nunito"
+                        FontSize="15"
+                        TextColor="{AppThemeBinding Light={StaticResource CalmeMuted}, Dark={StaticResource CalmeMutedDark}}" />
+
+                    <Button
+                        Text="Começar prática"
+                        Style="{StaticResource CalmeButton}"
+                        Clicked="OnRespiracaoClicked" />
+                </VerticalStackLayout>
+            </Border>
+
+            <Border
+                Style="{StaticResource CardStyle}"
+                BackgroundColor="{AppThemeBinding Light={StaticResource CalmeSurface}, Dark={StaticResource CalmeSurfaceDark}}">
+
+                <VerticalStackLayout Spacing="12">
+                    <Label
+                        Text="Voltar ao presente"
+                        FontFamily="NunitoExtraBold"
+                        FontSize="20"
+                        TextColor="{AppThemeBinding Light={StaticResource CalmeText}, Dark={StaticResource CalmeTextDark}}" />
+
+                    <Label
+                        Text="Observe ao seu redor e identifique coisas que você consegue ver, ouvir e sentir."
+                        FontFamily="Nunito"
+                        FontSize="15"
+                        TextColor="{AppThemeBinding Light={StaticResource CalmeMuted}, Dark={StaticResource CalmeMutedDark}}" />
+
+                    <Button
+                        Text="Começar prática"
+                        Style="{StaticResource CalmeButton}"
+                        Clicked="OnPresenteClicked" />
+                </VerticalStackLayout>
+            </Border>
+
+            <Border
+                Style="{StaticResource CardStyle}"
+                BackgroundColor="#DDEFEA">
+
+                <VerticalStackLayout Spacing="8">
+                    <Label
+                        Text="Precisa de apoio?"
+                        FontFamily="NunitoExtraBold"
+                        FontSize="18"
+                        TextColor="#286B65" />
+
+                    <Label
+                        Text="Se estiver difícil lidar com o que sente, procure alguém de confiança para conversar."
+                        FontFamily="Nunito"
+                        FontSize="15"
+                        TextColor="#286B65" />
+                </VerticalStackLayout>
+            </Border>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

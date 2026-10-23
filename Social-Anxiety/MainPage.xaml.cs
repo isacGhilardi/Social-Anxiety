@@ -10,6 +10,12 @@ public partial class MainPage : ContentPage
 
         AtualizarResumo(registrosExemplo, dadosDeExemplo: true);
     }
+    private async void OnApoioImediatoClicked(
+    object sender, EventArgs e)
+{
+    await Shell.Current.GoToAsync("apoio-imediato");
+}
+
 
     private void AtualizarResumo(int[] registros, bool dadosDeExemplo)
     {

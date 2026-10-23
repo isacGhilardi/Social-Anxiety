@@ -30,6 +30,18 @@
                 TextColor="{AppThemeBinding
                     Light={StaticResource CalmeMuted},
                     Dark={StaticResource CalmeMutedDark}}" />
+                    
+<Button
+    Text="Preciso de apoio agora"
+    BackgroundColor="#DDEFEA"
+    TextColor="#286B65"
+    FontFamily="Nunito"
+    FontSize="15"
+    FontAttributes="Bold"
+    HeightRequest="44"
+    CornerRadius="22"
+    Clicked="OnApoioImediatoClicked" />
+
 
                 <Border
     Style="{StaticResource CardBlue}"
