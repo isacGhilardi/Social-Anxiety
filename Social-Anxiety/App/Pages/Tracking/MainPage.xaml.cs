@@ -1,16 +1,21 @@
+using Social_Anxiety.Core.Auth;
+
 namespace Social_Anxiety;
 
 public partial class MainPage : ContentPage
 {
-    public MainPage()
-    {
-        InitializeComponent();
+    private readonly SessionState session;
 
+    public MainPage(SessionState session)
+    {
+        this.session = session;
+        InitializeComponent();
     }
 
     protected override void OnAppearing()
     {
         base.OnAppearing();
+        Greeting.Text = session.IsSignedIn ? $"Olá, {session.DisplayName}." : "Olá, que bom ter você.";
         try
         {
             var records = App.Checkins.ReadPeriod(7, DateOnly.FromDateTime(DateTime.Now));

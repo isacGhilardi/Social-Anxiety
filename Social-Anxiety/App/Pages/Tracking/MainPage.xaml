@@ -5,7 +5,7 @@
     <Grid RowDefinitions="*,Auto">
         <ScrollView>
             <VerticalStackLayout Padding="24,8,24,28" Spacing="16">
-                <Label Text="Olá, que bom ter você."  Style="{StaticResource FlowHeading}" SemanticProperties.HeadingLevel="Level1"/>
+                <Label x:Name="Greeting" Text="Olá, que bom ter você." AutomationId="home-greeting" Style="{StaticResource FlowHeading}" SemanticProperties.HeadingLevel="Level1"/>
                 <Label Text="Que tal um pequeno cuidado agora?"  Style="{StaticResource FlowCopy}" />
                 <Border Style="{StaticResource FlowCard}" BackgroundColor="{AppThemeBinding Light={StaticResource CalmeBlue}, Dark={StaticResource CalmeBlueDark}}"><VerticalStackLayout Spacing="12">
                 <Label Text="Como você está hoje?"  Style="{StaticResource FlowCardTitle}" />

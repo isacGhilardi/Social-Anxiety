@@ -7,6 +7,7 @@
     xmlns:views="clr-namespace:Social_Anxiety.Views"
     Title="Calme" FlyoutBehavior="Disabled" Shell.NavBarIsVisible="False">
     <ShellContent ContentTemplate="{DataTemplate local:OnboardingPage}" Route="welcome" />
+    <ShellContent ContentTemplate="{DataTemplate local:AccessPage}" Route="access" />
     <ShellContent Title="Início" ContentTemplate="{DataTemplate local:MainPage}" Route="home" />
     <ShellContent
     Title="Apoio imediato"

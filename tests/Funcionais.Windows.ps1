@@ -102,20 +102,34 @@ function Test-Flow([string]$name, [scriptblock]$body) {
     }
 }
 
-function Enter-Home {
-    Click-Control 'Conhecer o Calme'
-    Click-Control 'Continuar'
-    Click-Control 'Entendi, vamos continuar'
-    Click-Control 'Prefiro explorar primeiro'
-    Click-Control 'Continuar como convidado'
-    Find-Control 'home-checkin' | Out-Null
-}
-
 try {
+    # Pasta exclusiva da identidade de teste: banco, sessão e preferências começam do zero.
+    $testAppDirectory = Split-Path -Parent $dataDirectory
+    if (Test-Path -LiteralPath $testAppDirectory) { Remove-Item -LiteralPath $testAppDirectory -Recurse -Force }
     [IO.Directory]::CreateDirectory($dataDirectory) | Out-Null
     [IO.File]::WriteAllText($dataPath, '[]')
     Start-Calme
-    Test-Flow 'Convidado chega ao início funcional' { Enter-Home }
+    Test-Flow 'Sem sessão, reabrir vai ao acesso e o convidado chega ao início' {
+        Click-Control 'Conhecer o Calme'
+        Click-Control 'Continuar'
+        Click-Control 'Entendi, vamos continuar'
+        Click-Control 'Prefiro explorar primeiro'
+        Find-Control 'Criar minha conta' | Out-Null
+        $app.Kill()
+        $app.WaitForExit()
+        Start-Calme
+        Find-Control 'Criar minha conta' | Out-Null
+        Click-Control 'Continuar como convidado'
+        Find-Control 'home-checkin' | Out-Null
+        Assert-Equal (Find-Control 'home-greeting').Current.Name 'Olá, que bom ter você.' 'Saudação de convidado incorreta'
+    }
+    Test-Flow 'Convidado reabre o aplicativo direto no início' {
+        $app.Kill()
+        $app.WaitForExit()
+        Start-Calme
+        Find-Control 'home-checkin' | Out-Null
+        Assert-Equal (Find-Control 'home-greeting').Current.Name 'Olá, que bom ter você.' 'Sessão de convidado não foi restaurada'
+    }
     Test-Flow 'Histórico vazio não apresenta dados de exemplo' {
         Click-Control 'home-history'
         Assert-Equal (Find-Control 'history-count').Current.Name '0 registros no período' 'Histórico deveria estar vazio'
@@ -166,7 +180,7 @@ try {
         $app.Kill()
         $app.WaitForExit()
         Start-Calme
-        Enter-Home
+        Find-Control 'home-checkin' | Out-Null
         Assert-Equal (Find-Control 'home-latest').Current.Name '1 de 5 · Pouca' 'Persistência falhou'
     }
     Test-Flow 'Todos os níveis da escala chegam corretamente ao histórico e detalhe' {
@@ -191,7 +205,7 @@ try {
         }
         [IO.File]::WriteAllText($dataPath, (ConvertTo-Json -InputObject @($fixtures)))
         Start-Calme
-        Enter-Home
+        Find-Control 'home-checkin' | Out-Null
         Click-Control 'home-history'
         Assert-Equal (Find-Control 'history-count').Current.Name '2 registros no período' 'Filtro de semana incorreto'
         Click-Control 'history-month'
@@ -262,7 +276,7 @@ try {
         $app.WaitForExit()
         [IO.File]::WriteAllText($dataPath, 'dados inválidos de teste')
         Start-Calme
-        Enter-Home
+        Find-Control 'home-checkin' | Out-Null
         Assert-Equal (Find-Control 'home-error').Current.Name 'Não foi possível ler os registros. Seus dados foram preservados.' 'Erro de leitura não foi mostrado'
         Click-Control 'home-checkin'
         Click-Control 'score-2'
