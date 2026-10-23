@@ -10,8 +10,7 @@ if (!(Test-Path -LiteralPath $marker) -or (Get-Content -LiteralPath $marker -Raw
     throw 'Use a versão isolada gerada por tests/Testar.Windows.ps1. O aplicativo normal não pode ser usado nesta suíte.'
 }
 $dataDirectory = Join-Path $env:LOCALAPPDATA 'Calme Tests/com.calme.functionaltests/Data'
-$dataPath = Join-Path $dataDirectory 'checkins.json'
-$backup = if (Test-Path -LiteralPath $dataPath) { [IO.File]::ReadAllBytes($dataPath) } else { $null }
+$dataPath = Join-Path $dataDirectory 'calme.db3'
 Add-Type -AssemblyName UIAutomationClient
 Add-Type -AssemblyName UIAutomationTypes
 $results = [Collections.Generic.List[object]]::new()
@@ -123,12 +122,27 @@ function Clear-Session {
     Find-Control 'Criar minha conta' | Out-Null
 }
 
+# Grava dados fictícios direto no banco da identidade de teste, com o SQLite que acompanha o Windows.
+Add-Type -Namespace CalmeTests -Name Sqlite -MemberDefinition @'
+[DllImport("winsqlite3.dll", CharSet = CharSet.Ansi)] public static extern int sqlite3_open(string filename, out IntPtr db);
+[DllImport("winsqlite3.dll", CharSet = CharSet.Ansi)] public static extern int sqlite3_exec(IntPtr db, string sql, IntPtr callback, IntPtr arg, IntPtr errmsg);
+[DllImport("winsqlite3.dll")] public static extern int sqlite3_close(IntPtr db);
+'@
+
+function Invoke-Sqlite([string]$sql) {
+    $db = [IntPtr]::Zero
+    if ([CalmeTests.Sqlite]::sqlite3_open($dataPath, [ref]$db) -ne 0) { throw "Não foi possível abrir $dataPath" }
+    try {
+        $code = [CalmeTests.Sqlite]::sqlite3_exec($db, $sql, [IntPtr]::Zero, [IntPtr]::Zero, [IntPtr]::Zero)
+        if ($code -ne 0) { throw "SQLite retornou $code" }
+    } finally { [CalmeTests.Sqlite]::sqlite3_close($db) | Out-Null }
+}
+
 try {
     # Pasta exclusiva da identidade de teste: banco, sessão e preferências começam do zero.
     $testAppDirectory = Split-Path -Parent $dataDirectory
     if (Test-Path -LiteralPath $testAppDirectory) { Remove-Item -LiteralPath $testAppDirectory -Recurse -Force }
     [IO.Directory]::CreateDirectory($dataDirectory) | Out-Null
-    [IO.File]::WriteAllText($dataPath, '[]')
     Start-Calme
     Test-Flow 'Sem sessão, reabrir vai direto ao acesso' {
         Click-Control 'Conhecer o Calme'
@@ -252,10 +266,10 @@ try {
     Test-Flow 'Semana e mês filtram as datas na interface' {
         $app.Kill()
         $app.WaitForExit()
-        $fixtures = @(0, 6, 7, 29, 30) | ForEach-Object {
-            @{ Id = [Guid]::NewGuid().ToString(); Date = (Get-Date).Date.AddDays(-$_).ToString('yyyy-MM-dd'); Score = 2 }
+        $rows = @(0, 6, 7, 29, 30) | ForEach-Object {
+            "('$([Guid]::NewGuid())', 2, $([DateTime]::UtcNow.Ticks), '$((Get-Date).Date.AddDays(-$_).ToString('yyyy-MM-dd'))')"
         }
-        [IO.File]::WriteAllText($dataPath, (ConvertTo-Json -InputObject @($fixtures)))
+        Invoke-Sqlite "delete from checkins; insert into checkins (Id, Score, RecordedAtUtc, LocalDay) values $($rows -join ', ');"
         Start-Calme
         Find-Control 'home-checkin' | Out-Null
         Click-Control 'home-history'
@@ -326,6 +340,7 @@ try {
     Test-Flow 'Arquivo inválido apresenta erro e permanece intacto' {
         $app.Kill()
         $app.WaitForExit()
+        Remove-Item -LiteralPath "$dataPath-wal", "$dataPath-shm" -ErrorAction SilentlyContinue
         [IO.File]::WriteAllText($dataPath, 'dados inválidos de teste')
         Start-Calme
         Find-Control 'home-checkin' | Out-Null
@@ -337,12 +352,12 @@ try {
         Click-Control 'Voltar'
         Click-Control 'home-history'
         Assert-Equal (Find-Control 'history-error').Current.Name 'Não foi possível ler o histórico. Seus dados foram preservados.' 'Erro no histórico não foi mostrado'
+        $app.Kill()
+        $app.WaitForExit()
         Assert-Equal ([IO.File]::ReadAllText($dataPath)) 'dados inválidos de teste' 'Arquivo inválido foi sobrescrito'
     }
 } finally {
     if ($app -and !$app.HasExited) { $app.Kill(); $app.WaitForExit() }
-    if ($null -ne $backup) { [IO.File]::WriteAllBytes($dataPath, $backup) }
-    elseif (Test-Path -LiteralPath $dataPath) { Remove-Item -LiteralPath $dataPath }
     $directory = Split-Path -Parent $ReportPath
     [IO.Directory]::CreateDirectory($directory) | Out-Null
     $results | ConvertTo-Json -Depth 4 | Set-Content -Path $ReportPath -Encoding UTF8

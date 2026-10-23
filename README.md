@@ -8,12 +8,12 @@ Pré-requisitos: .NET SDK 10 e workloads MAUI (`dotnet workload install maui`). 
 
 ```powershell
 dotnet restore Social-Anxiety.slnx
-dotnet run --project tests/Calme.Tests                                   # testes de lógica
+dotnet test tests/Calme.Core.Tests                                       # testes do Core (xUnit)
 powershell -ExecutionPolicy Bypass -File tests/Testar.Windows.ps1        # build isolado + testes funcionais
 dotnet build Social-Anxiety/Social-Anxiety.csproj -f net10.0-android     # build Android
 ```
 
-Não há variáveis de ambiente, segredos nem banco de dados.
+Não há variáveis de ambiente nem segredos. Os dados ficam num banco SQLite local (`calme.db3`), criado na primeira execução.
 
 ## Documentação
 

@@ -1,10 +1,18 @@
+using Social_Anxiety.Core.CheckIns;
+
 namespace Social_Anxiety;
 
 public partial class CheckinPage : ContentPage
 {
+    private readonly CheckInService checkIns;
     private int score;
     private bool saving;
-    public CheckinPage() => InitializeComponent();
+
+    public CheckinPage(CheckInService checkIns)
+    {
+        this.checkIns = checkIns;
+        InitializeComponent();
+    }
 
     private void OnScoreClicked(object? sender, EventArgs e)
     {
@@ -27,10 +35,10 @@ public partial class CheckinPage : ContentPage
         SaveButton.IsEnabled = false;
         try
         {
-            var record = App.Checkins.Save(score, DateOnly.FromDateTime(DateTime.Now));
+            var record = await checkIns.SaveTodayAsync(score);
             await Shell.Current.GoToAsync($"../feedback?id={record.Id}");
         }
-        catch (Exception error) when (error is IOException or InvalidDataException or UnauthorizedAccessException)
+        catch (Exception error) when (error is IOException or SQLite.SQLiteException or UnauthorizedAccessException)
         { ErrorMessage.Text = "Não foi possível salvar. Os registros anteriores foram preservados. Tente novamente."; }
         finally { saving = false; SaveButton.IsEnabled = score > 0; }
     }

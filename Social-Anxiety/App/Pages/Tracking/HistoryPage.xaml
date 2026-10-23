@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:local="clr-namespace:Social_Anxiety"
+             xmlns:checkins="clr-namespace:Social_Anxiety.Core.CheckIns"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Social_Anxiety.HistoryPage" Title="Histórico" Style="{StaticResource FlowPage}">
     <Grid RowDefinitions="*,Auto">
@@ -18,7 +19,7 @@
                 <Label Text="" x:Name="ErrorMessage" Style="{StaticResource FlowCopy}" AutomationId="history-error"/>
                 <VerticalStackLayout x:Name="RecordList" Spacing="12">
                     <BindableLayout.ItemTemplate>
-                        <DataTemplate x:DataType="local:CheckinRecord">
+                        <DataTemplate x:DataType="checkins:CheckIn">
                             <Border Style="{StaticResource FlowCard}" Padding="0">
                                 <Grid>
                                     <VerticalStackLayout Padding="16" Spacing="4" InputTransparent="True">

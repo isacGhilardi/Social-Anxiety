@@ -4,8 +4,8 @@
 
 | Comando | O que prova |
 |---|---|
-| `dotnet run --project tests/Calme.Tests` | Regras de `CheckinStore` (escala, dia único, períodos de 7/30 dias, preservação de arquivo inválido, falha de gravação) e máquina de fases de `BreathingSession`. Esperado: `15 passaram; 0 falharam.` |
-| `powershell -ExecutionPolicy Bypass -File tests/Testar.Windows.ps1` | Compila o alvo Windows em `artifacts/e2e/` com identidade de teste e roda os 15 casos de interface (onboarding, check-in, histórico, filtros, respiração, apoio, arquivo inválido). Relatório: `artifacts/funcionais-windows.json`. Filtro de um caso: `tests/Funcionais.Windows.ps1 -AppPath <exe> -Filter <nome>` |
+| `dotnet test tests/Calme.Core.Tests` | xUnit do `Core` (e de `Data/Sqlite` com banco SQLite real em arquivo temporário): sessão, cadastro, login, hash de senha, check-in, agregação do gráfico e respiração. |
+| `powershell -ExecutionPolicy Bypass -File tests/Testar.Windows.ps1` | Compila o alvo Windows em `artifacts/e2e/` com identidade de teste e roda os casos de interface (acesso, cadastro, login, convidado, check-in, histórico, filtros, respiração, apoio, banco inválido). Relatório: `artifacts/funcionais-windows.json`. Filtro de um caso: `tests/Funcionais.Windows.ps1 -AppPath <exe> -Filter <nome>` |
 | `dotnet build Social-Anxiety/Social-Anxiety.csproj -f net10.0-android` | Compilação Android, sem emulador |
 | `dotnet list Social-Anxiety/Social-Anxiety.csproj package --vulnerable --include-transitive` | Avisos de segurança em pacotes NuGet (consulta `api.nuget.org`) |
 
@@ -16,13 +16,13 @@ Sem lint configurado. O compilador com `Nullable` é o check de tipos; mantenha 
 ## Regras de base
 
 - Arquivos até ~350 linhas, organizados por responsabilidade. Exceção conhecida: `Resources/Styles/Styles.xaml` (482 linhas, estilos do template MAUI).
-- Lógica nova fica fora da UI (`Core/`, `Data/`) e entra em `tests/Calme.Tests/Calme.Tests.csproj` por `Compile Include`.
+- Lógica nova fica no `Core/` (sem MAUI nem SQLite) e é testada em `tests/Calme.Core.Tests`, que inclui `Core/**` e `Data/Sqlite/**` por link de código-fonte.
 - Leitura e gravação de dados nunca apagam o arquivo existente em caso de erro; a mensagem ao usuário não expõe detalhes internos.
 - Interface nova: `AutomationId` em controles e `SemanticProperties` em conteúdo não textual.
 
 ## Estratégia de testes
 
-Cubra comportamento, limites e falhas, não a implementação. Bug corrigido ganha teste de regressão (lógica em `Calme.Tests`, fluxo em `Funcionais.Windows.ps1`). A suíte funcional usa uma pasta de dados própria e restaura o arquivo ao final; nunca aponte para o app instalado. Android, iOS e MacCatalyst não têm testes automatizados; validação manual nesses alvos fica registrada no PR.
+Cubra comportamento, limites e falhas, não a implementação. Bug corrigido ganha teste de regressão (lógica em `Calme.Core.Tests`, fluxo em `Funcionais.Windows.ps1`). Testes usam só dados fictícios. A suíte funcional usa uma identidade própria e grava dados de teste apenas no banco dessa identidade; nunca aponte para o app instalado. Android, iOS e MacCatalyst não têm testes automatizados; validação manual nesses alvos fica registrada no PR.
 
 ## Harness dos agentes
 
@@ -36,7 +36,7 @@ Escolha o escopo pela mudança real: comportamento e testes sempre; dados locais
 
 ## Revisão de segurança
 
-Prompt reutilizável: `docs/prompts/13-security-review.md` do toolkit, revisão `790a895`, seção "Prompt". Invocação: "Leia o prompt 13 do Vibe Coding Toolkit e execute a seção Prompt neste repositório" (modo base) ou com um intervalo `base..head` (modo diff). Somente leitura; relatório privado fora do repositório (ex.: `%LOCALAPPDATA%\security-reviews\`). `differential-review` não está instalada; o fallback é rastreio manual. Superfície atual: dados de saúde locais em `checkins.json`, sem rede, contas ou segredos.
+Prompt reutilizável: `docs/prompts/13-security-review.md` do toolkit, revisão `790a895`, seção "Prompt". Invocação: "Leia o prompt 13 do Vibe Coding Toolkit e execute a seção Prompt neste repositório" (modo base) ou com um intervalo `base..head` (modo diff). Somente leitura; relatório privado fora do repositório (ex.: `%LOCALAPPDATA%\security-reviews\`). `differential-review` não está instalada; o fallback é rastreio manual. Superfície atual: dados de saúde locais em `calme.db3`, contas locais simuladas (hash PBKDF2 da senha no mesmo banco), sessão no `SecureStorage`, sem rede nem segredos versionados.
 
 ## Dependências e entrega
 
