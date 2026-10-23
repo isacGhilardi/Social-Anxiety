@@ -46,6 +46,7 @@ Não existia documentação de projeto. Criados: `README.md`, `PRODUCT.md`, `AGE
 - Removidos 7 arquivos antigos da raiz de `Social-Anxiety/` (`CheckinPage.cs`, `CheckinRecord.cs`, `HistoryTestPage.cs`, `MainPage.xaml`, `MainPage.xaml.cs`, `RecordPage.cs`, `ResumoGrafico.cs`). Eram versões anteriores à reorganização em `App/`, `Core/` e `Data/` e voltaram nos merges dos PRs #19–#25. Causavam 20 erros de compilação (tipos duplicados). Recuperáveis pelo histórico do Git.
 - `Views/ApoioImediatoPage.xaml.cs`: `DisplayAlert` (obsoleto) trocado por `DisplayAlertAsync` e `sender` anulável nos handlers. Removeu os avisos CS0618 e CS8622.
 - `.gitignore`: `graphify-out/`. Novo `.graphifyignore`.
+- Apoio (decisão do usuário, seguindo o protótipo `docs/Calme_Prototipo.html`): "Preciso de apoio agora" abre "Uma pausa agora" (Respiração guiada, STOP e ACALME-SE). Nessa tela o botão vira "Voltar ao que eu estava fazendo" e retorna à origem. `Views/ApoioImediatoPage` continua no projeto sem ponto de acesso.
 
 ## Checks
 
@@ -76,6 +77,7 @@ Retomada em contexto limpo: o `CLAUDE.md` deste projeto será carregado na próx
 ## Pendências e próxima entrega
 
 - Context7: autenticar via `/mcp`.
-- Produto: decidir a entrada do apoio imediato (ver `PRODUCT.md`) e trocar `ApplicationId`/`ApplicationTitle` antes de publicar.
+- Produto: trocar `ApplicationId`/`ApplicationTitle` antes de publicar.
+- Teste instável: "Respiração inicia, pausa e conclui" falhou uma vez (`Esperado: Pausa; recebido: Inspire`) e passou na repetição seguinte. Provável corrida de tempo entre o clique e a leitura da fase; investigar se voltar a acontecer.
 - Opcional: CI no GitHub Actions com testes de lógica e build Android, se a equipe quiser.
 - Repetir este setup: rode o prompt 12 do toolkit com a nova revisão. Ele preserva estes documentos e atualiza esta tabela; sem reinstalar componentes que já funcionam.

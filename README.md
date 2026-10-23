@@ -27,4 +27,4 @@ Não há variáveis de ambiente, segredos nem banco de dados.
 
 ## Próxima entrega
 
-Decidir se "Preciso de apoio agora" abre a nova tela de apoio imediato e cobrir o fluxo com um teste funcional.
+Definir a identidade do app (`ApplicationId` e `ApplicationTitle`) antes de publicar.
