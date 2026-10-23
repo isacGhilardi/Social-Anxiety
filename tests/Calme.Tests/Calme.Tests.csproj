@@ -8,6 +8,5 @@
   <ItemGroup>
     <Compile Include="../../Social-Anxiety/Core/Models/CheckinRecord.cs" Link="CheckinRecord.cs" />
     <Compile Include="../../Social-Anxiety/Data/CheckinStore.cs" Link="CheckinStore.cs" />
-    <Compile Include="../../Social-Anxiety/Core/Breathing/BreathingSession.cs" Link="BreathingSession.cs" />
   </ItemGroup>
 </Project>

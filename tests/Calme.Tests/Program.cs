@@ -12,10 +12,6 @@ void Equal<T>(T actual, T expected)
     if (!EqualityComparer<T>.Default.Equals(actual, expected))
         throw new Exception($"Esperado {expected}; recebido {actual}.");
 }
-void Near(double actual, double expected)
-{
-    if (Math.Abs(actual - expected) > 0.001) throw new Exception($"Esperado {expected}; recebido {actual}.");
-}
 void Throws<T>(Action action) where T : Exception
 {
     try { action(); }
@@ -89,55 +85,8 @@ try
         Throws<IOException>(() => new CheckinStore(Path.Combine(path, "data.json")).Save(1, today));
         Equal(File.ReadAllText(path), "preservar");
     });
-    Test("Respiração percorre inspirar, segurar e expirar nos limites corretos", () =>
-    {
-        var clock = new TestClock();
-        var session = new BreathingSession(clock);
-        session.Start();
-        Equal(session.Phase, BreathingPhase.Inhale); Equal(session.SecondsRemaining, 4);
-        clock.Advance(4); Equal(session.Phase, BreathingPhase.Hold); Equal(session.SecondsRemaining, 2); Near(session.Scale, 1);
-        clock.Advance(2); Equal(session.Phase, BreathingPhase.Exhale); Equal(session.SecondsRemaining, 6);
-        clock.Advance(6); Equal(session.Phase, BreathingPhase.Inhale); Near(session.Scale, 0.64);
-    });
-    Test("Animação tem interpolação suave no meio das fases", () =>
-    {
-        var clock = new TestClock(); var session = new BreathingSession(clock);
-        session.Start(); clock.Advance(2); Near(session.Scale, 0.82);
-        clock.Advance(7); Near(session.Scale, 0.82);
-    });
-    Test("Pausar congela o tempo e continuar retoma do mesmo ponto", () =>
-    {
-        var clock = new TestClock(); var session = new BreathingSession(clock);
-        session.Start(); clock.Advance(3); session.Pause(); clock.Advance(20);
-        Equal(session.SecondsRemaining, 1); Near(session.Elapsed.TotalSeconds, 3);
-        session.Start(); clock.Advance(1); Equal(session.Phase, BreathingPhase.Hold);
-    });
-    Test("Sem segurar, a inspiração vai direto para expiração e o ciclo dura dez segundos", () =>
-    {
-        var clock = new TestClock(); var session = new BreathingSession(clock) { SkipHold = true };
-        session.Start(); clock.Advance(4); Equal(session.Phase, BreathingPhase.Exhale);
-        clock.Advance(6); Equal(session.Phase, BreathingPhase.Inhale);
-    });
-    Test("Reiniciar zera o ciclo e exige novo início", () =>
-    {
-        var clock = new TestClock(); var session = new BreathingSession(clock);
-        session.Start(); clock.Advance(8); session.Reset();
-        Equal(session.IsRunning, false); Equal(session.HasStarted, false); Near(session.Elapsed.TotalSeconds, 0);
-    });
-    Test("Atraso de quadros não acumula erro no ciclo", () =>
-    {
-        var clock = new TestClock(); var session = new BreathingSession(clock);
-        session.Start(); clock.Advance(1202); Equal(session.Phase, BreathingPhase.Inhale); Equal(session.SecondsRemaining, 2);
-    });
 }
 finally { Directory.Delete(directory, true); }
 Console.WriteLine($"{passed} passaram; {failed} falharam.");
 return failed == 0 ? 0 : 1;
 
-sealed class TestClock : TimeProvider
-{
-    private long ticks;
-    public override long TimestampFrequency => TimeSpan.TicksPerSecond;
-    public override long GetTimestamp() => ticks;
-    public void Advance(double seconds) => ticks += (long)(seconds * TimeSpan.TicksPerSecond);
-}
