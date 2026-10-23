@@ -7,7 +7,7 @@
     <Grid
         ColumnDefinitions="*,*,*,*,*"
         HeightRequest="80"
-        BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource CalmeSurfaceDark}}">
+        BackgroundColor="{AppThemeBinding Light={StaticResource CalmeBg}, Dark={StaticResource CalmeBgDark}}">
 
         <Border
             Grid.Column="0"
