@@ -1,121 +1,96 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage 
-             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Social_Anxiety.MainPage"
-             Title="Início"
-             xmlns:controls="clr-namespace:Social_Anxiety.Controls"
-             BackgroundColor="{AppThemeBinding
-             Light={StaticResource CalmeBg},
-             Dark={StaticResource CalmeBgDark}}">
-    <Grid RowDefinitions="*,Auto">
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:Social_Anxiety.Controls"
+    x:Class="Social_Anxiety.MainPage"
+    Title="Início"
+    BackgroundColor="{AppThemeBinding Light={StaticResource CalmeBg}, Dark={StaticResource CalmeBgDark}}">
 
+    <Grid RowDefinitions="*,Auto">
         <ScrollView Grid.Row="0">
             <VerticalStackLayout
-            Padding="24,8,24,28"
-            Spacing="16">
+                Padding="24,8,24,28"
+                Spacing="16">
 
                 <Label
-                Text="Olá, que bom ter você."
-                FontFamily="NunitoExtraBold"
-                FontSize="28"
-                TextColor="{AppThemeBinding
-                    Light={StaticResource CalmeText},
-                    Dark={StaticResource CalmeTextDark}}" />
+                    Text="Olá, que bom ter você."
+                    FontFamily="NunitoExtraBold"
+                    FontSize="28"
+                    TextColor="{AppThemeBinding Light={StaticResource CalmeText}, Dark={StaticResource CalmeTextDark}}" />
 
                 <Label
-                Text="Que tal um pequeno cuidado agora?"
-                FontFamily="Nunito"
-                FontSize="16"
-                TextColor="{AppThemeBinding
-                    Light={StaticResource CalmeMuted},
-                    Dark={StaticResource CalmeMutedDark}}" />
+                    Text="Que tal um pequeno cuidado agora?"
+                    FontFamily="Nunito"
+                    FontSize="16"
+                    TextColor="{AppThemeBinding Light={StaticResource CalmeMuted}, Dark={StaticResource CalmeMutedDark}}" />
 
                 <Border
-    Style="{StaticResource CardBlue}"
-    BackgroundColor="{AppThemeBinding
-        Light={StaticResource CalmeBlue},
-        Dark={StaticResource CalmeBlueDark}}">
+                    Style="{StaticResource CardBlue}"
+                    BackgroundColor="{AppThemeBinding Light={StaticResource CalmeBlue}, Dark={StaticResource CalmeBlueDark}}">
 
                     <VerticalStackLayout Spacing="12">
+                        <Label
+                            Text="Como você está hoje?"
+                            Style="{StaticResource LblCardTitle}"
+                            TextColor="{AppThemeBinding Light={StaticResource CalmeText}, Dark={StaticResource CalmeTextDark}}" />
 
                         <Label
-            Text="Como você está hoje?"
-            Style="{StaticResource LblCardTitle}"
-            TextColor="{AppThemeBinding
-                Light={StaticResource CalmeText},
-                Dark={StaticResource CalmeTextDark}}" />
-
-                        <Label
-            Text="Um minuto para perceber e acolher o que você sente."
-            Style="{StaticResource LblCardBody}"
-            TextColor="{AppThemeBinding
-                Light={StaticResource CalmeMuted},
-                Dark={StaticResource CalmeMutedDark}}" />
+                            Text="Um minuto para perceber e acolher o que você sente."
+                            Style="{StaticResource LblCardBody}"
+                            TextColor="{AppThemeBinding Light={StaticResource CalmeMuted}, Dark={StaticResource CalmeMutedDark}}" />
 
                         <Button
-            Text="Fazer check-in"
-            Style="{StaticResource CalmeButton}" />
-
+                            Text="Fazer check-in"
+                            Style="{StaticResource CalmeButton}" />
                     </VerticalStackLayout>
                 </Border>
 
-                <Border 
+                <Border
                     Style="{StaticResource CardStyle}"
-                    BackgroundColor="{AppThemeBinding
-                    Light={StaticResource CalmeSurface},
-                    Dark={StaticResource CalmeSurfaceDark}}">
+                    BackgroundColor="{AppThemeBinding Light={StaticResource CalmeSurface}, Dark={StaticResource CalmeSurfaceDark}}">
+
                     <VerticalStackLayout
-        x:Name="ResumoContainer"
-        Spacing="12">
+                        x:Name="ResumoContainer"
+                        Spacing="12">
 
                         <Label
-            Text="Seus últimos 7 dias"
-            Style="{StaticResource LblCardTitle}"
-            TextColor="{AppThemeBinding
-                            Light={StaticResource CalmeText},
-                            Dark={StaticResource CalmeTextDark}}"/>
-                        <Label
-    x:Name="MensagemSemRegistros"
-    Text="Seus registros aparecerão aqui. Faça seu primeiro check-in para começar a acompanhar sua semana."
-    IsVisible="False"
-    FontFamily="Nunito"
-    FontSize="16"
-    TextColor="{AppThemeBinding
-        Light={StaticResource CalmeMuted},
-        Dark={StaticResource CalmeMutedDark}}" />
+                            Text="Seus últimos 7 dias"
+                            Style="{StaticResource LblCardTitle}"
+                            TextColor="{AppThemeBinding Light={StaticResource CalmeText}, Dark={StaticResource CalmeTextDark}}" />
 
                         <Label
-            Text="Dados de exemplo"
-            FontFamily="Nunito"
-            FontSize="12"
-            x:Name="AvisoExemplo"
-            TextColor="{AppThemeBinding
-    Light={StaticResource CalmeMuted},
-    Dark={StaticResource CalmeMutedDark}}" />
+                            x:Name="MensagemSemRegistros"
+                            Text="Seus registros aparecerão aqui. Faça seu primeiro check-in para começar a acompanhar sua semana."
+                            IsVisible="False"
+                            FontFamily="Nunito"
+                            FontSize="16"
+                            TextColor="{AppThemeBinding Light={StaticResource CalmeMuted}, Dark={StaticResource CalmeMutedDark}}" />
+
+                        <Label
+                            x:Name="AvisoExemplo"
+                            Text="Dados de exemplo"
+                            FontFamily="Nunito"
+                            FontSize="12"
+                            TextColor="{AppThemeBinding Light={StaticResource CalmeMuted}, Dark={StaticResource CalmeMutedDark}}" />
 
                         <GraphicsView
-            x:Name="GraficoResumo"
-            HeightRequest="160"
-            HorizontalOptions="Fill"
-            SemanticProperties.Description="Gráfico demonstrativo de ansiedade percebida nos últimos sete dias." />
+                            x:Name="GraficoResumo"
+                            HeightRequest="160"
+                            HorizontalOptions="Fill"
+                            SemanticProperties.Description="Gráfico demonstrativo de ansiedade percebida nos últimos sete dias." />
 
                         <Label
-            Text="Ansiedade percebida: 1 = pouca; 5 = muita."
-            FontFamily="Nunito"
-            FontSize="12"
-            x:Name="LegendaGrafico"
-            TextColor="{AppThemeBinding
-        Light={StaticResource CalmeMuted},
-        Dark={StaticResource CalmeMutedDark}}" />
-
+                            x:Name="LegendaGrafico"
+                            Text="Ansiedade percebida: 1 = pouca; 5 = muita."
+                            FontFamily="Nunito"
+                            FontSize="12"
+                            TextColor="{AppThemeBinding Light={StaticResource CalmeMuted}, Dark={StaticResource CalmeMutedDark}}" />
                     </VerticalStackLayout>
                 </Border>
-
             </VerticalStackLayout>
         </ScrollView>
 
         <controls:BottomNavBar Grid.Row="1" />
-
     </Grid>
 </ContentPage>

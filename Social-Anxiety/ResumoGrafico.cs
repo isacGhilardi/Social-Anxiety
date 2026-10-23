@@ -25,7 +25,7 @@ public class ResumoGrafico : IDrawable
             return;
 
         bool temaEscuro =
-    Application.Current?.RequestedTheme == AppTheme.Dark;
+            Application.Current?.RequestedTheme == AppTheme.Dark;
 
         var recursos = Application.Current!.Resources;
 
@@ -40,7 +40,6 @@ public class ResumoGrafico : IDrawable
 
         canvas.FontSize = 12;
         canvas.FontColor = corTexto;
-
 
         for (int nivel = 1; nivel <= 5; nivel++)
         {
@@ -70,6 +69,7 @@ public class ResumoGrafico : IDrawable
             float x = valores.Length == 1
                 ? esquerda + largura / 2
                 : esquerda + i * distancia;
+
             float y = topo + altura - (valores[i] - 1) * altura / 4;
 
             if (i > 0)
