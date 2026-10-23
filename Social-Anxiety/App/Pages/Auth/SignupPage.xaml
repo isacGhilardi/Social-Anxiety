@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Social_Anxiety.SignupPage" Title="Criar conta" Style="{StaticResource FlowPage}">
+    <Grid RowDefinitions="*,Auto">
+        <ScrollView>
+            <VerticalStackLayout Padding="24,8,24,28" Spacing="16">
+                <Label Text="Vamos nos conhecer?" Style="{StaticResource FlowHeading}" SemanticProperties.HeadingLevel="Level1"/>
+                <Label Text="Só o básico para começar." Style="{StaticResource FlowCopy}"/>
+                <Label Text="Como você quer ser chamado(a)?" Style="{StaticResource FlowCopy}"/>
+                <Entry x:Name="NameEntry" Placeholder="Seu nome" MaxLength="32" AutomationId="signup-name" SemanticProperties.Description="Como você quer ser chamado(a)?"/>
+                <Label Text="E-mail" Style="{StaticResource FlowCopy}"/>
+                <Entry x:Name="EmailEntry" Placeholder="seuemail@exemplo.com" Keyboard="Email" IsSpellCheckEnabled="False" AutomationId="signup-email" SemanticProperties.Description="E-mail"/>
+                <Label Text="Senha" Style="{StaticResource FlowCopy}"/>
+                <Entry x:Name="PasswordEntry" Placeholder="Crie uma senha" IsPassword="True" AutomationId="signup-password" SemanticProperties.Description="Senha"/>
+                <Label Text="Pelo menos 6 caracteres." Style="{StaticResource FlowSmall}"/>
+                <Label x:Name="ErrorMessage" Text="" Style="{StaticResource FlowCopy}" AutomationId="signup-error"/>
+                <Label Text="Ao criar sua conta, você concorda com os termos e a política de privacidade." Style="{StaticResource FlowSmall}"/>
+                <Button x:Name="SubmitButton" Text="Criar minha conta" Clicked="OnSubmitClicked" AutomationId="signup-submit" Style="{StaticResource CalmeButton}"/>
+                <Button Text="Já tenho uma conta" Clicked="OnLoginClicked" Style="{StaticResource CalmeTextButton}"/>
+                <Button Text="Continuar como convidado" Clicked="OnGuestClicked" Style="{StaticResource CalmeTextButton}"/>
+            </VerticalStackLayout>
+        </ScrollView>
+        <VerticalStackLayout Grid.Row="1" Padding="24,8,24,16">
+            <Button Text="Preciso de apoio agora" Clicked="OnSupportClicked" AutomationId="open-support" Style="{StaticResource FlowSupportButton}" />
+        </VerticalStackLayout>
+    </Grid>
+</ContentPage>

@@ -15,16 +15,16 @@ dotnet build Social-Anxiety/Social-Anxiety.csproj -f net10.0-windows10.0.19041.0
 .\Social-Anxiety\bin\Debug\net10.0-windows10.0.19041.0\win-x64\Social-Anxiety.exe
 ```
 
-Não há variáveis de ambiente nem segredos. Os registros ficam em `checkins.json` dentro da pasta de dados do app.
+Não há variáveis de ambiente nem segredos. Contas e check-ins ficam no banco SQLite `calme.db3`, dentro da pasta de dados do app; a sessão fica no `SecureStorage`.
 
 ## Verificar
 
 ```powershell
-dotnet run --project tests/Calme.Tests
+dotnet test tests/Calme.Core.Tests
 powershell -ExecutionPolicy Bypass -File tests/Testar.Windows.ps1
 ```
 
-Esperado: `15 passaram; 0 falharam.` e 15 linhas `PASS:` na suíte funcional. O relatório funcional fica em `artifacts/funcionais-windows.json`. A suíte usa identidade e pasta de dados próprias (`Calme Tests/com.calme.functionaltests`) e restaura o arquivo de dados ao final.
+Esperado: xUnit sem falhas e todas as linhas `PASS:` na suíte funcional. O relatório funcional fica em `artifacts/funcionais-windows.json`. A suíte usa identidade própria (`Calme Tests/com.calme.functionaltests`) e apaga a pasta dessa identidade no início, para começar sem banco, sessão nem preferências. Os dados do app real não são tocados.
 
 ## Agentes
 

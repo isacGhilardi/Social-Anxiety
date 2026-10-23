@@ -1,18 +1,27 @@
+using Social_Anxiety.Core.CheckIns;
+
 namespace Social_Anxiety;
 
 public partial class RecordPage : ContentPage, IQueryAttributable
 {
-    public RecordPage() => InitializeComponent();
-    public void ApplyQueryAttributes(IDictionary<string, object> query)
+    private readonly CheckInService checkIns;
+
+    public RecordPage(CheckInService checkIns)
+    {
+        this.checkIns = checkIns;
+        InitializeComponent();
+    }
+
+    public async void ApplyQueryAttributes(IDictionary<string, object> query)
     {
         try
         {
             var record = query.TryGetValue("id", out var value) && Guid.TryParse(value?.ToString(), out var id)
-                ? App.Checkins.Read().SingleOrDefault(r => r.Id == id) : null;
+                ? await checkIns.GetByIdAsync(id) : null;
             RecordDay.Text = record?.Day ?? "Registro não encontrado";
             SavedScore.Text = record?.Summary ?? "";
         }
-        catch (Exception error) when (error is IOException or InvalidDataException or UnauthorizedAccessException)
+        catch (Exception error) when (error is IOException or SQLite.SQLiteException or UnauthorizedAccessException)
         { ErrorMessage.Text = "Não foi possível ler o registro. Seus dados foram preservados."; }
     }
     private async void OnHistoryClicked(object? sender, EventArgs e)

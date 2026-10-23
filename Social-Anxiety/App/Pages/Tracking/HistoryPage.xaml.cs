@@ -1,15 +1,24 @@
+using Social_Anxiety.Core.CheckIns;
+
 namespace Social_Anxiety;
 
 public partial class HistoryPage : ContentPage
 {
+    private readonly CheckInService checkIns;
     private int days = 7;
-    public HistoryPage() => InitializeComponent();
-    protected override void OnAppearing() { base.OnAppearing(); Refresh(); }
-    private void Refresh()
+
+    public HistoryPage(CheckInService checkIns)
+    {
+        this.checkIns = checkIns;
+        InitializeComponent();
+    }
+
+    protected override async void OnAppearing() { base.OnAppearing(); await RefreshAsync(); }
+    private async Task RefreshAsync()
     {
         try
         {
-            var records = App.Checkins.ReadPeriod(days, DateOnly.FromDateTime(DateTime.Now));
+            var records = await checkIns.GetLastDaysAsync(days);
             PeriodLabel.Text = $"Últimos {days} dias";
             RecordCount.Text = records.Count == 1 ? "1 registro no período" : $"{records.Count} registros no período";
             EmptyMessage.IsVisible = records.Count == 0;
@@ -20,7 +29,7 @@ public partial class HistoryPage : ContentPage
             BindableLayout.SetItemsSource(RecordList, records);
             ErrorMessage.Text = "";
         }
-        catch (Exception error) when (error is IOException or InvalidDataException or UnauthorizedAccessException)
+        catch (Exception error) when (error is IOException or SQLite.SQLiteException or UnauthorizedAccessException)
         {
             HistoryGraph.IsVisible = EmptyMessage.IsVisible = false;
             RecordCount.Text = "";
@@ -28,10 +37,10 @@ public partial class HistoryPage : ContentPage
             ErrorMessage.Text = "Não foi possível ler o histórico. Seus dados foram preservados.";
         }
     }
-    private void OnPeriodClicked(object? sender, EventArgs e)
+    private async void OnPeriodClicked(object? sender, EventArgs e)
     {
         if (sender is Button button && int.TryParse(button.CommandParameter?.ToString(), out var value) && value is 7 or 30)
-        { days = value; Refresh(); }
+        { days = value; await RefreshAsync(); }
     }
     private async void OnRecordClicked(object? sender, EventArgs e)
     {
