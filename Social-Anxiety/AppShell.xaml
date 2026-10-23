@@ -4,7 +4,12 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:Social_Anxiety"
+    xmlns:views="clr-namespace:Social_Anxiety.Views"
     Title="Calme" FlyoutBehavior="Disabled" Shell.NavBarIsVisible="False">
     <ShellContent ContentTemplate="{DataTemplate local:OnboardingPage}" Route="welcome" />
     <ShellContent Title="Início" ContentTemplate="{DataTemplate local:MainPage}" Route="home" />
+    <ShellContent
+    Title="Apoio imediato"
+    ContentTemplate="{DataTemplate views:ApoioImediatoPage}"
+    Route="apoio-imediato" />
 </Shell>
