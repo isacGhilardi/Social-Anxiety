@@ -77,7 +77,7 @@ Retomada em contexto limpo: o `CLAUDE.md` deste projeto será carregado na próx
 ## Pendências e próxima entrega
 
 - Context7: autenticar via `/mcp`.
-- Produto: trocar `ApplicationId`/`ApplicationTitle` antes de publicar.
+- Identidade do app definida em 2026-10-23: `ApplicationId` = `com.calme.app`, `ApplicationTitle` = `Calme`. No Windows, `PublisherDisplayName` do manifesto ainda é `User Name`.
 - Teste instável: "Respiração inicia, pausa e conclui" falhou uma vez (`Esperado: Pausa; recebido: Inspire`) e passou na repetição seguinte. Provável corrida de tempo entre o clique e a leitura da fase; investigar se voltar a acontecer.
 - Opcional: CI no GitHub Actions com testes de lógica e build Android, se a equipe quiser.
 - Repetir este setup: rode o prompt 12 do toolkit com a nova revisão. Ele preserva estes documentos e atualiza esta tabela; sem reinstalar componentes que já funcionam.
