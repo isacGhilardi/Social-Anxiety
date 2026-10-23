@@ -1,0 +1,21 @@
+# Never index secrets or generated/vendor content.
+.git/
+.vs/
+bin/
+obj/
+artifacts/
+graphify-out/
+.claude/
+.codex/
+.env
+.env.*
+*.pem
+*.key
+*.p12
+*.pfx
+*.keystore
+*.jks
+*.log
+*.user
+Resources/Fonts/
+Resources/Images/
