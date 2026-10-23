@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Social_Anxiety.RecordPage" Title="Seu registro" Style="{StaticResource FlowPage}">
+    <Grid RowDefinitions="*,Auto">
+        <ScrollView>
+            <VerticalStackLayout Padding="24,8,24,28" Spacing="16">
+                <Label Text="UM RETRATO DO SEU DIA"  Style="{StaticResource FlowSmall}" />
+                <Label Text="" x:Name="RecordDay" Style="{StaticResource FlowHeading}" AutomationId="record-day"/>
+                <Border Style="{StaticResource FlowCard}" BackgroundColor="{AppThemeBinding Light={StaticResource CalmeBlue}, Dark={StaticResource CalmeBlueDark}}"><VerticalStackLayout Spacing="12">
+                <Label Text="Como você se percebeu"  Style="{StaticResource FlowCardTitle}" />
+                <Label Text="" x:Name="SavedScore" Style="{StaticResource FlowCopy}" AutomationId="record-score"/>
+                </VerticalStackLayout></Border>
+                <Border Style="{StaticResource FlowCard}" BackgroundColor="{AppThemeBinding Light={StaticResource CalmeMint}, Dark={StaticResource CalmeMintDark}}"><VerticalStackLayout Spacing="12">
+                <Label Text="Um registro não define você. Observe o que muda ao longo do tempo, sem se cobrar."  Style="{StaticResource FlowCopy}" />
+                </VerticalStackLayout></Border>
+                <Label Text="" x:Name="ErrorMessage" Style="{StaticResource FlowCopy}" AutomationId="record-error"/>
+                <Label Text="Se quiser, use seus registros para contar a um profissional como têm sido seus dias."  Style="{StaticResource FlowCopy}" />
+                <Label Text="Este app não realiza diagnósticos e não substitui acompanhamento profissional."  Style="{StaticResource FlowSmall}" />
+                <Button Text="Ver meu histórico" Clicked="OnHistoryClicked" AutomationId="record-history" Style="{StaticResource CalmeButton}" />
+                <Button Text="Buscar ajuda profissional" Clicked="OnHelpClicked" AutomationId="record-help" Style="{StaticResource CalmeTextButton}" />
+
+            </VerticalStackLayout>
+        </ScrollView>
+        <VerticalStackLayout Grid.Row="1" Padding="24,8,24,12" Spacing="8">
+            <Button Text="Preciso de apoio agora" Clicked="OnSupportClicked" AutomationId="open-support" Style="{StaticResource FlowSupportButton}" />
+
+        </VerticalStackLayout>
+    </Grid>
+</ContentPage>

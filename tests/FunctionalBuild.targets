@@ -1,0 +1,18 @@
+<Project>
+  <Target Name="UseFunctionalTestIdentity" BeforeTargets="MauiGeneratePackageAppxManifest" Condition="'$(TargetFramework)' == 'net10.0-windows10.0.19041.0'">
+    <PropertyGroup>
+      <FunctionalManifest>$(IntermediateOutputPath)FunctionalTests.appxmanifest</FunctionalManifest>
+    </PropertyGroup>
+    <Copy SourceFiles="$(MSBuildProjectDirectory)/Platforms/Windows/Package.appxmanifest" DestinationFiles="$(FunctionalManifest)" />
+    <XmlPoke XmlInputPath="$(FunctionalManifest)" Query="//*[local-name()='Identity']/@Name" Value="com.calme.functionaltests" />
+    <XmlPoke XmlInputPath="$(FunctionalManifest)" Query="//*[local-name()='PublisherDisplayName']" Value="Calme Tests" />
+    <ItemGroup>
+      <AppxManifest Remove="@(AppxManifest)" />
+      <_MauiAppxManifest Remove="@(_MauiAppxManifest)" />
+      <_MauiAppxManifest Include="$(FunctionalManifest)" />
+    </ItemGroup>
+  </Target>
+  <Target Name="MarkFunctionalTestBuild" AfterTargets="Build">
+    <WriteLinesToFile File="$([System.IO.Path]::Combine('$(OutputPath)', 'functional-test-build.txt'))" Lines="com.calme.functionaltests" Overwrite="true" />
+  </Target>
+</Project>

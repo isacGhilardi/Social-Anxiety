@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    <Style x:Key="FlowPage" TargetType="ContentPage">
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource CalmeBg}, Dark={StaticResource CalmeBgDark}}" />
+        <Setter Property="SafeAreaEdges" Value="Container" />
+        <Setter Property="Shell.NavBarIsVisible" Value="True" />
+        <Setter Property="Shell.BackgroundColor" Value="{AppThemeBinding Light={StaticResource CalmeBg}, Dark={StaticResource CalmeBgDark}}" />
+        <Setter Property="Shell.TitleColor" Value="{AppThemeBinding Light={StaticResource CalmeText}, Dark={StaticResource CalmeTextDark}}" />
+        <Setter Property="Shell.ForegroundColor" Value="{AppThemeBinding Light={StaticResource CalmeText}, Dark={StaticResource CalmeTextDark}}" />
+    </Style>
+    <Style x:Key="FlowCopy" TargetType="Label">
+        <Setter Property="FontFamily" Value="Nunito" />
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="LineHeight" Value="1.25" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource CalmeMuted}, Dark={StaticResource CalmeMutedDark}}" />
+    </Style>
+    <Style x:Key="FlowHeading" TargetType="Label" BasedOn="{StaticResource FlowCopy}">
+        <Setter Property="FontFamily" Value="NunitoExtraBold" />
+        <Setter Property="FontSize" Value="28" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource CalmeText}, Dark={StaticResource CalmeTextDark}}" />
+    </Style>
+    <Style x:Key="FlowCardTitle" TargetType="Label" BasedOn="{StaticResource FlowHeading}"><Setter Property="FontSize" Value="18" /></Style>
+    <Style x:Key="FlowSmall" TargetType="Label" BasedOn="{StaticResource FlowCopy}"><Setter Property="FontSize" Value="12" /></Style>
+    <Style x:Key="FlowCard" TargetType="Border">
+        <Setter Property="Padding" Value="20" /><Setter Property="StrokeThickness" Value="0" />
+        <Setter Property="StrokeShape" Value="RoundRectangle 24" />
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource CalmeSurface}, Dark={StaticResource CalmeSurfaceDark}}" />
+    </Style>
+    <Style x:Key="FlowSupportButton" TargetType="Button" BasedOn="{StaticResource CalmeButton}">
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource CalmeMint}, Dark={StaticResource CalmeMintDark}}" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource CalmeTeal}, Dark={StaticResource CalmeTealDark}}" />
+    </Style>
+    <Style x:Key="FlowScore" TargetType="Button" BasedOn="{StaticResource CalmeButton}">
+        <Setter Property="Padding" Value="0" /><Setter Property="MinimumHeightRequest" Value="86" /><Setter Property="BorderWidth" Value="1" />
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource CalmeSurface}, Dark={StaticResource CalmeSurfaceDark}}" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource CalmeText}, Dark={StaticResource CalmeTextDark}}" />
+        <Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource CalmeBorder}, Dark={StaticResource CalmeBorderDark}}" />
+        <Setter Property="VisualStateManager.VisualStateGroups"><VisualStateGroupList><VisualStateGroup x:Name="SelectionStates">
+            <VisualState x:Name="Unselected" />
+            <VisualState x:Name="Selected"><VisualState.Setters>
+                <Setter Property="BorderWidth" Value="2" />
+                <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource CalmeBlue}, Dark={StaticResource CalmeBlueDark}}" />
+                <Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource CalmePrimary}, Dark={StaticResource CalmePrimaryDark}}" />
+            </VisualState.Setters></VisualState>
+        </VisualStateGroup></VisualStateGroupList></Setter>
+    </Style>
+</ResourceDictionary>

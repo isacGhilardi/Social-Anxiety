@@ -1,12 +1,13 @@
 ﻿using Microsoft.Maui.Graphics;
+using Social_Anxiety.Core.CheckIns;
 
 namespace Social_Anxiety;
 
 public class ResumoGrafico : IDrawable
 {
-    private readonly int[] valores;
+    private readonly CheckIn[] valores;
 
-    public ResumoGrafico(int[] registros)
+    public ResumoGrafico(CheckIn[] registros)
     {
         valores = registros;
     }
@@ -25,7 +26,7 @@ public class ResumoGrafico : IDrawable
             return;
 
         bool temaEscuro =
-            Application.Current?.RequestedTheme == AppTheme.Dark;
+    Application.Current?.RequestedTheme == AppTheme.Dark;
 
         var recursos = Application.Current!.Resources;
 
@@ -40,6 +41,7 @@ public class ResumoGrafico : IDrawable
 
         canvas.FontSize = 12;
         canvas.FontColor = corTexto;
+
 
         for (int nivel = 1; nivel <= 5; nivel++)
         {
@@ -70,21 +72,22 @@ public class ResumoGrafico : IDrawable
                 ? esquerda + largura / 2
                 : esquerda + i * distancia;
 
-            float y = topo + altura - (valores[i] - 1) * altura / 4;
+            float y = topo + altura - (valores[i].Score - 1) * altura / 4;
 
             if (i > 0)
             {
                 float xAnterior = esquerda + (i - 1) * distancia;
                 float yAnterior =
-                    topo + altura - (valores[i - 1] - 1) * altura / 4;
+                    topo + altura - (valores[i - 1].Score - 1) * altura / 4;
 
                 canvas.DrawLine(xAnterior, yAnterior, x, y);
             }
 
             canvas.FillCircle(x, y, 4);
 
-            canvas.DrawString(
-                (i + 1).ToString(),
+            if (i == 0 || i == valores.Length - 1 || i % Math.Max(1, valores.Length / 4) == 0)
+                canvas.DrawString(
+                valores[i].LocalDay.ToString("dd/MM"),
                 x,
                 topo + altura + 20,
                 Microsoft.Maui.Graphics.HorizontalAlignment.Center);
