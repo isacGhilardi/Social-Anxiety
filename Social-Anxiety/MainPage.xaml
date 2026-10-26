@@ -43,6 +43,15 @@
     Clicked="OnApoioImediatoClicked" />
 
 
+<Button
+    Text="Meditação guiada"
+    Clicked="OnMeditacaoGuiadaClicked"
+    BackgroundColor="#39796D"
+    TextColor="White"
+    FontFamily="Nunito"
+    FontSize="15"
+    HeightRequest="48"
+    CornerRadius="24" />
                 <Border
     Style="{StaticResource CardBlue}"
     BackgroundColor="{AppThemeBinding

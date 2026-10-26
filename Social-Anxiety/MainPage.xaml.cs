@@ -10,6 +10,12 @@ public partial class MainPage : ContentPage
 
         AtualizarResumo(registrosExemplo, dadosDeExemplo: true);
     }
+    private async void OnMeditacaoGuiadaClicked(
+    object sender, EventArgs e)
+{
+    await Shell.Current.GoToAsync("meditacao-guiada");
+}
+    
     private async void OnApoioImediatoClicked(
     object sender, EventArgs e)
 {

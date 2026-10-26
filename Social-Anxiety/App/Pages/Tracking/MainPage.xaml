@@ -15,13 +15,22 @@
                 <Border Style="{StaticResource FlowCard}" BackgroundColor="{AppThemeBinding Light={StaticResource CalmeSurface}, Dark={StaticResource CalmeSurfaceDark}}"><VerticalStackLayout Spacing="12">
                 <Label Text="Seus últimos 7 dias"  Style="{StaticResource FlowCardTitle}" />
                 <Label Text="Seus registros aparecerão aqui. Faça seu primeiro check-in para começar a acompanhar sua semana." x:Name="EmptyMessage" Style="{StaticResource FlowCopy}" />
-                <GraphicsView x:Name="SummaryGraph" AutomationId="home-graph" HeightRequest="160" />
+                <GraphicsView
+    x:Name="SummaryGraph"
+    AutomationId="home-graph"
+    HeightRequest="160"
+    HorizontalOptions="Fill" />
                 <Label Text="" x:Name="LatestScore" Style="{StaticResource FlowCopy}" AutomationId="home-latest"/>
                 <Label Text="Ansiedade percebida: 1 = pouca; 5 = muita."  Style="{StaticResource FlowSmall}" />
                 </VerticalStackLayout></Border>
                 <Label Text="" x:Name="ErrorMessage" Style="{StaticResource FlowCopy}" AutomationId="home-error"/>
                 <Button Text="Ver meu histórico" Clicked="OnHistoryClicked" AutomationId="home-history" Style="{StaticResource CalmeButton}" />
                 <Button Text="Respiração guiada" Clicked="OnBreatheClicked" AutomationId="home-breathe" Style="{StaticResource CalmeTextButton}" />
+                <Button
+    Text="Meditação guiada"
+    Clicked="OnMeditacaoGuiadaClicked"
+    AutomationId="home-meditacao"
+    Style="{StaticResource CalmeButton}" />
 
             </VerticalStackLayout>
         </ScrollView>

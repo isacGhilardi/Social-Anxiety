@@ -5,11 +5,27 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:Social_Anxiety"
     xmlns:views="clr-namespace:Social_Anxiety.Views"
-    Title="Calme" FlyoutBehavior="Disabled" Shell.NavBarIsVisible="False">
-    <ShellContent ContentTemplate="{DataTemplate local:OnboardingPage}" Route="welcome" />
-    <ShellContent Title="Início" ContentTemplate="{DataTemplate local:MainPage}" Route="home" />
+    Title="Calme"
+    FlyoutBehavior="Disabled"
+    Shell.NavBarIsVisible="False">
+
     <ShellContent
-    Title="Apoio imediato"
-    ContentTemplate="{DataTemplate views:ApoioImediatoPage}"
-    Route="apoio-imediato" />
+        ContentTemplate="{DataTemplate local:OnboardingPage}"
+        Route="welcome" />
+
+    <ShellContent
+        Title="Início"
+        ContentTemplate="{DataTemplate local:MainPage}"
+        Route="home" />
+
+    <ShellContent
+        Title="Apoio imediato"
+        ContentTemplate="{DataTemplate views:ApoioImediatoPage}"
+        Route="apoio-imediato" />
+
+    <ShellContent
+        Title="Meditação guiada"
+        ContentTemplate="{DataTemplate views:MeditacaoGuiadaPage}"
+        Route="meditacao-guiada" />
+
 </Shell>

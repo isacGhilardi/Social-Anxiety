@@ -1,3 +1,4 @@
+
 namespace Social_Anxiety;
 
 public partial class MainPage : ContentPage
@@ -5,32 +6,58 @@ public partial class MainPage : ContentPage
     public MainPage()
     {
         InitializeComponent();
-
     }
 
     protected override void OnAppearing()
     {
         base.OnAppearing();
+
         try
         {
-            var records = App.Checkins.ReadPeriod(7, DateOnly.FromDateTime(DateTime.Now));
+            var records = App.Checkins.ReadPeriod(
+                7,
+                DateOnly.FromDateTime(DateTime.Now));
+
             EmptyMessage.IsVisible = records.Count == 0;
             SummaryGraph.IsVisible = records.Count > 0;
             LatestScore.Text = records.FirstOrDefault()?.Summary ?? "";
-            SummaryGraph.Drawable = new ResumoGrafico(records.Reverse().ToArray());
-            SemanticProperties.SetDescription(SummaryGraph, "Ansiedade percebida nos últimos sete dias: " + string.Join(", ", records.Reverse().Select(r => r.Score)));
+
+            SummaryGraph.Drawable =
+                new ResumoGrafico(records.Reverse().ToArray());
+
+            SemanticProperties.SetDescription(
+                SummaryGraph,
+                "Ansiedade percebida nos últimos sete dias: " +
+                string.Join(", ", records.Reverse().Select(r => r.Score)));
+
             SummaryGraph.Invalidate();
             ErrorMessage.Text = "";
         }
-        catch (Exception error) when (error is IOException or InvalidDataException or UnauthorizedAccessException)
+        catch (Exception error) when (
+            error is IOException or
+            InvalidDataException or
+            UnauthorizedAccessException)
         {
-            SummaryGraph.IsVisible = EmptyMessage.IsVisible = false;
+            SummaryGraph.IsVisible = false;
+            EmptyMessage.IsVisible = false;
             LatestScore.Text = "";
-            ErrorMessage.Text = "Não foi possível ler os registros. Seus dados foram preservados.";
+            ErrorMessage.Text =
+                "Não foi possível ler os registros. Seus dados foram preservados.";
         }
     }
-    private async void OnCheckinClicked(object? sender, EventArgs e) => await Shell.Current.GoToAsync("checkin");
-    private async void OnHistoryClicked(object? sender, EventArgs e) => await Shell.Current.GoToAsync("history");
-    private async void OnBreatheClicked(object? sender, EventArgs e) => await Shell.Current.GoToAsync("breathe");
-    private async void OnSupportClicked(object? sender, EventArgs e) => await App.OpenSupport();
+
+    private async void OnCheckinClicked(object? sender, EventArgs e) =>
+        await Shell.Current.GoToAsync("checkin");
+
+    private async void OnHistoryClicked(object? sender, EventArgs e) =>
+        await Shell.Current.GoToAsync("history");
+
+    private async void OnBreatheClicked(object? sender, EventArgs e) =>
+        await Shell.Current.GoToAsync("breathe");
+
+    private async void OnSupportClicked(object? sender, EventArgs e) =>
+        await App.OpenSupport();
+
+    private async void OnMeditacaoGuiadaClicked(object? sender, EventArgs e) =>
+        await Shell.Current.GoToAsync("meditacao-guiada");
 }
