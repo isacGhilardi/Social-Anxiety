@@ -274,8 +274,19 @@ try {
         Find-Control 'home-checkin' | Out-Null
         Click-Control 'home-history'
         Assert-Equal (Find-Control 'history-count').Current.Name '2 registros no período' 'Filtro de semana incorreto'
+        $weeklyDescription = (Find-Control 'history-graph').Current.Name
+        if ($weeklyDescription -notmatch 'sem registro') { throw 'Dias sem registro não aparecem na descrição semanal' }
         Click-Control 'history-month'
-        Assert-Equal (Find-Control 'history-count').Current.Name '4 registros no período' 'Filtro de mês incorreto'
+        $today = (Get-Date).Date
+        $monthCount = @(@(0, 6, 7, 29, 30) | Where-Object {
+            $date = $today.AddDays(-$_)
+            $date.Year -eq $today.Year -and $date.Month -eq $today.Month
+        }).Count
+        Assert-Equal (Find-Control 'history-count').Current.Name "$monthCount registros no período" 'Filtro do mês de calendário incorreto'
+        $monthlyDescription = (Find-Control 'history-graph').Current.Name
+        foreach ($block in @('Sem 1', 'Sem 2', 'Sem 3', 'Sem 4')) {
+            if (!$monthlyDescription.Contains($block)) { throw "Bloco mensal ausente: $block" }
+        }
         Click-Control 'history-home'
     }
     Test-Flow 'Respiração inicia, pausa e conclui' {
