@@ -41,6 +41,8 @@ namespace Social_Anxiety
             builder.Services.AddTransient<FeedbackPage>();
             builder.Services.AddTransient<HistoryPage>();
             builder.Services.AddTransient<RecordPage>();
+            builder.Services.AddTransient<TechniquesPage>();
+            builder.Services.AddTransient<TechniquePage>();
 
             return builder.Build();
         }

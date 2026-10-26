@@ -22,6 +22,7 @@
                 <Label Text="" x:Name="ErrorMessage" Style="{StaticResource FlowCopy}" AutomationId="home-error"/>
                 <Button Text="Ver meu histórico" Clicked="OnHistoryClicked" AutomationId="home-history" Style="{StaticResource CalmeButton}" />
                 <Button Text="Respiração guiada" Clicked="OnBreatheClicked" AutomationId="home-breathe" Style="{StaticResource CalmeTextButton}" />
+                <Button Text="Técnicas" Clicked="OnTechniquesClicked" AutomationId="home-techniques" Style="{StaticResource CalmeTextButton}" />
 
             </VerticalStackLayout>
         </ScrollView>

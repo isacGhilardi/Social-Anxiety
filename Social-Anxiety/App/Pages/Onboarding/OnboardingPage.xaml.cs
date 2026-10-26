@@ -133,6 +133,10 @@ public partial class OnboardingPage : ContentPage
                 await Shell.Current.GoToAsync("//home");
             else if (destination is "checkin" or "breathe" or "signup" or "login")
                 await Shell.Current.GoToAsync(destination);
+            else if (destination is "mindfulness" or "stop" or "acalme")
+                await Shell.Current.GoToAsync($"technique?key={destination}");
+            else if (destination == "library")
+                await Shell.Current.GoToAsync("library");
             else
                 await Navigation.PushAsync(new OnboardingPage(state, session, destination), false);
         }

@@ -40,5 +40,6 @@ public partial class MainPage : ContentPage
     private async void OnCheckinClicked(object? sender, EventArgs e) => await Shell.Current.GoToAsync("checkin");
     private async void OnHistoryClicked(object? sender, EventArgs e) => await Shell.Current.GoToAsync("history");
     private async void OnBreatheClicked(object? sender, EventArgs e) => await Shell.Current.GoToAsync("breathe");
+    private async void OnTechniquesClicked(object? sender, EventArgs e) => await Shell.Current.GoToAsync("library");
     private async void OnSupportClicked(object? sender, EventArgs e) => await App.OpenSupport();
 }
