@@ -202,6 +202,39 @@ try {
         Find-Control 'Nenhum registro neste período.' | Out-Null
         Click-Control 'history-home'
     }
+    Test-Flow 'Técnicas exibem passos, concluem e retornam à biblioteca' {
+        Click-Control 'home-techniques'
+        Find-Control 'techniques-title' | Out-Null
+        $cases = @(
+            @{ Key = 'mindfulness'; Title = 'Um momento de presença.'; Count = 4; Last = 'Volte com gentileza' },
+            @{ Key = 'stop'; Title = 'Pare por um instante.'; Count = 4; Last = 'Prossiga com cuidado' },
+            @{ Key = 'acalme'; Title = 'Dê espaço ao que sente.'; Count = 8; Last = 'Espere com abertura' }
+        )
+        foreach ($case in $cases) {
+            Click-Control "techniques-$($case.Key)"
+            Assert-Equal (Find-Control 'technique-title').Current.Name $case.Title 'Técnica incorreta'
+            Find-Control $case.Last | Out-Null
+            $description = (Find-Control 'technique-steps').Current.Name
+            if ($description -notmatch "$($case.Count) passos") { throw 'Quantidade de passos incorreta' }
+            Click-Control 'technique-complete'
+            Assert-Equal (Find-Control 'technique-finish-title').Current.Name 'Uma pausa conta.' 'Conclusão não apareceu'
+            Click-Control 'technique-library'
+            Find-Control 'techniques-title' | Out-Null
+        }
+        Click-Control 'Voltar'
+        Find-Control 'home-checkin' | Out-Null
+    }
+    Test-Flow 'Apoio imediato abre STOP e ACALME-SE' {
+        Click-Control 'open-support'
+        Click-Control 'STOP. Pare, respire, observe e prossiga'
+        Assert-Equal (Find-Control 'technique-title').Current.Name 'Pare por um instante.' 'STOP continuou provisório'
+        Click-Control 'Voltar'
+        Click-Control 'ACALME-SE. Acolha o que sente, passo a passo'
+        Assert-Equal (Find-Control 'technique-title').Current.Name 'Dê espaço ao que sente.' 'ACALME-SE continuou provisório'
+        Click-Control 'Voltar'
+        Click-Control 'Voltar ao que eu estava fazendo'
+        Find-Control 'home-checkin' | Out-Null
+    }
     Test-Flow 'Voltar do check-in cancela sem gravar' {
         Click-Control 'home-checkin'
         Click-Control 'score-3'
