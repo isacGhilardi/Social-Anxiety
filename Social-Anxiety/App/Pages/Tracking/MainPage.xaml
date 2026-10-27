@@ -23,6 +23,7 @@
                 <Button Text="Ver meu histórico" Clicked="OnHistoryClicked" AutomationId="home-history" Style="{StaticResource CalmeButton}" />
                 <Button Text="Respiração guiada" Clicked="OnBreatheClicked" AutomationId="home-breathe" Style="{StaticResource CalmeTextButton}" />
                 <Button Text="Técnicas" Clicked="OnTechniquesClicked" AutomationId="home-techniques" Style="{StaticResource CalmeTextButton}" />
+                <Button Text="Meditação guiada" Clicked="OnMeditacaoGuiadaClicked" AutomationId="home-meditacao" Style="{StaticResource CalmeTextButton}" />
 
             </VerticalStackLayout>
         </ScrollView>

@@ -17,4 +17,8 @@
     Title="Apoio imediato"
     ContentTemplate="{DataTemplate views:ApoioImediatoPage}"
     Route="apoio-imediato" />
+    <ShellContent
+    Title="Meditação guiada"
+    ContentTemplate="{DataTemplate views:MeditacaoGuiadaPage}"
+    Route="meditacao-guiada" />
 </Shell>
