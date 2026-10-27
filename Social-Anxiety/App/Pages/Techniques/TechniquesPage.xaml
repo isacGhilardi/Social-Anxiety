@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="Social_Anxiety.TechniquesPage"
+    Title="Técnicas"
+    Style="{StaticResource FlowPage}">
+    <Grid RowDefinitions="*,Auto">
+        <ScrollView>
+            <VerticalStackLayout Padding="24,8,24,28" Spacing="16">
+                <Label Text="PRÁTICAS PARA O SEU DIA" Style="{StaticResource FlowSmall}" />
+                <Label Text="Seu tempo de cuidado." Style="{StaticResource FlowHeading}" SemanticProperties.HeadingLevel="Level1" AutomationId="techniques-title" />
+                <Label Text="Experimente uma prática por vez. Não é preciso fazer tudo." Style="{StaticResource FlowCopy}" />
+                <VerticalStackLayout x:Name="TechniqueCards" Spacing="12" />
+                <Label Text="Escolha o que funciona para você. Essas práticas não substituem acompanhamento profissional." Style="{StaticResource FlowCopy}" />
+            </VerticalStackLayout>
+        </ScrollView>
+        <Button Grid.Row="1" Margin="24,8,24,12" Text="Preciso de apoio agora" Clicked="OnSupportClicked" AutomationId="open-support" Style="{StaticResource FlowSupportButton}" />
+    </Grid>
+</ContentPage>

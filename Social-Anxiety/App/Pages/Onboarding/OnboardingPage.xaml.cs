@@ -1,25 +1,37 @@
 ﻿using Microsoft.Maui.Controls;
+using Social_Anxiety.Core.Auth;
 
 namespace Social_Anxiety;
 
 public partial class OnboardingPage : ContentPage
 {
     private readonly OnboardingState state;
+    private readonly SessionState session;
     private readonly string route;
     private bool navigating;
 
     public string MotiveGroup { get; } = Guid.NewGuid().ToString();
 
-    public OnboardingPage(OnboardingState state, string route)
+    // internal: a injeção de dependência só enxerga o construtor público, que recebe o estado compartilhado.
+    internal OnboardingPage(OnboardingState state, SessionState session, string route)
     {
         this.state = state;
+        this.session = session;
         this.route = route;
         InitializeComponent();
         BindingContext = this;
     }
-    public OnboardingPage()
-    : this(new OnboardingState(), "welcome")
+
+    public OnboardingPage(OnboardingState state, SessionState session)
+        : this(state, session, "welcome")
     {
+    }
+
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        if (IsAccess) Preferences.Default.Set(App.OnboardingDoneKey, true);
+        OnPropertyChanged(nameof(CanGoBack));
     }
 
     public bool IsWelcome => route == "welcome";
@@ -31,7 +43,7 @@ public partial class OnboardingPage : ContentPage
     public bool IsHelp => route == "help";
     public bool IsPlaceholder => !(IsWelcome || IsPurpose || IsBoundary ||
                                    IsMotive || IsAccess || IsSupport || IsHelp);
-    public bool CanGoBack => !IsWelcome;
+    public bool CanGoBack => !IsWelcome && Navigation.NavigationStack.Count > 1;
 
     public string HeaderTitle => route switch
     {
@@ -112,12 +124,21 @@ public partial class OnboardingPage : ContentPage
         navigating = true;
         try
         {
-            if (destination == "home")
+            if (destination == "guest")
+            {
+                await session.StartGuestAsync();
+                await App.EnterHomeAsync();
+            }
+            else if (destination == "home")
                 await Shell.Current.GoToAsync("//home");
-            else if (destination is "checkin" or "breathe")
+            else if (destination is "checkin" or "breathe" or "signup" or "login")
                 await Shell.Current.GoToAsync(destination);
+            else if (destination is "mindfulness" or "stop" or "acalme")
+                await Shell.Current.GoToAsync($"technique?key={destination}");
+            else if (destination == "library")
+                await Shell.Current.GoToAsync("library");
             else
-                await Navigation.PushAsync(new OnboardingPage(state, destination), false);
+                await Navigation.PushAsync(new OnboardingPage(state, session, destination), false);
         }
         finally
         {

@@ -199,7 +199,7 @@
                     <Label Text="Crie uma conta para continuar seu cuidado ou explore como convidado." Style="{StaticResource OnboardingCopy}"/>
                     <Button Text="Criar minha conta" Style="{StaticResource CalmeButton}" CommandParameter="signup" Clicked="OnNavigateClicked"/>
                     <Button Text="Já tenho uma conta" Style="{StaticResource CalmeTextButton}" CommandParameter="login" Clicked="OnNavigateClicked"/>
-                    <Button Text="Continuar como convidado" Style="{StaticResource CalmeTextButton}" CommandParameter="home" Clicked="OnNavigateClicked"/>
+                    <Button Text="Continuar como convidado" Style="{StaticResource CalmeTextButton}" CommandParameter="guest" Clicked="OnNavigateClicked"/>
                     <Border Style="{StaticResource OnboardingCard}" BackgroundColor="{AppThemeBinding Light={StaticResource CalmeMint}, Dark={StaticResource CalmeMintDark}}">
                         <VerticalStackLayout Spacing="12">
                             <Label Text="No seu ritmo" Style="{StaticResource OnboardingCardTitle}"/>

@@ -28,10 +28,10 @@
 		<MauiXamlInflator>SourceGen</MauiXamlInflator>
 
 		<!-- Display name -->
-		<ApplicationTitle>Social-Anxiety</ApplicationTitle>
+		<ApplicationTitle>Calme</ApplicationTitle>
 
 		<!-- App Identifier -->
-		<ApplicationId>com.companyname.socialanxiety</ApplicationId>
+		<ApplicationId>com.calme.app</ApplicationId>
 
 		<!-- Versions -->
 		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
@@ -68,6 +68,7 @@
 	<ItemGroup>
 		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.0" />
+		<PackageReference Include="sqlite-net-pcl" Version="1.11.285" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -78,17 +79,5 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>
-	
-  <ItemGroup>
-    <!-- Evita compilar implementações antigas duplicadas da raiz -->
-    <Compile Remove="MainPage.xaml.cs" />
-    <MauiXaml Remove="MainPage.xaml" />
-
-    <Compile Remove="CheckinPage.cs" />
-    <Compile Remove="RecordPage.cs" />
-    <Compile Remove="CheckinRecord.cs" />
-    <Compile Remove="ResumoGrafico.cs" />
-    <Compile Remove="HistoryTestPage.cs" />
-  </ItemGroup>
 
 </Project>
