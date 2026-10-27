@@ -12,6 +12,7 @@
                 </VerticalStackLayout></Border>
                 <Label Text="Se precisar, você pode repetir a prática, escolher outro cuidado ou buscar ajuda profissional."  Style="{StaticResource FlowCopy}" />
                 <Label Text="Este app não substitui acompanhamento profissional e não realiza diagnósticos."  Style="{StaticResource FlowSmall}" />
+                <Label Text="Se a ansiedade persistir ou atrapalhar seu dia a dia, procure avaliação profissional. Se a prática aumentar o desconforto, você não precisa repeti-la." Style="{StaticResource FlowCopy}" />
                 <Button Text="Voltar ao que eu estava fazendo" Clicked="OnReturnClicked" AutomationId="breathe-return" Style="{StaticResource CalmeButton}" />
                 <Button Text="Praticar novamente" Clicked="OnAgainClicked" AutomationId="breathe-again" Style="{StaticResource CalmeTextButton}" />
                 <Button Text="Buscar ajuda profissional" Clicked="OnHelpClicked" AutomationId="breathe-finish-help" Style="{StaticResource CalmeTextButton}" />

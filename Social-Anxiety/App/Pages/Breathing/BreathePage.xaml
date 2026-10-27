@@ -7,7 +7,8 @@
             <VerticalStackLayout Padding="24,8,24,28" Spacing="16">
                 <Label Text="UMA PAUSA, SEM PRESSA"  Style="{StaticResource FlowSmall}" />
                 <Label Text="Volte ao seu ritmo."  Style="{StaticResource FlowHeading}" SemanticProperties.HeadingLevel="Level1"/>
-                <Label Text="Encontre uma posição confortável. Se houver desconforto, pare e respire naturalmente."  Style="{StaticResource FlowCopy}" />
+                <Label Text="Encontre uma posição confortável. A contagem é uma sugestão: não precisa acompanhá-la nem respirar mais fundo. Respire suavemente, sem forçar."  Style="{StaticResource FlowCopy}" />
+                <Label Text="Se sentir tontura, falta de ar ou mais ansiedade, interrompa a prática e deixe a respiração voltar ao seu ritmo. Você pode olhar um objeto ou sentir os pés no chão em vez de focar na respiração." Style="{StaticResource FlowCopy}" />
                 <Grid WidthRequest="258" HeightRequest="258" HorizontalOptions="Center" AutomationId="breathe-visual">
                     <Border StrokeShape="Ellipse" Stroke="{AppThemeBinding Light={StaticResource CalmeTrack}, Dark={StaticResource CalmeTrackDark}}" StrokeThickness="1" />
                     <Border x:Name="BreathHalo" StrokeShape="Ellipse" StrokeThickness="0" BackgroundColor="{AppThemeBinding Light={StaticResource CalmeBlue}, Dark={StaticResource CalmeBlueDark}}" Scale="0.82" Opacity="0.5" />

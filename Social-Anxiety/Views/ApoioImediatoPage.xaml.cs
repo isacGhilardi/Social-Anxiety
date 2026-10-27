@@ -12,7 +12,7 @@ public partial class ApoioImediatoPage : ContentPage
     {
         await DisplayAlertAsync(
             "Respiração consciente",
-            "Encontre uma posição confortável. Inspire suavemente e solte o ar devagar, sem forçar. Repita no seu ritmo.",
+            "Encontre uma posição confortável. Deixe o ar entrar e sair suavemente, sem forçar, respirar mais fundo ou prender o ar. Se sentir tontura, falta de ar ou mais ansiedade, interrompa. Se preferir, observe um objeto ao redor em vez da respiração.",
             "Concluir");
     }
 
@@ -21,7 +21,7 @@ public partial class ApoioImediatoPage : ContentPage
     {
         await DisplayAlertAsync(
             "Voltar ao presente",
-            "Observe cinco coisas que consegue ver, quatro que consegue sentir pelo toque e três sons que consegue ouvir. Faça apenas o que for confortável.",
+            "Esta é uma adaptação curta de um exercício de atenção aos sentidos. Se for confortável, observe cinco coisas que consegue ver, quatro sensações de toque e três sons. Use apenas os sentidos disponíveis para você; não precisa completar a contagem. Se o desconforto aumentar, interrompa.",
             "Concluir");
     }
 }
