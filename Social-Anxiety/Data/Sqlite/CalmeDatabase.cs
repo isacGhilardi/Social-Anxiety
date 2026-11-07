@@ -8,7 +8,7 @@ namespace Social_Anxiety.Data;
 /// </summary>
 public sealed class CalmeDatabase(string path)
 {
-    internal static readonly Type[] Tables = [typeof(UserRow), typeof(CheckInRow)];
+    internal static readonly Type[] Tables = [typeof(UserRow), typeof(CheckInRow), typeof(ChallengeProgressRow), typeof(AchievementRow)];
 
     private readonly SQLiteAsyncConnection connection = new(path);
     private readonly SemaphoreSlim gate = new(1, 1);
