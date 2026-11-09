@@ -29,6 +29,7 @@ namespace Social_Anxiety
             builder.Services.AddSingleton(TimeProvider.System);
             builder.Services.AddSingleton<Core.Auth.AuthService>();
             builder.Services.AddSingleton<Core.CheckIns.ICheckInRepository, Data.CheckInRepository>();
+            builder.Services.AddSingleton<Core.Challenges.IChallengeRepository, Data.ChallengeRepository>();
             builder.Services.AddSingleton<Core.CheckIns.CheckInService>();
             builder.Services.AddSingleton<Core.CheckIns.ChartAggregator>();
             // Páginas registradas para o Shell criá-las pela injeção de dependência.
