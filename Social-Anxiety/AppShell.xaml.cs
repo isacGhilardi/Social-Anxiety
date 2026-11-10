@@ -22,6 +22,7 @@ namespace Social_Anxiety
             Routing.RegisterRoute("login", typeof(LoginPage));
             Routing.RegisterRoute("library", typeof(TechniquesPage));
             Routing.RegisterRoute("technique", typeof(TechniquePage));
+            Routing.RegisterRoute("challengeLocked", typeof(ChallengeLockedPage));
         }
 
         // Onboarding só na primeira abertura; depois, home com sessão salva ou tela de acesso sem ela.
