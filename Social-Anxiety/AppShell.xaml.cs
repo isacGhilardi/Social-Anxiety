@@ -3,9 +3,13 @@ namespace Social_Anxiety
 {
     public partial class AppShell : Shell
     {
-        public AppShell()
+        private readonly SessionState session;
+
+        public AppShell(SessionState session)
         {
+            this.session = session;
             InitializeComponent();
+            Loaded += OnLoaded;
 
             Routing.RegisterRoute("record", typeof(RecordPage));
             Routing.RegisterRoute("checkin", typeof(CheckinPage));
@@ -19,4 +23,4 @@ namespace Social_Anxiety
         }
     }
 }
-        
+

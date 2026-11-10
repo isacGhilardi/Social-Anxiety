@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="Social_Anxiety.ChallengeLockedPage"
+    Title="Nível bloqueado"
+    Style="{StaticResource FlowPage}">
+    <Grid RowDefinitions="*,Auto">
+        <ScrollView>
+            <VerticalStackLayout Padding="24,8,24,28" Spacing="16">
+                <VerticalStackLayout x:Name="LockedContent" Spacing="16">
+                    <Label x:Name="LevelTag" Style="{StaticResource FlowSmall}" />
+                    <Label Text="Ainda não é a hora deste passo." Style="{StaticResource FlowHeading}" SemanticProperties.HeadingLevel="Level1" AutomationId="locked-title" />
+                    <Label Text="Cada nível abre depois do anterior. Assim você avança com calma, no seu ritmo." Style="{StaticResource FlowCopy}" />
+                    <Border Style="{StaticResource FlowCard}" BackgroundColor="{AppThemeBinding Light={StaticResource CalmeLilac}, Dark={StaticResource CalmeLilacDark}}" AutomationId="locked-missing">
+                        <VerticalStackLayout Spacing="6">
+                            <Label Text="O QUE FALTA" Style="{StaticResource FlowSmall}" />
+                            <Label x:Name="MissingTitle" Style="{StaticResource FlowCardTitle}" />
+                            <Label x:Name="MissingDescription" Style="{StaticResource FlowCopy}" />
+                        </VerticalStackLayout>
+                    </Border>
+                </VerticalStackLayout>
+                <Label x:Name="StatusMessage" Style="{StaticResource FlowCopy}" IsVisible="False" AutomationId="locked-message" />
+                <Button Text="Voltar para a trilha" Clicked="OnBackClicked" AutomationId="locked-back" Style="{StaticResource CalmeButton}" />
+            </VerticalStackLayout>
+        </ScrollView>
+        <Button Grid.Row="1" Margin="24,8,24,12" Text="Preciso de apoio agora" Clicked="OnSupportClicked" AutomationId="open-support" Style="{StaticResource FlowSupportButton}" />
+    </Grid>
+</ContentPage>

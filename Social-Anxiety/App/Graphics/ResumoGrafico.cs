@@ -1,12 +1,13 @@
 ﻿using Microsoft.Maui.Graphics;
+using Social_Anxiety.Core.CheckIns;
 
 namespace Social_Anxiety;
 
 public class ResumoGrafico : IDrawable
 {
-    private readonly CheckinRecord[] valores;
+    private readonly CheckIn[] valores;
 
-    public ResumoGrafico(CheckinRecord[] registros)
+    public ResumoGrafico(CheckIn[] registros)
     {
         valores = registros;
     }
@@ -70,6 +71,7 @@ public class ResumoGrafico : IDrawable
             float x = valores.Length == 1
                 ? esquerda + largura / 2
                 : esquerda + i * distancia;
+
             float y = topo + altura - (valores[i].Score - 1) * altura / 4;
 
             if (i > 0)
@@ -85,7 +87,7 @@ public class ResumoGrafico : IDrawable
 
             if (i == 0 || i == valores.Length - 1 || i % Math.Max(1, valores.Length / 4) == 0)
                 canvas.DrawString(
-                valores[i].Date.ToString("dd/MM"),
+                valores[i].LocalDay.ToString("dd/MM"),
                 x,
                 topo + altura + 20,
                 Microsoft.Maui.Graphics.HorizontalAlignment.Center);

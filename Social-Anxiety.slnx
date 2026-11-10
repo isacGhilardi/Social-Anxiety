@@ -1,4 +1,6 @@
 <Solution>
+  <Folder Name="/tests/">
+    <Project Path="tests/Calme.Core.Tests/Calme.Core.Tests.csproj" />
+  </Folder>
   <Project Path="Social-Anxiety/Social-Anxiety.csproj" />
-  <Project Path="tests/Calme.Tests/Calme.Tests.csproj" />
 </Solution>
