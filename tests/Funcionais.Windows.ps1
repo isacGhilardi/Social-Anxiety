@@ -282,6 +282,26 @@ try {
         Find-Control 'home-checkin' | Out-Null
         Assert-Equal (Find-Control 'home-latest').Current.Name '1 de 5 · Pouca' 'Persistência falhou'
     }
+    Test-Flow 'Trilha libera, conclui o nível 2 uma vez e mantém após reiniciar' {
+        Click-Control 'home-challenges'
+        Wait-Text 'challenges-progress' '1 de 3 níveis concluídos'
+        Click-Control 'challenge-open-3'
+        Find-Control 'locked-title' | Out-Null
+        Click-Control 'locked-back'
+        Click-Control 'challenge-open-2'
+        Find-Control 'active-title' | Out-Null
+        Click-Control 'active-complete'
+        Find-Control 'done-title' | Out-Null
+        Find-Control 'Pequeno passo' | Out-Null
+        Click-Control 'done-trail'
+        Wait-Text 'challenges-progress' '2 de 3 níveis concluídos'
+        Find-Control 'challenge-open-3' | Out-Null
+        Restart-Calme
+        Click-Control 'home-challenges'
+        Wait-Text 'challenges-progress' '2 de 3 níveis concluídos'
+        Click-Control 'challenges-home'
+        Find-Control 'home-checkin' | Out-Null
+    }
     Test-Flow 'Todos os níveis da escala chegam corretamente ao histórico e detalhe' {
         $labels = @('Pouca', 'Leve', 'Moderada', 'Intensa', 'Muito intensa')
         foreach ($score in @(2, 3, 4, 5, 1)) {

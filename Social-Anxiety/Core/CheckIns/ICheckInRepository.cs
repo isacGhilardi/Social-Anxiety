@@ -10,4 +10,6 @@ public interface ICheckInRepository
     Task<CheckIn?> GetByIdAsync(Guid id);
     /// <summary>Todos, do mais recente ao mais antigo.</summary>
     Task<IReadOnlyList<CheckIn>> GetAllAsync();
+    /// <summary>Se existe ao menos um check-in, sem carregar os registros.</summary>
+    Task<bool> HasAnyAsync();
 }

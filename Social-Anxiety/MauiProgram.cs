@@ -32,6 +32,9 @@ namespace Social_Anxiety
             builder.Services.AddSingleton<Core.Challenges.IChallengeRepository, Data.ChallengeRepository>();
             builder.Services.AddSingleton<Core.CheckIns.CheckInService>();
             builder.Services.AddSingleton<Core.CheckIns.ChartAggregator>();
+            builder.Services.AddSingleton<Core.Challenges.ChallengeService>();
+            // Cartão #17: ação do botão "Concluí meu desafio"; a tela challengeActive recebe pelo construtor.
+            builder.Services.AddTransient<CompleteChallengeAction>();
             // Páginas registradas para o Shell criá-las pela injeção de dependência.
             builder.Services.AddTransient<OnboardingPage>();
             builder.Services.AddTransient<AccessPage>();
@@ -44,6 +47,10 @@ namespace Social_Anxiety
             builder.Services.AddTransient<RecordPage>();
             builder.Services.AddTransient<TechniquesPage>();
             builder.Services.AddTransient<TechniquePage>();
+            builder.Services.AddTransient<ChallengesPage>();
+            builder.Services.AddTransient<ChallengeLockedPage>();
+            builder.Services.AddTransient<ChallengeActivePage>();
+            builder.Services.AddTransient<ChallengeDonePage>();
 
             return builder.Build();
         }
