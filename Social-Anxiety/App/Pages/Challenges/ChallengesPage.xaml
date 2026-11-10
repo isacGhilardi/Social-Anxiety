@@ -12,7 +12,10 @@
                 <Label Text="Sua trilha de pequenos passos." Style="{StaticResource FlowHeading}" SemanticProperties.HeadingLevel="Level1" AutomationId="challenges-title" />
                 <Label Text="Um nível de cada vez, no seu ritmo." Style="{StaticResource FlowCopy}" />
                 <Label x:Name="ProgressText" Style="{StaticResource FlowSmall}" AutomationId="challenges-progress" />
+                <Label x:Name="ErrorMessage" Style="{StaticResource FlowCopy}" AutomationId="challenges-error" />
                 <VerticalStackLayout x:Name="LevelCards" Spacing="12" />
+                <Label Text="CONQUISTAS" Style="{StaticResource FlowSmall}" SemanticProperties.HeadingLevel="Level2" />
+                <VerticalStackLayout x:Name="AchievementCards" Spacing="12" AutomationId="challenges-achievements" />
                 <Button Text="Voltar ao início" Clicked="OnHomeClicked" AutomationId="challenges-home" Style="{StaticResource CalmeTextButton}" />
             </VerticalStackLayout>
         </ScrollView>

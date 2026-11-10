@@ -4,25 +4,45 @@ namespace Social_Anxiety;
 
 public partial class ChallengesPage : ContentPage
 {
-    // Dados falsos por enquanto; trocar pela fonte real quando o contrato de dados existir.
-    private readonly ITrailSource source = new FakeTrailSource();
+    private readonly ChallengeService service;
+    private bool navigating;
 
-    public ChallengesPage() => InitializeComponent();
+    public ChallengesPage(ChallengeService service)
+    {
+        this.service = service;
+        InitializeComponent();
+    }
 
     protected override async void OnAppearing()
     {
         base.OnAppearing();
-        var levels = await source.GetTrailAsync();
-        LevelCards.Children.Clear();
-        foreach (var level in levels.OrderBy(l => l.Level))
-            LevelCards.Children.Add(BuildCard(level));
-        ProgressText.Text = $"{levels.Count(l => l.State == TrailState.Completed)} de {levels.Count} níveis concluídos";
+        try
+        {
+            var levels = await service.GetTrailAsync();
+            var achievements = await service.GetAchievementsAsync();
+            LevelCards.Children.Clear();
+            foreach (var item in levels)
+                LevelCards.Children.Add(BuildCard(item));
+            ProgressText.Text = $"{levels.Count(l => l.State == TrailState.Completed)} de {levels.Count} níveis concluídos";
+            AchievementCards.Children.Clear();
+            foreach (var achievement in achievements)
+                AchievementCards.Children.Add(BuildAchievement(achievement));
+            ErrorMessage.Text = "";
+        }
+        catch (Exception error) when (error is IOException or SQLite.SQLiteException or UnauthorizedAccessException)
+        {
+            LevelCards.Children.Clear();
+            AchievementCards.Children.Clear();
+            ProgressText.Text = "";
+            ErrorMessage.Text = "Não foi possível ler sua trilha. Seus dados foram preservados.";
+        }
     }
 
     // Um cartão por nível: a cor e o texto mudam conforme o estado (concluído, disponível ou bloqueado).
-    private static Border BuildCard(TrailLevel level)
+    private Border BuildCard(TrailItem item)
     {
-        var (status, light, dark) = level.State switch
+        var level = item.Level;
+        var (status, light, dark) = item.State switch
         {
             TrailState.Completed => ("Concluído", "CalmeMint", "CalmeMintDark"),
             TrailState.Available => ("Disponível", "CalmeBlue", "CalmeBlueDark"),
@@ -31,21 +51,75 @@ public partial class ChallengesPage : ContentPage
         var resources = Application.Current!.Resources;
 
         var texts = new VerticalStackLayout { Spacing = 6 };
-        texts.Children.Add(new Label { Text = $"NÍVEL {level.Level} · {status.ToUpper()}", Style = (Style)resources["FlowSmall"] });
+        texts.Children.Add(new Label { Text = $"NÍVEL {level.Number} · {status.ToUpper()}", Style = (Style)resources["FlowSmall"] });
         texts.Children.Add(new Label { Text = level.Title, Style = (Style)resources["FlowCardTitle"] });
         texts.Children.Add(new Label { Text = level.Description, Style = (Style)resources["FlowCopy"] });
-        if (level.State == TrailState.Locked)
+        if (item.State == TrailState.Locked)
             texts.Children.Add(new Label { Text = "Conclua o nível anterior para liberar.", Style = (Style)resources["FlowSmall"] });
 
         var card = new Border
         {
             Style = (Style)resources["FlowCard"],
-            AutomationId = $"challenge-level-{level.Level}",
+            AutomationId = $"challenge-level-{level.Number}",
             Content = texts
         };
         card.SetAppThemeColor(BackgroundColorProperty, (Color)resources[light], (Color)resources[dark]);
-        SemanticProperties.SetDescription(card, $"Nível {level.Level}, {level.Title}, {status.ToLower()}. {level.Description}");
+        var summary = $"Nível {level.Number}, {level.Title}, {status.ToLower()}. {level.Description}";
+
+        // Nível 1 se conclui com o check-in; os demais abrem o desafio ou explicam o bloqueio. Concluído não abre nada.
+        var route = item.State switch
+        {
+            TrailState.Locked => $"challengeLocked?level={level.Number}",
+            TrailState.Available when level.Number == 1 => "checkin",
+            TrailState.Available => $"challengeActive?level={level.Number}",
+            _ => null
+        };
+        // Botão, e não toque no cartão, para funcionar com teclado e leitor de tela.
+        if (route is not null)
+        {
+            var open = new Button
+            {
+                Text = item.State == TrailState.Locked ? "Ver o que falta" : level.Number == 1 ? "Fazer check-in" : "Ver desafio",
+                Style = (Style)resources["CalmeTextButton"],
+                AutomationId = $"challenge-open-{level.Number}",
+                HorizontalOptions = LayoutOptions.Start
+            };
+            open.Clicked += async (_, _) => await OpenAsync(route);
+            SemanticProperties.SetDescription(open, $"{open.Text}. {summary}");
+            texts.Children.Add(open);
+        }
+        else
+            SemanticProperties.SetDescription(card, summary); // sem botão: o cartão inteiro é lido de uma vez
         return card;
+    }
+
+    private static Border BuildAchievement(AchievementInfo achievement)
+    {
+        var resources = Application.Current!.Resources;
+        var status = achievement.ComingSoon ? "Em breve" : achievement.Obtained ? "Conquistada" : "Ainda não";
+        var texts = new VerticalStackLayout { Spacing = 4 };
+        texts.Children.Add(new Label { Text = achievement.Name, Style = (Style)resources["FlowCardTitle"] });
+        texts.Children.Add(new Label { Text = status, Style = (Style)resources["FlowSmall"] });
+
+        var card = new Border
+        {
+            Style = (Style)resources["FlowCard"],
+            AutomationId = $"achievement-{achievement.Key}",
+            Opacity = achievement.Obtained ? 1 : 0.6,
+            Content = texts
+        };
+        var (light, dark) = achievement.Obtained ? ("CalmeLilac", "CalmeLilacDark") : ("CalmeSubtle", "CalmeSubtleDark");
+        card.SetAppThemeColor(BackgroundColorProperty, (Color)resources[light], (Color)resources[dark]);
+        SemanticProperties.SetDescription(card, $"Conquista {achievement.Name}, {status.ToLower()}");
+        return card;
+    }
+
+    private async Task OpenAsync(string route)
+    {
+        if (navigating) return; // evita abrir duas telas com toques seguidos
+        navigating = true;
+        try { await Shell.Current.GoToAsync(route); }
+        finally { navigating = false; }
     }
 
     private async void OnHomeClicked(object? sender, EventArgs e) => await Shell.Current.GoToAsync("//home");
