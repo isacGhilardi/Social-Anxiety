@@ -42,6 +42,17 @@ function Find-Control([string]$value) {
     throw "Controle ausente: $value"
 }
 
+# Verdadeiro se o controle não aparece (espera curta, para não atrasar a suíte).
+function Test-Absent([string]$value, [int]$seconds = 2) {
+    $id = [System.Windows.Automation.PropertyCondition]::new([System.Windows.Automation.AutomationElement]::AutomationIdProperty, $value)
+    $deadline = (Get-Date).AddSeconds($seconds)
+    do {
+        if ($window.FindFirst([System.Windows.Automation.TreeScope]::Descendants, $id)) { return $false }
+        Start-Sleep -Milliseconds 100
+    } while ((Get-Date) -lt $deadline)
+    return $true
+}
+
 function Click-Control([string]$value) {
     Find-Control $value | Out-Null
     $id = [System.Windows.Automation.PropertyCondition]::new([System.Windows.Automation.AutomationElement]::AutomationIdProperty, $value)
@@ -283,22 +294,42 @@ try {
         Assert-Equal (Find-Control 'home-latest').Current.Name '1 de 5 · Pouca' 'Persistência falhou'
     }
     Test-Flow 'Trilha libera, conclui o nível 2 uma vez e mantém após reiniciar' {
+        # Check-in próprio: o caso não depende dos anteriores (salvar de novo no mesmo dia substitui).
+        Click-Control 'home-checkin'
+        Click-Control 'score-3'
+        Click-Control 'checkin-save'
+        Click-Control 'feedback-home'
         Click-Control 'home-challenges'
         Wait-Text 'challenges-progress' '1 de 3 níveis concluídos'
         Click-Control 'challenge-open-3'
         Find-Control 'locked-title' | Out-Null
         Click-Control 'locked-back'
         Click-Control 'challenge-open-2'
-        Find-Control 'active-title' | Out-Null
+        Find-Control 'active-detail' | Out-Null
+        Click-Control 'active-later'
+        Wait-Text 'challenges-progress' '1 de 3 níveis concluídos'
+        Click-Control 'challenge-open-2'
+        Click-Control 'active-accept'
+        Find-Control 'active-progress' | Out-Null
         Click-Control 'active-complete'
         Find-Control 'done-title' | Out-Null
-        Find-Control 'Pequeno passo' | Out-Null
+        Find-Control 'Pequeno passo · por experimentar um desafio social.' | Out-Null
+        Find-Control 'done-next' | Out-Null
         Click-Control 'done-trail'
         Wait-Text 'challenges-progress' '2 de 3 níveis concluídos'
-        Find-Control 'challenge-open-3' | Out-Null
+        Assert-Equal (Test-Absent 'challenge-open-2') $true 'Nível 2 concluído ainda oferece o desafio'
+        Click-Control 'challenge-open-3'
+        Click-Control 'active-accept'
+        Click-Control 'active-complete'
+        Find-Control 'Uma conversa · por experimentar um desafio social.' | Out-Null
+        Assert-Equal (Test-Absent 'done-next') $true 'Último nível não tem próximo nível'
+        Click-Control 'done-trail'
+        Wait-Text 'challenges-progress' '3 de 3 níveis concluídos'
+        Assert-Equal (Find-Control 'achievement-pequeno-passo').Current.Name 'Conquista Pequeno passo, conquistada' 'Conquista do nível 2'
+        Assert-Equal (Find-Control 'achievement-uma-conversa').Current.Name 'Conquista Uma conversa, conquistada' 'Conquista do nível 3'
         Restart-Calme
         Click-Control 'home-challenges'
-        Wait-Text 'challenges-progress' '2 de 3 níveis concluídos'
+        Wait-Text 'challenges-progress' '3 de 3 níveis concluídos'
         Click-Control 'challenges-home'
         Find-Control 'home-checkin' | Out-Null
     }
