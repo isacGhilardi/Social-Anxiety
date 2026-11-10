@@ -1,5 +1,4 @@
-﻿using Social_Anxiety.Core.Auth;
-
+﻿using Social_Anxiety.Views;
 namespace Social_Anxiety
 {
     public partial class AppShell : Shell
@@ -18,28 +17,9 @@ namespace Social_Anxiety
             Routing.RegisterRoute("history", typeof(HistoryPage));
             Routing.RegisterRoute("breathe", typeof(BreathePage));
             Routing.RegisterRoute("breatheFinish", typeof(BreatheFinishPage));
-            Routing.RegisterRoute("signup", typeof(SignupPage));
-            Routing.RegisterRoute("login", typeof(LoginPage));
-            Routing.RegisterRoute("library", typeof(TechniquesPage));
-            Routing.RegisterRoute("technique", typeof(TechniquePage));
-            Routing.RegisterRoute("challengeLocked", typeof(ChallengeLockedPage));
+            Routing.RegisterRoute("challenge", typeof(ChallengePage));
             Routing.RegisterRoute("challengeActive", typeof(ChallengeActivePage));
             Routing.RegisterRoute("challengeDone", typeof(ChallengeDonePage));
-        }
-
-        // Onboarding só na primeira abertura; depois, home com sessão salva ou tela de acesso sem ela.
-        private async void OnLoaded(object? sender, EventArgs e)
-        {
-            Loaded -= OnLoaded;
-            if (!Preferences.Default.Get(App.OnboardingDoneKey, false))
-            {
-                await GoToAsync("//welcome", false);
-                return;
-            }
-            bool hasSession;
-            try { hasSession = await session.RestoreAsync(); }
-            catch (Exception) { hasSession = false; }
-            await GoToAsync(hasSession ? "//home" : "//access", false);
         }
     }
 }

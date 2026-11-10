@@ -6,4 +6,9 @@ public partial class BottomNavBar : ContentView
     {
         InitializeComponent();
     }
+
+    private async void OnDesafiosClicked(object sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync("challenge");
+    }
 }
