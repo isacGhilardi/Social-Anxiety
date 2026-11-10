@@ -13,6 +13,7 @@
     <ShellContent ContentTemplate="{DataTemplate local:OnboardingPage}" Route="welcome" />
     <ShellContent ContentTemplate="{DataTemplate local:AccessPage}" Route="access" />
     <ShellContent Title="Início" ContentTemplate="{DataTemplate local:MainPage}" Route="home" />
+    <ShellContent Title="Desafios" ContentTemplate="{DataTemplate local:ChallengesPage}" Route="challenges" />
     <ShellContent
     Title="Apoio imediato"
     ContentTemplate="{DataTemplate views:ApoioImediatoPage}"
