@@ -52,10 +52,10 @@ public sealed class ChallengeService(IChallengeRepository challenges, ICheckInRe
         if (!previousDone) return new(CompleteStatus.Locked, null);
 
         var now = clock.GetUtcNow().UtcDateTime;
-        if (!await challenges.TryCompleteLevelAsync(level, now)) return new(CompleteStatus.AlreadyCompleted, null);
-
         var achievement = Achievements.First(a => a.Level == level);
-        await challenges.TryAddAchievementAsync(achievement.Key, now);
+        // Uma transação: o app fechar no meio não deixa o nível concluído sem a conquista.
+        if (!await challenges.TryCompleteLevelWithAchievementAsync(level, achievement.Key, now))
+            return new(CompleteStatus.AlreadyCompleted, null);
         return new(CompleteStatus.CompletedNow, new AchievementInfo(achievement.Key, achievement.Name, true, now, false));
     }
 

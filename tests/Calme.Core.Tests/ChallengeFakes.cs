@@ -37,4 +37,11 @@ sealed class MemoryChallenges : IChallengeRepository
         Achievements.Add(new Achievement(Guid.NewGuid(), key, obtainedAtUtc));
         return Task.FromResult(true);
     }
+
+    public async Task<bool> TryCompleteLevelWithAchievementAsync(int level, string achievementKey, DateTime completedAtUtc)
+    {
+        if (!await TryCompleteLevelAsync(level, completedAtUtc)) return false;
+        await TryAddAchievementAsync(achievementKey, completedAtUtc);
+        return true;
+    }
 }

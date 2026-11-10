@@ -200,6 +200,39 @@ public class ChallengeSqliteTests
     }
 
     [Fact]
+    public async Task Nivel_e_conquista_sao_gravados_juntos_uma_unica_vez()
+    {
+        await using var temp = new TempDatabase();
+        var repository = new ChallengeRepository(temp.Database);
+        var at = new DateTime(2026, 11, 10, 12, 30, 0, DateTimeKind.Utc);
+        var earlier = at.AddDays(-1);
+        await repository.TryAddAchievementAsync("uma-conversa", earlier);
+
+        Assert.True(await repository.TryCompleteLevelWithAchievementAsync(2, "pequeno-passo", at));
+        Assert.False(await repository.TryCompleteLevelWithAchievementAsync(2, "pequeno-passo", at.AddHours(1)));
+        // Conquista que já existia é mantida com a data original.
+        Assert.True(await repository.TryCompleteLevelWithAchievementAsync(3, "uma-conversa", at));
+
+        Assert.Equal([2, 3], (await repository.GetCompletedLevelsAsync()).Select(l => l.Level));
+        var achievements = (await repository.GetAchievementsAsync()).ToDictionary(a => a.Key, a => a.ObtainedAtUtc);
+        Assert.Equal(2, achievements.Count);
+        Assert.Equal(at, achievements["pequeno-passo"]);
+        Assert.Equal(earlier, achievements["uma-conversa"]);
+    }
+
+    [Fact]
+    public async Task Nivel_ja_gravado_nao_grava_a_conquista()
+    {
+        await using var temp = new TempDatabase();
+        var repository = new ChallengeRepository(temp.Database);
+        var at = new DateTime(2026, 11, 10, 12, 30, 0, DateTimeKind.Utc);
+        await repository.TryCompleteLevelAsync(2, at);
+
+        Assert.False(await repository.TryCompleteLevelWithAchievementAsync(2, "pequeno-passo", at));
+        Assert.Empty(await repository.GetAchievementsAsync());
+    }
+
+    [Fact]
     public async Task Niveis_voltam_em_ordem_e_sobrevivem_a_reabrir_o_banco()
     {
         await using var temp = new TempDatabase();
