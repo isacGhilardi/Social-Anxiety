@@ -171,6 +171,13 @@ public class ChallengeCatalogTests
 
 public class ChallengeSqliteTests
 {
+    // Semeia direto na tabela: o repositório só expõe a gravação do nível junto com a conquista.
+    private static async Task SeedLevelAsync(TempDatabase temp, int level, DateTime at) =>
+        await (await temp.Database.GetAsync()).InsertAsync(new ChallengeProgressRow { Id = Guid.NewGuid(), Level = level, CompletedAtUtc = at });
+
+    private static async Task SeedAchievementAsync(TempDatabase temp, string key, DateTime at) =>
+        await (await temp.Database.GetAsync()).InsertAsync(new AchievementRow { Id = Guid.NewGuid(), Key = key, ObtainedAtUtc = at });
+
     [Fact]
     public async Task HasAnyAsync_falso_com_banco_vazio_e_verdadeiro_com_um_registro()
     {
@@ -189,10 +196,8 @@ public class ChallengeSqliteTests
         var repository = new ChallengeRepository(temp.Database);
         var at = new DateTime(2026, 11, 10, 12, 30, 0, DateTimeKind.Utc);
 
-        Assert.True(await repository.TryCompleteLevelAsync(2, at));
-        Assert.False(await repository.TryCompleteLevelAsync(2, at.AddHours(1)));
-        Assert.True(await repository.TryAddAchievementAsync("pequeno-passo", at));
-        Assert.False(await repository.TryAddAchievementAsync("pequeno-passo", at.AddHours(1)));
+        Assert.True(await repository.TryCompleteLevelWithAchievementAsync(2, "pequeno-passo", at));
+        Assert.False(await repository.TryCompleteLevelWithAchievementAsync(2, "pequeno-passo", at.AddHours(1)));
 
         var level = Assert.Single(await repository.GetCompletedLevelsAsync());
         Assert.Equal((2, at, DateTimeKind.Utc), (level.Level, level.CompletedAtUtc, level.CompletedAtUtc.Kind));
@@ -207,7 +212,7 @@ public class ChallengeSqliteTests
         var repository = new ChallengeRepository(temp.Database);
         var at = new DateTime(2026, 11, 10, 12, 30, 0, DateTimeKind.Utc);
         var earlier = at.AddDays(-1);
-        await repository.TryAddAchievementAsync("uma-conversa", earlier);
+        await SeedAchievementAsync(temp, "uma-conversa", earlier);
 
         Assert.True(await repository.TryCompleteLevelWithAchievementAsync(2, "pequeno-passo", at));
         Assert.False(await repository.TryCompleteLevelWithAchievementAsync(2, "pequeno-passo", at.AddHours(1)));
@@ -227,7 +232,7 @@ public class ChallengeSqliteTests
         await using var temp = new TempDatabase();
         var repository = new ChallengeRepository(temp.Database);
         var at = new DateTime(2026, 11, 10, 12, 30, 0, DateTimeKind.Utc);
-        await repository.TryCompleteLevelAsync(2, at);
+        await SeedLevelAsync(temp, 2, at);
 
         Assert.False(await repository.TryCompleteLevelWithAchievementAsync(2, "pequeno-passo", at));
         Assert.Empty(await repository.GetAchievementsAsync());
@@ -239,9 +244,9 @@ public class ChallengeSqliteTests
         await using var temp = new TempDatabase();
         var at = new DateTime(2026, 11, 10, 12, 30, 0, DateTimeKind.Utc);
         var repository = new ChallengeRepository(temp.Database);
-        await repository.TryCompleteLevelAsync(3, at);
-        await repository.TryCompleteLevelAsync(2, at);
-        await repository.TryAddAchievementAsync("uma-conversa", at);
+        await SeedLevelAsync(temp, 3, at);
+        await SeedLevelAsync(temp, 2, at);
+        await SeedAchievementAsync(temp, "uma-conversa", at);
         Assert.Equal([2, 3], (await repository.GetCompletedLevelsAsync()).Select(l => l.Level));
 
         var reopened = new CalmeDatabase(temp.FilePath);
@@ -250,7 +255,7 @@ public class ChallengeSqliteTests
             var again = new ChallengeRepository(reopened);
             Assert.Equal([2, 3], (await again.GetCompletedLevelsAsync()).Select(l => l.Level));
             Assert.Equal("uma-conversa", Assert.Single(await again.GetAchievementsAsync()).Key);
-            Assert.False(await again.TryCompleteLevelAsync(2, at));
+            Assert.False(await again.TryCompleteLevelWithAchievementAsync(2, "pequeno-passo", at));
         }
         finally { await reopened.CloseAsync(); }
     }
