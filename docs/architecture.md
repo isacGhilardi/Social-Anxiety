@@ -21,6 +21,7 @@ Social-Anxiety/
   App/Pages/Auth/        SignupPage, LoginPage
   App/Pages/Tracking/    MainPage, CheckinPage, FeedbackPage, HistoryPage, RecordPage
   App/Pages/Breathing/   BreathePage, BreatheFinishPage
+  App/Pages/Challenges/  ChallengesPage (trilha e conquistas), ChallengeLockedPage, ChallengeActivePage, ChallengeDonePage, CompleteChallengeAction
   Views/                 ApoioImediatoPage (PR #24, sem ponto de acesso)
   Core/Auth/             User, SessionState, AuthService, PasswordHasher, SignupValidator, EmailNormalizer, interfaces
   Core/CheckIns/         CheckIn, CheckInService, ICheckInRepository
@@ -60,6 +61,7 @@ Páginas (XAML + code-behind, sem ViewModels) recebem serviços do `Core` pela i
 | SQLite (`sqlite-net-pcl`) no lugar do JSON, começando vazio, 2026-10-23 | Contas locais e índices únicos (e-mail, dia do check-in); app ainda não publicado, sem dados reais a migrar | Houver sincronização ou backend |
 | Remoção dos arquivos antigos da raiz (`CheckinPage.cs`, `CheckinRecord.cs`, `HistoryTestPage.cs`, `MainPage.xaml(.cs)`, `RecordPage.cs`, `ResumoGrafico.cs`), 2026-10-23 | Duplicavam tipos de `App/` e `Core/` e quebravam o build com 20 erros | — |
 | Nível 1 da trilha e a conquista "Primeiro cuidado" calculados (existe ao menos um check-in); só os níveis 2 e 3 e suas conquistas são gravados (`challenge_progress`, `achievements`), 2026-11-10 | Não duplicar no banco o que os check-ins já provam; o estado do nível é sempre calculado | O nível 1 passar a exigir mais que um check-in |
+| Nível e conquista gravados numa única transação (`TryCompleteLevelWithAchievementAsync`), 2026-11-10 | O app fechar no meio não deixa o nível concluído sem a conquista | — |
 
 ## Manutenção
 
