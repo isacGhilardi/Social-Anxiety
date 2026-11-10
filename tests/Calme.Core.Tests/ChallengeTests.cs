@@ -158,6 +158,7 @@ public class ChallengeCatalogTests
     {
         Assert.Equal([1, 2, 3], ChallengeCatalog.All.Select(l => l.Number));
         Assert.Equal(["perceber", "aproximar", "conversar"], ChallengeCatalog.All.Select(l => l.Key));
+        Assert.Equal(["Perceber", "Aproximar", "Conversar"], ChallengeCatalog.All.Select(l => l.Name));
         Assert.Empty(ChallengeCatalog.Find(1)!.Steps);
         Assert.All(ChallengeCatalog.All.Skip(1), l => Assert.Equal([1, 2, 3], l.Steps.Select(s => s.Number)));
     }

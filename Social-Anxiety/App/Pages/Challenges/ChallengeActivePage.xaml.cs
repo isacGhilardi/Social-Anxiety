@@ -2,7 +2,8 @@ using Social_Anxiety.Core.Challenges;
 
 namespace Social_Anxiety;
 
-// Desafio aberto a partir da trilha. Rota: challengeActive?level=2. Aceitar o desafio não grava nada.
+// Desafio aberto a partir da trilha. Rota: challengeActive?level=2. Dois estados na mesma página: detalhe e em andamento.
+// Aceitar o desafio só troca de estado; nada é gravado até "Concluí meu desafio".
 public partial class ChallengeActivePage : ContentPage, IQueryAttributable
 {
     private readonly ChallengeService service;
@@ -44,20 +45,31 @@ public partial class ChallengeActivePage : ContentPage, IQueryAttributable
         }
 
         var level = item.Level;
-        ChallengeContent.IsVisible = true;
-        StatusMessage.IsVisible = false;
-        LevelTag.Text = $"NÍVEL {level.Number} · {level.Summary.ToUpper()}";
+        MessageContent.IsVisible = false;
+        ProgressContent.IsVisible = false;
+        DetailContent.IsVisible = true; // ao reaparecer, volta ao detalhe
+        LevelTag.Text = $"NÍVEL {level.Number} · {level.Name.ToUpper()}";
         LevelTitle.Text = level.Title;
         LevelDescription.Text = level.Description;
+        SummaryTitle.Text = level.Summary;
         BindableLayout.SetItemsSource(StepsList, level.Steps);
         SemanticProperties.SetDescription(StepsList, $"{level.Title} {level.Steps.Count} passos");
     }
 
     private void ShowMessage(string text)
     {
-        ChallengeContent.IsVisible = false;
-        StatusMessage.IsVisible = true;
+        DetailContent.IsVisible = false;
+        ProgressContent.IsVisible = false;
+        MessageContent.IsVisible = true;
         StatusMessage.Text = text;
+        SemanticScreenReader.Default.Announce(text);
+    }
+
+    private void OnAcceptClicked(object? sender, EventArgs e)
+    {
+        DetailContent.IsVisible = false;
+        ProgressContent.IsVisible = true;
+        SemanticScreenReader.Default.Announce("Seu desafio está aqui quando você se sentir pronto(a).");
     }
 
     private async void OnCompleteClicked(object? sender, EventArgs e)
@@ -72,6 +84,6 @@ public partial class ChallengeActivePage : ContentPage, IQueryAttributable
         finally { CompleteButton.IsEnabled = true; }
     }
 
-    private async void OnBackClicked(object? sender, EventArgs e) => await Shell.Current.GoToAsync("..");
+    private async void OnLaterClicked(object? sender, EventArgs e) => await Shell.Current.GoToAsync("//challenges");
     private async void OnSupportClicked(object? sender, EventArgs e) => await App.OpenSupport();
 }
