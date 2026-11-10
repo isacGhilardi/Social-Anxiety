@@ -9,16 +9,17 @@
         <ScrollView>
             <VerticalStackLayout Padding="24,8,24,28" Spacing="16">
                 <Image Source="leaf.png" HeightRequest="80" SemanticProperties.Description="Folha, símbolo de um passo dado" />
-                <Label x:Name="LevelTag" Style="{StaticResource FlowSmall}" />
-                <Label Text="Você deu um passo." Style="{StaticResource FlowHeading}" SemanticProperties.HeadingLevel="Level1" AutomationId="done-title" />
-                <Label Text="Obrigado por tentar. Não importa como foi: seu esforço conta." Style="{StaticResource FlowCopy}" />
+                <Label Text="UM CUIDADO PARA CELEBRAR" Style="{StaticResource FlowSmall}" />
+                <Label Text="Seu esforço merece ser reconhecido." Style="{StaticResource FlowHeading}" SemanticProperties.HeadingLevel="Level1" AutomationId="done-title" />
+                <Label Text="Cada tentativa conta, mesmo com ansiedade. Você deu um passo no seu próprio ritmo." Style="{StaticResource FlowCopy}" />
                 <Border x:Name="AchievementCard" Style="{StaticResource FlowCard}" IsVisible="False" AutomationId="done-achievement" BackgroundColor="{AppThemeBinding Light={StaticResource CalmeLilac}, Dark={StaticResource CalmeLilacDark}}">
                     <VerticalStackLayout Spacing="6">
-                        <Label Text="NOVA CONQUISTA" Style="{StaticResource FlowSmall}" />
+                        <Label Text="Conquista desbloqueada" Style="{StaticResource FlowSmall}" />
                         <Label x:Name="AchievementName" Style="{StaticResource FlowCardTitle}" />
                     </VerticalStackLayout>
                 </Border>
-                <Button Text="Voltar para a trilha" Clicked="OnTrailClicked" AutomationId="done-trail" Style="{StaticResource CalmeButton}" />
+                <Label x:Name="NextLevelNotice" Text="O próximo nível está disponível. Continue quando fizer sentido para você." Style="{StaticResource FlowCopy}" IsVisible="False" AutomationId="done-next" />
+                <Button Text="Voltar à trilha" Clicked="OnTrailClicked" AutomationId="done-trail" Style="{StaticResource CalmeButton}" />
                 <Button Text="Voltar ao início" Clicked="OnHomeClicked" AutomationId="done-home" Style="{StaticResource CalmeTextButton}" />
             </VerticalStackLayout>
         </ScrollView>

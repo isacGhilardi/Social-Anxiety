@@ -3,18 +3,18 @@ namespace Social_Anxiety.Core.Challenges;
 /// <summary>Um passo sugerido dentro de um nível da trilha.</summary>
 public sealed record ChallengeStep(int Number, string Title, string Description);
 
-/// <summary>Um nível da trilha de microdesafios. O estado (concluído, disponível ou bloqueado) é calculado, nunca guardado.</summary>
-public sealed record ChallengeLevel(int Number, string Key, string Title, string Summary, string Description,
+/// <summary>Um nível da trilha de microdesafios. <c>Name</c> é o nome curto da trilha (Perceber, Aproximar, Conversar). O estado (concluído, disponível ou bloqueado) é calculado, nunca guardado.</summary>
+public sealed record ChallengeLevel(int Number, string Key, string Name, string Title, string Summary, string Description,
     IReadOnlyList<ChallengeStep> Steps);
 
-// Textos do Calme_Prototipo.html; a psicóloga ainda pode revisar.
+// Textos do Calme_Prototipo.html; aprovados pela psicóloga.
 public static class ChallengeCatalog
 {
     public static IReadOnlyList<ChallengeLevel> All { get; } = Array.AsReadOnly(new[]
     {
-        new ChallengeLevel(1, "perceber", "Perceber", "Seu primeiro check-in", "Registre como você está hoje.",
+        new ChallengeLevel(1, "perceber", "Perceber", "Perceber", "Seu primeiro check-in", "Registre como você está hoje.",
             Array.AsReadOnly(Array.Empty<ChallengeStep>())),
-        new ChallengeLevel(2, "aproximar", "Um olá, do seu jeito.", "Um olá, do seu jeito",
+        new ChallengeLevel(2, "aproximar", "Aproximar", "Um olá, do seu jeito.", "Um olá, do seu jeito",
             "Escolha uma pessoa com quem você se sinta seguro(a) e experimente cumprimentá-la.",
             Array.AsReadOnly(new[]
             {
@@ -22,7 +22,7 @@ public static class ChallengeCatalog
                 new ChallengeStep(2, "Cumprimente do seu jeito", "Um “oi” ou um aceno já pode ser um pequeno passo."),
                 new ChallengeStep(3, "Acolha seu esforço", "Observe como foi. Não há uma forma perfeita de fazer isso.")
             })),
-        new ChallengeLevel(3, "conversar", "Uma conversa curta.", "Uma conversa curta",
+        new ChallengeLevel(3, "conversar", "Conversar", "Uma conversa curta.", "Uma conversa curta",
             "Se você quiser, faça uma pergunta simples a alguém com quem se sinta seguro(a).",
             Array.AsReadOnly(new[]
             {

@@ -16,9 +16,8 @@ public partial class ChallengeDonePage : ContentPage, IQueryAttributable
 
     public void ApplyQueryAttributes(IDictionary<string, object> query)
     {
-        var level = query.TryGetValue("level", out var value) && int.TryParse(value?.ToString(), out var number)
-            ? service.GetLevel(number) : null;
-        LevelTag.Text = level is null ? "" : $"NÍVEL {level.Number} · CONCLUÍDO";
+        var level = query.TryGetValue("level", out var value) && int.TryParse(value?.ToString(), out var number) ? number : 0;
+        NextLevelNotice.IsVisible = service.GetLevel(level + 1) is not null;
         achievementKey = query.TryGetValue("achievement", out var key) ? key?.ToString() : null;
     }
 
@@ -31,10 +30,10 @@ public partial class ChallengeDonePage : ContentPage, IQueryAttributable
 
         // Sem conquista legível, a tela continua válida: só não mostra o cartão.
         AchievementCard.IsVisible = achievement is not null;
-        AchievementName.Text = achievement?.Name ?? "";
+        AchievementName.Text = achievement is null ? "" : $"{achievement.Name} · por experimentar um desafio social.";
         SemanticScreenReader.Default.Announce(achievement is null
-            ? "Você deu um passo. Desafio concluído."
-            : $"Você deu um passo. Nova conquista: {achievement.Name}.");
+            ? "Seu esforço merece ser reconhecido. Desafio concluído."
+            : $"Seu esforço merece ser reconhecido. Conquista desbloqueada: {achievement.Name}.");
     }
 
     private async void OnTrailClicked(object? sender, EventArgs e) => await Shell.Current.GoToAsync("//challenges");

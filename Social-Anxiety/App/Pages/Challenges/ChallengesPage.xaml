@@ -8,12 +8,13 @@
     <Grid RowDefinitions="*,Auto">
         <ScrollView>
             <VerticalStackLayout Padding="24,8,24,28" Spacing="16">
-                <Label Text="MICRODESAFIOS" Style="{StaticResource FlowSmall}" />
-                <Label Text="Sua trilha de pequenos passos." Style="{StaticResource FlowHeading}" SemanticProperties.HeadingLevel="Level1" AutomationId="challenges-title" />
-                <Label Text="Um nível de cada vez, no seu ritmo." Style="{StaticResource FlowCopy}" />
+                <Label Text="PEQUENOS PASSOS" Style="{StaticResource FlowSmall}" />
+                <Label Text="Seu ritmo é o que importa." Style="{StaticResource FlowHeading}" SemanticProperties.HeadingLevel="Level1" AutomationId="challenges-title" />
+                <Label Text="Uma trilha para experimentar situações sociais com gentileza, sem competir." Style="{StaticResource FlowCopy}" />
                 <Label x:Name="ProgressText" Style="{StaticResource FlowSmall}" AutomationId="challenges-progress" />
                 <Label x:Name="ErrorMessage" Style="{StaticResource FlowCopy}" AutomationId="challenges-error" />
                 <VerticalStackLayout x:Name="LevelCards" Spacing="12" />
+                <Label Text="Você pode adaptar, adiar ou parar um desafio sem perder seu progresso." Style="{StaticResource FlowSmall}" />
                 <Label Text="CONQUISTAS" Style="{StaticResource FlowSmall}" SemanticProperties.HeadingLevel="Level2" />
                 <VerticalStackLayout x:Name="AchievementCards" Spacing="12" AutomationId="challenges-achievements" />
                 <Button Text="Voltar ao início" Clicked="OnHomeClicked" AutomationId="challenges-home" Style="{StaticResource CalmeTextButton}" />

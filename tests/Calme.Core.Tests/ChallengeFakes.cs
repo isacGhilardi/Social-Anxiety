@@ -16,32 +16,22 @@ sealed class MemoryChallenges : IChallengeRepository
         return Task.FromResult<IReadOnlyList<ChallengeProgress>>(Levels.ToArray());
     }
 
-    public Task<bool> TryCompleteLevelAsync(int level, DateTime completedAtUtc)
-    {
-        if (Levels.Any(l => l.Level == level)) return Task.FromResult(false);
-        LevelWrites++;
-        Levels.Add(new ChallengeProgress(Guid.NewGuid(), level, completedAtUtc));
-        return Task.FromResult(true);
-    }
-
     public Task<IReadOnlyList<Achievement>> GetAchievementsAsync()
     {
         Reads++;
         return Task.FromResult<IReadOnlyList<Achievement>>(Achievements.ToArray());
     }
 
-    public Task<bool> TryAddAchievementAsync(string key, DateTime obtainedAtUtc)
+    public Task<bool> TryCompleteLevelWithAchievementAsync(int level, string achievementKey, DateTime completedAtUtc)
     {
-        if (Achievements.Any(a => a.Key == key)) return Task.FromResult(false);
-        AchievementWrites++;
-        Achievements.Add(new Achievement(Guid.NewGuid(), key, obtainedAtUtc));
+        if (Levels.Any(l => l.Level == level)) return Task.FromResult(false);
+        LevelWrites++;
+        Levels.Add(new ChallengeProgress(Guid.NewGuid(), level, completedAtUtc));
+        if (Achievements.All(a => a.Key != achievementKey))
+        {
+            AchievementWrites++;
+            Achievements.Add(new Achievement(Guid.NewGuid(), achievementKey, completedAtUtc));
+        }
         return Task.FromResult(true);
-    }
-
-    public async Task<bool> TryCompleteLevelWithAchievementAsync(int level, string achievementKey, DateTime completedAtUtc)
-    {
-        if (!await TryCompleteLevelAsync(level, completedAtUtc)) return false;
-        await TryAddAchievementAsync(achievementKey, completedAtUtc);
-        return true;
     }
 }

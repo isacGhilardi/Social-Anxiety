@@ -35,6 +35,7 @@ public partial class ChallengesPage : ContentPage
             AchievementCards.Children.Clear();
             ProgressText.Text = "";
             ErrorMessage.Text = "Não foi possível ler sua trilha. Seus dados foram preservados.";
+            SemanticScreenReader.Default.Announce(ErrorMessage.Text);
         }
     }
 
@@ -51,9 +52,9 @@ public partial class ChallengesPage : ContentPage
         var resources = Application.Current!.Resources;
 
         var texts = new VerticalStackLayout { Spacing = 6 };
-        texts.Children.Add(new Label { Text = $"NÍVEL {level.Number} · {status.ToUpper()}", Style = (Style)resources["FlowSmall"] });
-        texts.Children.Add(new Label { Text = level.Title, Style = (Style)resources["FlowCardTitle"] });
-        texts.Children.Add(new Label { Text = level.Description, Style = (Style)resources["FlowCopy"] });
+        texts.Children.Add(new Label { Text = $"{level.Number}. {level.Name}", Style = (Style)resources["FlowCardTitle"] });
+        texts.Children.Add(new Label { Text = level.Summary, Style = (Style)resources["FlowCopy"] });
+        texts.Children.Add(new Label { Text = status, Style = (Style)resources["FlowSmall"] });
         if (item.State == TrailState.Locked)
             texts.Children.Add(new Label { Text = "Conclua o nível anterior para liberar.", Style = (Style)resources["FlowSmall"] });
 
@@ -64,7 +65,7 @@ public partial class ChallengesPage : ContentPage
             Content = texts
         };
         card.SetAppThemeColor(BackgroundColorProperty, (Color)resources[light], (Color)resources[dark]);
-        var summary = $"Nível {level.Number}, {level.Title}, {status.ToLower()}. {level.Description}";
+        var summary = $"Nível {level.Number}, {level.Name}, {level.Summary}, {status.ToLower()}";
 
         // Nível 1 se conclui com o check-in; os demais abrem o desafio ou explicam o bloqueio. Concluído não abre nada.
         var route = item.State switch
@@ -85,7 +86,7 @@ public partial class ChallengesPage : ContentPage
                 HorizontalOptions = LayoutOptions.Start
             };
             open.Clicked += async (_, _) => await OpenAsync(route);
-            SemanticProperties.SetDescription(open, $"{open.Text}. {summary}");
+            SemanticProperties.SetDescription(open, $"{open.Text}, nível {level.Number}");
             texts.Children.Add(open);
         }
         else

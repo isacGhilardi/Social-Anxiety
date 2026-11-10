@@ -12,6 +12,9 @@ public sealed record AchievementInfo(string Key, string Name, bool Obtained, Dat
 /// <summary>Um nível da trilha com o estado calculado no momento da leitura.</summary>
 public sealed record TrailItem(ChallengeLevel Level, TrailState State);
 
+/// <summary>Estado de um nível, calculado a cada leitura.</summary>
+public enum TrailState { Available, Completed, Locked }
+
 public enum CompleteStatus { CompletedNow, AlreadyCompleted, Locked, Invalid }
 
 /// <summary>Resultado de "Concluí meu desafio". <paramref name="Achievement"/> só vem preenchida em <see cref="CompleteStatus.CompletedNow"/>.</summary>
