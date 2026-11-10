@@ -21,7 +21,7 @@ Social-Anxiety/
   App/Pages/Auth/        SignupPage, LoginPage
   App/Pages/Tracking/    MainPage, CheckinPage, FeedbackPage, HistoryPage, RecordPage
   App/Pages/Breathing/   BreathePage, BreatheFinishPage
-  App/Pages/Challenges/  ChallengesPage (trilha e conquistas), ChallengeLockedPage, ChallengeActivePage, ChallengeDonePage, CompleteChallengeAction
+  App/Pages/Challenges/  ChallengesPage (trilha e conquistas), ChallengeLockedPage, ChallengeActivePage (detalhe e desafio em andamento), ChallengeDonePage, CompleteChallengeAction
   Views/                 ApoioImediatoPage (PR #24, sem ponto de acesso)
   Core/Auth/             User, SessionState, AuthService, PasswordHasher, SignupValidator, EmailNormalizer, interfaces
   Core/CheckIns/         CheckIn, CheckInService, ICheckInRepository
@@ -62,6 +62,11 @@ Páginas (XAML + code-behind, sem ViewModels) recebem serviços do `Core` pela i
 | Remoção dos arquivos antigos da raiz (`CheckinPage.cs`, `CheckinRecord.cs`, `HistoryTestPage.cs`, `MainPage.xaml(.cs)`, `RecordPage.cs`, `ResumoGrafico.cs`), 2026-10-23 | Duplicavam tipos de `App/` e `Core/` e quebravam o build com 20 erros | — |
 | Nível 1 da trilha e a conquista "Primeiro cuidado" calculados (existe ao menos um check-in); só os níveis 2 e 3 e suas conquistas são gravados (`challenge_progress`, `achievements`), 2026-11-10 | Não duplicar no banco o que os check-ins já provam; o estado do nível é sempre calculado | O nível 1 passar a exigir mais que um check-in |
 | Nível e conquista gravados numa única transação (`TryCompleteLevelWithAchievementAsync`), 2026-11-10 | O app fechar no meio não deixa o nível concluído sem a conquista | — |
+| Tela `challenge` (detalhe e aceite) junto da `challengeActive`, na mesma página, 2026-11-10 | Menos navegação; "Aceitar desafio" só troca o estado da página e não grava nada, só "Concluí meu desafio" grava | Aceitar passar a gravar algo (por exemplo, desafio em andamento entre sessões) |
+| Telas de desafio do PR #39 em `Views/` removidas, 2026-11-10 | Duplicavam as de `App/Pages/Challenges`, guardavam o progresso em `Preferences` (fora do SQLite e do `Core`) e o PR apagou o `OnLoaded` e as rotas do `AppShell`, quebrando a `Main` (CS0246) | — |
+| `FakeTrailSource`, `ITrailSource`, `TrailLevel` e os métodos `TryCompleteLevelAsync` e `TryAddAchievementAsync` do repositório removidos, 2026-11-10 | Sem uso no app; só os testes chamavam os métodos do repositório, e agora semeiam o SQLite direto | — |
+| Progresso e conquistas sem vínculo com usuário, como `checkins`, 2026-11-10 | Quem usa o mesmo aparelho vê o mesmo progresso | Houver perfil, várias contas por aparelho ou sincronização |
+| Textos das telas de desafio alinhados ao `Calme_Prototipo.html` aprovado pela psicóloga, 2026-11-10; sem "Ver minhas conquistas" na tela de parabéns | Fonte única dos textos; ainda não existe tela de perfil | Houver tela de perfil |
 
 ## Manutenção
 
