@@ -105,7 +105,6 @@ public partial class ChallengesPage : ContentPage
         {
             Style = (Style)resources["FlowCard"],
             AutomationId = $"achievement-{achievement.Key}",
-            Opacity = achievement.Obtained ? 1 : 0.6,
             Content = texts
         };
         var (light, dark) = achievement.Obtained ? ("CalmeLilac", "CalmeLilacDark") : ("CalmeSubtle", "CalmeSubtleDark");
