@@ -43,4 +43,10 @@ public sealed class CheckInRepository(CalmeDatabase database) : ICheckInReposito
         var rows = await db.QueryAsync<CheckInRow>("select * from checkins order by LocalDay desc");
         return rows.Select(r => r.ToCheckIn()).ToArray();
     }
+
+    public async Task<bool> HasAnyAsync()
+    {
+        var db = await database.GetAsync();
+        return await db.ExecuteScalarAsync<int>("select exists(select 1 from checkins)") == 1;
+    }
 }

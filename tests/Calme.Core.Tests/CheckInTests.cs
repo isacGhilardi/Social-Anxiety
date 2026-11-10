@@ -17,6 +17,8 @@ sealed class MemoryCheckIns : ICheckInRepository
         Task.FromResult<IReadOnlyList<CheckIn>>(Items.Where(c => c.LocalDay >= from && c.LocalDay <= to).OrderByDescending(c => c.LocalDay).ToArray());
     public Task<CheckIn?> GetByIdAsync(Guid id) => Task.FromResult(Items.FirstOrDefault(c => c.Id == id));
     public Task<IReadOnlyList<CheckIn>> GetAllAsync() => Task.FromResult<IReadOnlyList<CheckIn>>(Items.OrderByDescending(c => c.LocalDay).ToArray());
+    public int HasAnyCalls;
+    public Task<bool> HasAnyAsync() { HasAnyCalls++; return Task.FromResult(Items.Count > 0); }
 }
 
 public class CheckInServiceTests
