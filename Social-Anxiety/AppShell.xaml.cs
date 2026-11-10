@@ -1,4 +1,5 @@
-﻿namespace Social_Anxiety
+﻿using Social_Anxiety.Views;
+namespace Social_Anxiety
 {
     public partial class AppShell : Shell
     {
@@ -12,6 +13,9 @@
             Routing.RegisterRoute("history", typeof(HistoryPage));
             Routing.RegisterRoute("breathe", typeof(BreathePage));
             Routing.RegisterRoute("breatheFinish", typeof(BreatheFinishPage));
+            Routing.RegisterRoute("challenge", typeof(ChallengePage));
+            Routing.RegisterRoute("challengeActive", typeof(ChallengeActivePage));
+            Routing.RegisterRoute("challengeDone", typeof(ChallengeDonePage));
         }
     }
 }

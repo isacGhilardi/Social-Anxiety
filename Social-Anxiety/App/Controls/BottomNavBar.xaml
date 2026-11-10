@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Social_Anxiety.Controls.BottomNavBar">
-    
+<ContentView
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="Social_Anxiety.Controls.BottomNavBar">
+
     <Grid ColumnDefinitions="*,*,*,*,*"
-            HeightRequest="80"
-            BackgroundColor="{StaticResource White}">
+          HeightRequest="80"
+          BackgroundColor="{StaticResource White}">
+
         <Border Grid.Column="0"
                 BackgroundColor="{StaticResource SoftBlue}"
                 StrokeShape="RoundRectangle 100"
@@ -13,45 +15,48 @@
                 Padding="16,8"
                 HorizontalOptions="Center"
                 VerticalOptions="Center">
-            <Label Text="Início" 
+
+            <Label Text="Início"
                    FontFamily="Nunito"
-                   LineBreakMode="WordWrap"
-                   MaxLines="1"
-                   TextColor="{StaticResource Muted}"
                    FontSize="12"
                    FontAttributes="Bold"
+                   TextColor="{StaticResource Muted}"
                    HorizontalTextAlignment="Center"
-                   VerticalTextAlignment="Center"
-               />
+                   VerticalTextAlignment="Center"/>
         </Border>
-        
-        <Label Text="Histórico" Grid.Column="1"
+
+        <Label Text="Histórico"
+               Grid.Column="1"
                FontFamily="Nunito"
                TextColor="{StaticResource Muted}"
                FontSize="12"
                HorizontalTextAlignment="Center"
-               VerticalTextAlignment="Center"
-               />
-        <Label Text="Técnicas" Grid.Column="2"
+               VerticalTextAlignment="Center"/>
+
+        <Label Text="Técnicas"
+               Grid.Column="2"
                FontFamily="Nunito"
                TextColor="{StaticResource Muted}"
                FontSize="12"
                HorizontalTextAlignment="Center"
-               VerticalTextAlignment="Center"
-               />
-        <Label Text="Desafios" Grid.Column="3"
+               VerticalTextAlignment="Center"/>
+
+        <Button Grid.Column="3"
+                Text="Desafios"
+                FontFamily="Nunito"
+                FontSize="12"
+                TextColor="{StaticResource Muted}"
+                BackgroundColor="Transparent"
+                Padding="0"
+                Clicked="OnDesafiosClicked"/>
+
+        <Label Text="Perfil"
+               Grid.Column="4"
                FontFamily="Nunito"
                TextColor="{StaticResource Muted}"
                FontSize="12"
                HorizontalTextAlignment="Center"
-               VerticalTextAlignment="Center"
-               />
-        <Label Text="Perfil" Grid.Column="4"
-               FontFamily="Nunito"
-               TextColor="{StaticResource Muted}"
-               FontSize="12"
-               HorizontalTextAlignment="Center"
-               VerticalTextAlignment="Center"
-               />
+               VerticalTextAlignment="Center"/>
+
     </Grid>
 </ContentView>
