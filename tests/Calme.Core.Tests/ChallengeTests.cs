@@ -90,6 +90,9 @@ public class ChallengeServiceTests
         Assert.Equal((2, expectedAt, DateTimeKind.Utc), (level.Level, level.CompletedAtUtc, level.CompletedAtUtc.Kind));
         var achievement = Assert.Single(challenges.Achievements);
         Assert.Equal(("pequeno-passo", expectedAt), (achievement.Key, achievement.ObtainedAtUtc));
+        // Assert.Equal de DateTime ignora o Kind: confere à parte.
+        Assert.Equal(DateTimeKind.Utc, achievement.ObtainedAtUtc.Kind);
+        Assert.Equal(DateTimeKind.Utc, result.Achievement!.ObtainedAtUtc!.Value.Kind);
     }
 
     [Fact]
