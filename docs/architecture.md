@@ -26,8 +26,10 @@ Social-Anxiety/
   Core/CheckIns/         CheckIn, CheckInService, ICheckInRepository
   Core/Models/           OnboardingState
   Core/Breathing/        BreathingSession (máquina de fases sem dependência de UI)
+  Core/Challenges/       ChallengeCatalog, ChallengeService, IChallengeRepository e tipos da trilha e das conquistas
   Data/                  SecureSessionStore (SecureStorage)
   Data/Sqlite/           CalmeDatabase, UserRepository, CheckInRepository e linhas das tabelas
+                         ChallengeRepository (challenge_progress e achievements, cartão #16)
   Resources/             Estilos, cores, fontes, imagens
 tests/
   Calme.Core.Tests/      xUnit do Core e de Data/Sqlite (arquivos incluídos por link)
@@ -47,6 +49,7 @@ Páginas (XAML + code-behind, sem ViewModels) recebem serviços do `Core` pela i
 - `CalmeDatabase` abre `calme.db3` no primeiro acesso, liga o modo WAL e cria as tabelas que faltarem (idempotente).
 - `users`: id, nome de exibição, e-mail normalizado (índice único), hash e salt da senha, criação em UTC.
 - `checkins`: id, nota 1–5, momento em UTC (ticks) e dia local `aaaa-mm-dd` (índice único). Sem vínculo com usuário.
+- `challenge_progress`: id, nível (índice único) e conclusão em UTC. `achievements`: id, chave (índice único) e obtenção em UTC. Só níveis 2 e 3 e suas conquistas.
 - Erros de leitura ou gravação viram mensagem na tela; o arquivo não é apagado nem recriado. Sem migrações nem rede.
 
 ## Decisões
@@ -56,6 +59,7 @@ Páginas (XAML + code-behind, sem ViewModels) recebem serviços do `Core` pela i
 | Build funcional com identidade própria | Não tocar nos dados do app real | Mudar o empacotamento Windows |
 | SQLite (`sqlite-net-pcl`) no lugar do JSON, começando vazio, 2026-10-23 | Contas locais e índices únicos (e-mail, dia do check-in); app ainda não publicado, sem dados reais a migrar | Houver sincronização ou backend |
 | Remoção dos arquivos antigos da raiz (`CheckinPage.cs`, `CheckinRecord.cs`, `HistoryTestPage.cs`, `MainPage.xaml(.cs)`, `RecordPage.cs`, `ResumoGrafico.cs`), 2026-10-23 | Duplicavam tipos de `App/` e `Core/` e quebravam o build com 20 erros | — |
+| Nível 1 da trilha e a conquista "Primeiro cuidado" calculados (existe ao menos um check-in); só os níveis 2 e 3 e suas conquistas são gravados (`challenge_progress`, `achievements`), 2026-11-10 | Não duplicar no banco o que os check-ins já provam; o estado do nível é sempre calculado | O nível 1 passar a exigir mais que um check-in |
 
 ## Manutenção
 
