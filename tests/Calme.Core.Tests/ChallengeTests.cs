@@ -198,4 +198,26 @@ public class ChallengeSqliteTests
         var achievement = Assert.Single(await repository.GetAchievementsAsync());
         Assert.Equal(("pequeno-passo", at, DateTimeKind.Utc), (achievement.Key, achievement.ObtainedAtUtc, achievement.ObtainedAtUtc.Kind));
     }
+
+    [Fact]
+    public async Task Niveis_voltam_em_ordem_e_sobrevivem_a_reabrir_o_banco()
+    {
+        await using var temp = new TempDatabase();
+        var at = new DateTime(2026, 11, 10, 12, 30, 0, DateTimeKind.Utc);
+        var repository = new ChallengeRepository(temp.Database);
+        await repository.TryCompleteLevelAsync(3, at);
+        await repository.TryCompleteLevelAsync(2, at);
+        await repository.TryAddAchievementAsync("uma-conversa", at);
+        Assert.Equal([2, 3], (await repository.GetCompletedLevelsAsync()).Select(l => l.Level));
+
+        var reopened = new CalmeDatabase(temp.FilePath);
+        try
+        {
+            var again = new ChallengeRepository(reopened);
+            Assert.Equal([2, 3], (await again.GetCompletedLevelsAsync()).Select(l => l.Level));
+            Assert.Equal("uma-conversa", Assert.Single(await again.GetAchievementsAsync()).Key);
+            Assert.False(await again.TryCompleteLevelAsync(2, at));
+        }
+        finally { await reopened.CloseAsync(); }
+    }
 }
