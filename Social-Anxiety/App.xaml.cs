@@ -1,4 +1,4 @@
-using Social_Anxiety.Core.Auth;
+﻿using Social_Anxiety.Core.Auth;
 
 namespace Social_Anxiety;
 
@@ -9,7 +9,7 @@ public partial class App : Application
     public static Task OpenSupport() => Shell.Current.Navigation.PushAsync(CreateOnboardingPage("support"), false);
     public static Task OpenHelp() => Shell.Current.Navigation.PushAsync(CreateOnboardingPage("help"), false);
 
-    /// <summary>Depois de abrir uma sessão: o onboarding não aparece mais e a home vira a raiz.</summary>
+    /// <summary>Depois de abrir uma sessÃ£o: o onboarding nÃ£o aparece mais e a home vira a raiz.</summary>
     public static Task EnterHomeAsync()
     {
         Preferences.Default.Set(OnboardingDoneKey, true);
@@ -28,6 +28,7 @@ public partial class App : Application
     {
         this.session = session;
         InitializeComponent();
+        AppPreferences.ApplyTheme();
     }
 
     protected override Window CreateWindow(IActivationState? activationState)
@@ -35,3 +36,4 @@ public partial class App : Application
         return new Window(new AppShell(session));
     }
 }
+
