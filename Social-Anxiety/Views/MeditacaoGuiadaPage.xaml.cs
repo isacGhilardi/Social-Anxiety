@@ -20,7 +20,7 @@ public partial class MeditacaoGuiadaPage : ContentPage
         AtualizarInterface();
     }
 
-    private void OnReproduzirClicked(object sender, EventArgs e)
+    private void OnReproduzirClicked(object? sender, EventArgs e)
     {
         if (_tempoDecorrido >= DuracaoSegundos)
         {
@@ -58,7 +58,7 @@ public partial class MeditacaoGuiadaPage : ContentPage
 
             MainThread.BeginInvokeOnMainThread(async () =>
             {
-                await DisplayAlert(
+                await DisplayAlertAsync(
                     "Sessão concluída",
                     "Você concluiu os cinco minutos de meditação. Reserve um momento para perceber como está se sentindo.",
                     "Concluir");
@@ -70,7 +70,7 @@ public partial class MeditacaoGuiadaPage : ContentPage
         AtualizarInterface();
     }
 
-    private void OnRecomecarClicked(object sender, EventArgs e)
+    private void OnRecomecarClicked(object? sender, EventArgs e)
     {
         _timer?.Stop();
         _reproduzindo = false;
@@ -95,7 +95,7 @@ public partial class MeditacaoGuiadaPage : ContentPage
                 : "▶  Iniciar meditação";
     }
 
-    private async void OnVoltarClicked(object sender, EventArgs e)
+    private async void OnVoltarClicked(object? sender, EventArgs e)
     {
         if (_reproduzindo)
         {

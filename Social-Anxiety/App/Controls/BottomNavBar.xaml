@@ -4,59 +4,32 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Class="Social_Anxiety.Controls.BottomNavBar">
 
+    <ContentView.Resources>
+        <Style x:Key="NavItem" TargetType="Button">
+            <Setter Property="FontFamily" Value="Nunito" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource CalmeMuted}, Dark={StaticResource CalmeMutedDark}}" />
+            <Setter Property="BackgroundColor" Value="Transparent" />
+            <Setter Property="CornerRadius" Value="100" />
+            <Setter Property="Padding" Value="8,4" />
+            <Setter Property="MinimumHeightRequest" Value="44" />
+            <Setter Property="HorizontalOptions" Value="Center" />
+            <Setter Property="VerticalOptions" Value="Center" />
+        </Style>
+        <Style x:Key="NavItemActive" TargetType="Button" BasedOn="{StaticResource NavItem}">
+            <Setter Property="FontAttributes" Value="Bold" />
+            <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource CalmeText}, Dark={StaticResource CalmeTextDark}}" />
+            <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource CalmeBlue}, Dark={StaticResource CalmeBlueDark}}" />
+        </Style>
+    </ContentView.Resources>
+
     <Grid ColumnDefinitions="*,*,*,*,*"
           HeightRequest="80"
-          BackgroundColor="{StaticResource White}">
-
-        <Border Grid.Column="0"
-                BackgroundColor="{StaticResource SoftBlue}"
-                StrokeShape="RoundRectangle 100"
-                StrokeThickness="0"
-                Padding="16,8"
-                HorizontalOptions="Center"
-                VerticalOptions="Center">
-
-            <Label Text="Início"
-                   FontFamily="Nunito"
-                   FontSize="12"
-                   FontAttributes="Bold"
-                   TextColor="{StaticResource Muted}"
-                   HorizontalTextAlignment="Center"
-                   VerticalTextAlignment="Center"/>
-        </Border>
-
-        <Label Text="Histórico"
-               Grid.Column="1"
-               FontFamily="Nunito"
-               TextColor="{StaticResource Muted}"
-               FontSize="12"
-               HorizontalTextAlignment="Center"
-               VerticalTextAlignment="Center"/>
-
-        <Label Text="Técnicas"
-               Grid.Column="2"
-               FontFamily="Nunito"
-               TextColor="{StaticResource Muted}"
-               FontSize="12"
-               HorizontalTextAlignment="Center"
-               VerticalTextAlignment="Center"/>
-
-        <Button Grid.Column="3"
-                Text="Desafios"
-                FontFamily="Nunito"
-                FontSize="12"
-                TextColor="{StaticResource Muted}"
-                BackgroundColor="Transparent"
-                Padding="0"
-                Clicked="OnDesafiosClicked"/>
-
-        <Label Text="Perfil"
-               Grid.Column="4"
-               FontFamily="Nunito"
-               TextColor="{StaticResource Muted}"
-               FontSize="12"
-               HorizontalTextAlignment="Center"
-               VerticalTextAlignment="Center"/>
-
+          BackgroundColor="{AppThemeBinding Light={StaticResource CalmeSurface}, Dark={StaticResource CalmeSurfaceDark}}">
+        <Button x:Name="HomeItem" Grid.Column="0" Text="Início" AutomationId="nav-home" Style="{StaticResource NavItem}" Clicked="OnItemClicked" />
+        <Button x:Name="HistoryItem" Grid.Column="1" Text="Histórico" AutomationId="nav-history" Style="{StaticResource NavItem}" Clicked="OnItemClicked" />
+        <Button x:Name="TechniquesItem" Grid.Column="2" Text="Técnicas" AutomationId="nav-techniques" Style="{StaticResource NavItem}" Clicked="OnItemClicked" />
+        <Button x:Name="ChallengesItem" Grid.Column="3" Text="Desafios" AutomationId="nav-challenges" Style="{StaticResource NavItem}" Clicked="OnItemClicked" />
+        <Button x:Name="ProfileItem" Grid.Column="4" Text="Perfil" AutomationId="nav-profile" Style="{StaticResource NavItem}" Clicked="OnItemClicked" />
     </Grid>
 </ContentView>

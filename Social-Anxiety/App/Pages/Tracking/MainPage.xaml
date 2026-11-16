@@ -31,7 +31,7 @@
         </ScrollView>
         <VerticalStackLayout Grid.Row="1" Padding="24,8,24,12" Spacing="8">
             <Button Text="Preciso de apoio agora" Clicked="OnSupportClicked" AutomationId="open-support" Style="{StaticResource FlowSupportButton}" />
-            <controls:BottomNavBar xmlns:controls="clr-namespace:Social_Anxiety.Controls" />
+            <controls:BottomNavBar xmlns:controls="clr-namespace:Social_Anxiety.Controls" Active="Home" />
         </VerticalStackLayout>
     </Grid>
 </ContentPage>
