@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="Social_Anxiety.ProfilePage"
+    Title="Meu espaço"
+    Style="{StaticResource FlowPage}">
+    <ContentPage.Resources>
+        <Style x:Key="StatNumber" TargetType="Label">
+            <Setter Property="FontFamily" Value="NunitoExtraBold" />
+            <Setter Property="FontSize" Value="28" />
+            <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource CalmePrimary}, Dark={StaticResource CalmePrimaryDark}}" />
+        </Style>
+    </ContentPage.Resources>
+    <Grid RowDefinitions="*,Auto">
+        <ScrollView>
+            <VerticalStackLayout Padding="24,8,24,28" Spacing="16">
+                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="16">
+                    <Border WidthRequest="72" HeightRequest="72" StrokeThickness="0" StrokeShape="RoundRectangle 36"
+                            BackgroundColor="{AppThemeBinding Light={StaticResource CalmeLilac}, Dark={StaticResource CalmeLilacDark}}"
+                            AutomationProperties.IsInAccessibleTree="False">
+                        <Label x:Name="Initial" FontFamily="NunitoExtraBold" FontSize="28" HorizontalOptions="Center" VerticalOptions="Center"
+                               TextColor="{AppThemeBinding Light={StaticResource CalmePurple}, Dark={StaticResource CalmePurpleDark}}" />
+                    </Border>
+                    <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="4">
+                        <Label x:Name="ProfileName" Style="{StaticResource FlowHeading}" SemanticProperties.HeadingLevel="Level1" AutomationId="profile-title" />
+                        <Label Text="Sua jornada, no seu ritmo." Style="{StaticResource FlowCopy}" />
+                    </VerticalStackLayout>
+                </Grid>
+
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="16">
+                    <Border x:Name="StreakCard" Style="{StaticResource FlowCard}" Padding="16" AutomationId="profile-streak">
+                        <VerticalStackLayout Spacing="2">
+                            <Label x:Name="StreakNumber" Style="{StaticResource StatNumber}" />
+                            <Label Text="dias de cuidado" Style="{StaticResource FlowCopy}" FontSize="14" />
+                            <Label Text="Sequência atual" Style="{StaticResource FlowSmall}" />
+                        </VerticalStackLayout>
+                    </Border>
+                    <Border x:Name="ChallengesCard" Grid.Column="1" Style="{StaticResource FlowCard}" Padding="16" AutomationId="profile-challenges">
+                        <VerticalStackLayout Spacing="2">
+                            <Label x:Name="ChallengesNumber" Style="{StaticResource StatNumber}" />
+                            <Label Text="desafios experimentados" Style="{StaticResource FlowCopy}" FontSize="14" />
+                        </VerticalStackLayout>
+                    </Border>
+                </Grid>
+
+                <Label Text="Pequenas conquistas" Style="{StaticResource FlowCardTitle}" SemanticProperties.HeadingLevel="Level2" />
+                <Label x:Name="ErrorMessage" Style="{StaticResource FlowCopy}" AutomationId="profile-error" />
+                <Grid x:Name="AchievementGrid" ColumnDefinitions="*,*,*" ColumnSpacing="12" RowSpacing="12" AutomationId="profile-achievements" />
+
+                <Border Style="{StaticResource FlowCard}" Padding="16" BackgroundColor="{AppThemeBinding Light={StaticResource CalmeMint}, Dark={StaticResource CalmeMintDark}}">
+                    <Label Text="Você não perde conquistas ao descansar. Cuidar de si também inclui fazer pausas." Style="{StaticResource FlowCopy}" FontSize="14"
+                           TextColor="{AppThemeBinding Light={StaticResource CalmeTeal}, Dark={StaticResource CalmeTealDark}}" />
+                </Border>
+                <Button Text="Voltar ao início" Clicked="OnHomeClicked" AutomationId="profile-home" Style="{StaticResource CalmeTextButton}" />
+            </VerticalStackLayout>
+        </ScrollView>
+        <Button Grid.Row="1" Margin="24,8,24,12" Text="Preciso de apoio agora" Clicked="OnSupportClicked" AutomationId="open-support" Style="{StaticResource FlowSupportButton}" />
+    </Grid>
+</ContentPage>

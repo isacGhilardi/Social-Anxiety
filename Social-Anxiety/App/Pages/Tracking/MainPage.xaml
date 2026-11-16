@@ -25,6 +25,7 @@
                 <Button Text="Técnicas" Clicked="OnTechniquesClicked" AutomationId="home-techniques" Style="{StaticResource CalmeTextButton}" />
                 <Button Text="Meditação guiada" Clicked="OnMeditacaoGuiadaClicked" AutomationId="home-meditacao" Style="{StaticResource CalmeTextButton}" />
                 <Button Text="Desafios" Clicked="OnChallengesClicked" AutomationId="home-challenges" Style="{StaticResource CalmeTextButton}" />
+                <Button Text="Meu espaço" Clicked="OnProfileClicked" AutomationId="home-profile" Style="{StaticResource CalmeTextButton}" />
 
             </VerticalStackLayout>
         </ScrollView>
