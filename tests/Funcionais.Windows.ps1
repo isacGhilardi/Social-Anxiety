@@ -246,6 +246,29 @@ try {
         Click-Control 'Voltar ao que eu estava fazendo'
         Find-Control 'home-checkin' | Out-Null
     }
+    Test-Flow 'Barra inferior abre cada aba com o destaque certo' {
+        Assert-Equal (Find-Control 'nav-home').Current.Name 'Início, aba atual' 'Início sem destaque'
+        $tabs = @(
+            @{ Id = 'nav-history'; Screen = 'history-period'; Label = 'Histórico' },
+            @{ Id = 'nav-techniques'; Screen = 'techniques-title'; Label = 'Técnicas' },
+            @{ Id = 'nav-challenges'; Screen = 'challenges-title'; Label = 'Desafios' },
+            @{ Id = 'nav-profile'; Screen = 'profile-title'; Label = 'Perfil' },
+            @{ Id = 'nav-home'; Screen = 'home-checkin'; Label = 'Início' }
+        )
+        foreach ($tab in $tabs) {
+            Click-Control $tab.Id
+            Find-Control $tab.Screen | Out-Null
+            Assert-Equal (Find-Control $tab.Id).Current.Name "$($tab.Label), aba atual" "Destaque incorreto em $($tab.Label)"
+        }
+        # Tocar na aba atual não navega; de Histórico para Técnicas, voltar leva ao início (sem telas acumuladas).
+        Click-Control 'nav-history'
+        Click-Control 'nav-history'
+        Find-Control 'history-period' | Out-Null
+        Click-Control 'nav-techniques'
+        Find-Control 'techniques-title' | Out-Null
+        Click-Control 'Voltar'
+        Find-Control 'home-checkin' | Out-Null
+    }
     Test-Flow 'Voltar do check-in cancela sem gravar' {
         Click-Control 'home-checkin'
         Click-Control 'score-3'

@@ -15,7 +15,7 @@ Social-Anxiety/
   App.xaml(.cs)          App, atalhos OpenSupport/OpenHelp/EnterHomeAsync
   AppShell.xaml(.cs)     Shell, rotas e decisão da tela inicial (boas-vindas, acesso ou início)
   MauiProgram.cs         Fontes, logging de debug e injeção de dependência (serviços e páginas)
-  App/Controls/          BottomNavBar
+  App/Controls/          BottomNavBar (5 abas; aba ativa pela propriedade Active, definida no XAML da página)
   App/Graphics/          ResumoGrafico (IDrawable do gráfico de 7/30 dias)
   App/Pages/Onboarding/  OnboardingPage (boas-vindas, aviso, motivo, acesso, apoio, ajuda) e AccessPage
   App/Pages/Auth/        SignupPage, LoginPage
@@ -67,6 +67,7 @@ Páginas (XAML + code-behind, sem ViewModels) recebem serviços do `Core` pela i
 | `FakeTrailSource`, `ITrailSource`, `TrailLevel` e os métodos `TryCompleteLevelAsync` e `TryAddAchievementAsync` do repositório removidos, 2026-11-10 | Sem uso no app; só os testes chamavam os métodos do repositório, e agora semeiam o SQLite direto | — |
 | Progresso e conquistas sem vínculo com usuário, como `checkins`, 2026-11-10 | Quem usa o mesmo aparelho vê o mesmo progresso | Houver perfil, várias contas por aparelho ou sincronização |
 | Textos das telas de desafio alinhados ao `Calme_Prototipo.html` aprovado pela psicóloga, 2026-11-10; sem "Ver minhas conquistas" na tela de parabéns | Fonte única dos textos; ainda não existe tela de perfil | Houver tela de perfil |
+| Barra inferior nas abas (`MainPage`, `HistoryPage`, `TechniquesPage`, `ChallengesPage`, `ProfilePage`), abaixo do botão de apoio; telas de fluxo sem barra. Destinos absolutos (`//home`, `//home/history`, `//home/library`, `//challenges`, `//profile`); aba ativa definida no XAML de cada página; uma navegação por vez (trava estática), 2026-11-16 | Rotas absolutas recomeçam a pilha, sem telas acumuladas. Perfil habilitado porque a rota `//profile` existe desde o PR #44 | Histórico ou Técnicas virarem `ShellContent` próprios |
 
 ## Manutenção
 
