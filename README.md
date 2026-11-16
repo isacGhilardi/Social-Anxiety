@@ -50,15 +50,41 @@ As telas atuais ainda desenham o gráfico com a lista de check-ins (`ResumoGrafi
 
 ### Texto sugerido para a tela de privacidade
 
-A tela `privacy` ainda não existe. Texto sugerido, no tom do protótipo:
+A tela `privacy` ainda não existe. Texto sugerido, no tom do protótipo, conferido com o código em 2026-11-16 (`b9e1538`):
 
-> **Seus dados ficam aqui com você.** Tudo o que você registra no Calme fica guardado só neste aparelho. Nada é enviado para a internet.
+> **O que o Calme guarda**
 >
-> **Sua conta é uma simulação.** Nesta versão, criar uma conta serve para experimentar o fluxo do app. Ela também fica só neste aparelho e não pode ser recuperada em outro.
+> - Seus check-ins: a nota de 1 a 5, o dia e o horário de cada registro.
+> - Seu caminho na trilha de desafios: quais níveis você concluiu, as conquistas e as datas.
+> - Se você criar uma conta: seu nome, seu e-mail e um código gerado a partir da senha. A senha em si não é guardada, e o código não permite descobri-la.
+> - Qual conta está aberta, ou se você entrou como convidado.
+> - Algumas escolhas suas: se você já passou pelas boas-vindas e as opções da respiração guiada (pular a pausa e reduzir movimentos).
 >
-> **Quem usa este aparelho vê os mesmos registros.** Os check-ins não ficam separados por conta. Se outra pessoa usar o Calme neste aparelho, ela verá o que foi registrado aqui.
+> **Onde fica**
 >
-> As informações do Calme são para autoconhecimento. Não são resultados de uma avaliação clínica.
+> Tudo fica só neste aparelho. O Calme não tem servidor e não envia seus dados pela internet. Se o backup do aparelho estiver ligado, o sistema pode incluir os dados do Calme na cópia de segurança.
+>
+> **Limites**
+>
+> - Sua conta é uma simulação. Nesta versão, ela serve para experimentar o app, fica só neste aparelho e não pode ser recuperada em outro.
+> - Os registros não são criptografados. Quem tiver acesso ao aparelho e aos arquivos dele pode chegar a eles.
+> - Quem usa este aparelho vê os mesmos registros. Os check-ins, o progresso e as conquistas não ficam separados por conta: qualquer pessoa que abrir o Calme aqui, com outra conta ou como convidada, verá o que foi registrado.
+> - As informações do Calme são para autoconhecimento. Não são resultados de uma avaliação clínica.
+>
+> **Como apagar**
+>
+> - Por enquanto, não há como apagar seus dados dentro do app.
+> - Sair da conta não apaga nada: só encerra a sessão. Check-ins, progresso, conquistas e a conta continuam no aparelho.
+> - Para apagar tudo, limpe os dados do Calme nas configurações do aparelho (no Android, em Apps › Calme › Armazenamento; o caminho muda conforme o modelo) ou desinstale o app.
+
+Base no código, para quem for montar a tela:
+
+- Banco `calme.db3` em `FileSystem.AppDataDirectory`, aberto sem chave de criptografia (`Data/Sqlite/CalmeDatabase.cs`). Tabelas em `CalmeDatabase.Tables`: `users` (`UserRow`: `Id`, `DisplayName`, `Email`, `PasswordHash`, `Salt`, `CreatedAtUtc`), `checkins` (`CheckInRow`: `Id`, `Score`, `RecordedAtUtc`, `LocalDay`), `challenge_progress` (`ChallengeProgressRow`: `Id`, `Level`, `CompletedAtUtc`, só níveis 2 e 3) e `achievements` (`AchievementRow`: `Id`, `Key`, `ObtainedAtUtc`). O nível 1 e a conquista "Primeiro cuidado" são calculados a partir dos check-ins, sem gravação. Nenhuma tabela tem vínculo com usuário.
+- `SecureStorage`, chave `calme.session`: o id do usuário ou `guest` (`Data/SecureSessionStore.cs`).
+- `Preferences`: `calme.onboarding_done` (`App.xaml.cs`, `OnboardingPage.xaml.cs`), `breathing-skip-hold` e `breathing-reduced-motion` (`BreathePage.xaml.cs`). `calme.theme` existe em `AppPreferences.cs`, mas nenhuma tela grava o tema ainda; quando a tela de configurações gravar, inclua o tema no texto. O motivo escolhido nas boas-vindas (`OnboardingState.Motive`) fica só na memória.
+- Sem código de rede no projeto. O `AndroidManifest.xml` tem `android:allowBackup="true"` e as permissões `INTERNET` e `ACCESS_NETWORK_STATE` do modelo MAUI, que não são usadas.
+- Nenhum código apaga check-ins, progresso, conquistas ou contas. `SessionState.SignOutAsync()` só remove `calme.session`, e ainda não há botão que o chame.
+- No Windows (exe não empacotado), os dados ficam em `%LOCALAPPDATA%\<PublisherDisplayName>\<ApplicationId>\` (`Data\calme.db3`, `Settings\preferences.dat` e `Settings\securestorage.dat`), como na identidade de teste `Calme Tests\com.calme.functionaltests`. Apagar o exe não apaga essa pasta. Desinstalar no iOS pode manter o `calme.session` no Keychain: [a confirmar].
 
 ## Documentação
 
