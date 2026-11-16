@@ -48,6 +48,7 @@ namespace Social_Anxiety
             builder.Services.AddTransient<RecordPage>();
             builder.Services.AddTransient<TechniquesPage>();
             builder.Services.AddTransient<TechniquePage>();
+            builder.Services.AddTransient<Views.MeditacaoGuiadaPage>();
             builder.Services.AddTransient<ChallengesPage>();
             builder.Services.AddTransient<ChallengeLockedPage>();
             builder.Services.AddTransient<ChallengeActivePage>();

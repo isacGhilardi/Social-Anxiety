@@ -21,6 +21,7 @@ namespace Social_Anxiety
             Routing.RegisterRoute("signup", typeof(SignupPage));
             Routing.RegisterRoute("login", typeof(LoginPage));
             Routing.RegisterRoute("library", typeof(TechniquesPage));
+            Routing.RegisterRoute("meditacao-guiada", typeof(Views.MeditacaoGuiadaPage));
             Routing.RegisterRoute("technique", typeof(TechniquePage));
             Routing.RegisterRoute("challengeLocked", typeof(ChallengeLockedPage));
             Routing.RegisterRoute("challengeActive", typeof(ChallengeActivePage));

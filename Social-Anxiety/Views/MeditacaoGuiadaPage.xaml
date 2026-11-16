@@ -14,6 +14,8 @@
             <Button
                 Text="‹  Voltar"
                 Clicked="OnVoltarClicked"
+                AutomationId="meditacao-voltar"
+                SemanticProperties.Description="Voltar"
                 HorizontalOptions="Start"
                 BackgroundColor="Transparent"
                 TextColor="{AppThemeBinding Light={StaticResource CalmeText}, Dark={StaticResource CalmeTextDark}}"
@@ -30,6 +32,8 @@
 
                 <Label
                     Text="Meditação guiada"
+                    AutomationId="meditacao-title"
+                    SemanticProperties.HeadingLevel="Level1"
                     FontFamily="NunitoExtraBold"
                     FontSize="30"
                     TextColor="{AppThemeBinding Light={StaticResource CalmeText}, Dark={StaticResource CalmeTextDark}}" />
@@ -70,6 +74,7 @@
 
                                 <Label
                                     Text="◉"
+                                    SemanticProperties.Description="Círculo de respiração"
                                     FontSize="54"
                                     TextColor="#39796D"
                                     HorizontalTextAlignment="Center"
@@ -102,6 +107,8 @@
                     <VerticalStackLayout Spacing="8">
                         <ProgressBar
                             x:Name="Progresso"
+                            AutomationId="meditacao-progresso"
+                            SemanticProperties.Description="Progresso da meditação"
                             Progress="0"
                             ProgressColor="#568D83"
                             BackgroundColor="#DDE7E2"
@@ -110,6 +117,7 @@
                         <Grid ColumnDefinitions="*,*">
                             <Label
                                 x:Name="TempoAtual"
+                                AutomationId="meditacao-tempo"
                                 Text="00:00"
                                 FontFamily="Nunito"
                                 FontSize="12"
@@ -129,6 +137,7 @@
                         x:Name="BotaoReproduzir"
                         Text="▶  Iniciar meditação"
                         Clicked="OnReproduzirClicked"
+                        AutomationId="meditacao-reproduzir"
                         BackgroundColor="#39796D"
                         TextColor="White"
                         FontFamily="NunitoExtraBold"
@@ -139,6 +148,7 @@
                     <Button
                         Text="Recomeçar sessão"
                         Clicked="OnRecomecarClicked"
+                        AutomationId="meditacao-recomecar"
                         BackgroundColor="Transparent"
                         TextColor="#568D83"
                         FontFamily="NunitoExtraBold"
