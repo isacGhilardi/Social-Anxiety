@@ -390,6 +390,13 @@ try {
         Click-Control 'Voltar'
         Find-Control 'home-checkin' | Out-Null
     }
+    Test-Flow 'Meditação abre pelo início e volta ao início' {
+        Click-Control 'home-meditacao'
+        Find-Control 'meditacao-title' | Out-Null
+        Assert-Equal (Find-Control 'meditacao-tempo').Current.Name '00:00' 'Meditação não começou zerada'
+        Click-Control 'meditacao-voltar'
+        Find-Control 'home-checkin' | Out-Null
+    }
     Test-Flow 'Fases, pausa, retomada e opções da respiração funcionam na interface' {
         Click-Control 'home-breathe'
         Set-Switch 'breathe-skip-hold' $false

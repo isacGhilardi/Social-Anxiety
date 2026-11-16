@@ -22,7 +22,7 @@ Social-Anxiety/
   App/Pages/Tracking/    MainPage, CheckinPage, FeedbackPage, HistoryPage, RecordPage
   App/Pages/Breathing/   BreathePage, BreatheFinishPage
   App/Pages/Challenges/  ChallengesPage (trilha e conquistas), ChallengeLockedPage, ChallengeActivePage (detalhe e desafio em andamento), ChallengeDonePage, CompleteChallengeAction
-  Views/                 ApoioImediatoPage (PR #24, sem ponto de acesso)
+  Views/                 MeditacaoGuiadaPage (rota de empilhar `meditacao-guiada`)
   Core/Auth/             User, SessionState, AuthService, PasswordHasher, SignupValidator, EmailNormalizer, interfaces
   Core/CheckIns/         CheckIn, CheckInService, ICheckInRepository
   Core/Models/           OnboardingState
@@ -66,6 +66,7 @@ Páginas (XAML + code-behind, sem ViewModels) recebem serviços do `Core` pela i
 | Telas de desafio do PR #39 em `Views/` removidas, 2026-11-10 | Duplicavam as de `App/Pages/Challenges`, guardavam o progresso em `Preferences` (fora do SQLite e do `Core`) e o PR apagou o `OnLoaded` e as rotas do `AppShell`, quebrando a `Main` (CS0246) | — |
 | `FakeTrailSource`, `ITrailSource`, `TrailLevel` e os métodos `TryCompleteLevelAsync` e `TryAddAchievementAsync` do repositório removidos, 2026-11-10 | Sem uso no app; só os testes chamavam os métodos do repositório, e agora semeiam o SQLite direto | — |
 | Progresso e conquistas sem vínculo com usuário, como `checkins`, 2026-11-10 | Quem usa o mesmo aparelho vê o mesmo progresso | Houver perfil, várias contas por aparelho ou sincronização |
+| `ApoioImediatoPage` (PR #24) e `Views/LibraryPage.cs` removidas, e a meditação guiada passou de `ShellContent` para rota de empilhar (`meditacao-guiada`), 2026-11-16 | A `ApoioImediatoPage` não tinha ponto de acesso (o apoio é a tela "Uma pausa agora" do onboarding) e a `LibraryPage` era uma versão antiga da tela de Técnicas, sem uso (a rota `library` é da `TechniquesPage`). Como `ShellContent`, a meditação virava raiz e o "‹ Voltar" (`GoToAsync("..")`) não tinha para onde voltar | Mover a meditação para `App/Pages/` |
 | Textos das telas de desafio alinhados ao `Calme_Prototipo.html` aprovado pela psicóloga, 2026-11-10; sem "Ver minhas conquistas" na tela de parabéns | Fonte única dos textos; ainda não existe tela de perfil | Houver tela de perfil |
 
 ## Manutenção

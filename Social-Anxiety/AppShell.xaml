@@ -14,8 +14,4 @@
     <ShellContent ContentTemplate="{DataTemplate local:AccessPage}" Route="access" />
     <ShellContent Title="Início" ContentTemplate="{DataTemplate local:MainPage}" Route="home" />
     <ShellContent Title="Desafios" ContentTemplate="{DataTemplate local:ChallengesPage}" Route="challenges" />
-    <ShellContent
-    Title="Meditação guiada"
-    ContentTemplate="{DataTemplate views:MeditacaoGuiadaPage}"
-    Route="meditacao-guiada" />
 </Shell>
