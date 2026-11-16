@@ -1,11 +1,13 @@
 <ContentPage
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:Social_Anxiety.Controls"
     x:Class="Social_Anxiety.Views.MeditacaoGuiadaPage"
     Title="Meditação guiada"
     Shell.NavBarIsVisible="False"
     BackgroundColor="{AppThemeBinding Light={StaticResource CalmeBg}, Dark={StaticResource CalmeBgDark}}">
 
+    <Grid RowDefinitions="*,Auto">
     <ScrollView>
         <VerticalStackLayout Padding="24,32" Spacing="22">
 
@@ -181,4 +183,8 @@
 
         </VerticalStackLayout>
     </ScrollView>
+        <VerticalStackLayout Grid.Row="1" Padding="24,8,24,12">
+            <controls:SupportButton />
+        </VerticalStackLayout>
+    </Grid>
 </ContentPage>

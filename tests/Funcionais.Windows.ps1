@@ -435,6 +435,15 @@ try {
         Click-Control 'Voltar'
         Find-Control 'home-checkin' | Out-Null
     }
+    Test-Flow 'Meditação mostra o botão de apoio e o apoio volta à meditação' {
+        Click-Control 'home-meditacao'
+        Click-Control 'open-support'
+        Find-Control 'Respiração guiada. Acompanhe um ritmo suave' | Out-Null
+        Click-Control 'Voltar ao que eu estava fazendo'
+        Find-Control 'Calma e presença' | Out-Null
+        Click-Control 'meditacao-voltar'
+        Find-Control 'home-checkin' | Out-Null
+    }
     Test-Flow 'Minimizar pausa a respiração sem retomar automaticamente' {
         Click-Control 'home-breathe'
         Click-Control 'breathe-toggle'

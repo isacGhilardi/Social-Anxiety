@@ -15,7 +15,7 @@ Social-Anxiety/
   App.xaml(.cs)          App, atalhos OpenSupport/OpenHelp/EnterHomeAsync
   AppShell.xaml(.cs)     Shell, rotas e decisão da tela inicial (boas-vindas, acesso ou início)
   MauiProgram.cs         Fontes, logging de debug e injeção de dependência (serviços e páginas)
-  App/Controls/          BottomNavBar (5 abas; aba ativa pela propriedade Active, definida no XAML da página)
+  App/Controls/          BottomNavBar (5 abas; aba ativa pela propriedade Active, definida no XAML da página), SupportButton ("Preciso de apoio agora", chama App.OpenSupport)
   App/Graphics/          ResumoGrafico (IDrawable do gráfico de 7/30 dias)
   App/Pages/Onboarding/  OnboardingPage (boas-vindas, aviso, motivo, acesso, apoio, ajuda) e AccessPage
   App/Pages/Auth/        SignupPage, LoginPage
