@@ -10,8 +10,7 @@ if (!(Test-Path -LiteralPath $marker) -or (Get-Content -LiteralPath $marker -Raw
     throw 'Use a versão isolada gerada por tests/Testar.Windows.ps1. O aplicativo normal não pode ser usado nesta suíte.'
 }
 $dataDirectory = Join-Path $env:LOCALAPPDATA 'Calme Tests/com.calme.functionaltests/Data'
-$dataPath = Join-Path $dataDirectory 'checkins.json'
-$backup = if (Test-Path -LiteralPath $dataPath) { [IO.File]::ReadAllBytes($dataPath) } else { $null }
+$dataPath = Join-Path $dataDirectory 'calme.db3'
 Add-Type -AssemblyName UIAutomationClient
 Add-Type -AssemblyName UIAutomationTypes
 $results = [Collections.Generic.List[object]]::new()
@@ -41,6 +40,17 @@ function Find-Control([string]$value) {
         Start-Sleep -Milliseconds 100
     } while ((Get-Date) -lt $deadline)
     throw "Controle ausente: $value"
+}
+
+# Verdadeiro se o controle não aparece (espera curta, para não atrasar a suíte).
+function Test-Absent([string]$value, [int]$seconds = 2) {
+    $id = [System.Windows.Automation.PropertyCondition]::new([System.Windows.Automation.AutomationElement]::AutomationIdProperty, $value)
+    $deadline = (Get-Date).AddSeconds($seconds)
+    do {
+        if ($window.FindFirst([System.Windows.Automation.TreeScope]::Descendants, $id)) { return $false }
+        Start-Sleep -Milliseconds 100
+    } while ((Get-Date) -lt $deadline)
+    return $true
 }
 
 function Click-Control([string]$value) {
@@ -102,25 +112,162 @@ function Test-Flow([string]$name, [scriptblock]$body) {
     }
 }
 
-function Enter-Home {
-    Click-Control 'Conhecer o Calme'
-    Click-Control 'Continuar'
-    Click-Control 'Entendi, vamos continuar'
-    Click-Control 'Prefiro explorar primeiro'
-    Click-Control 'Continuar como convidado'
-    Find-Control 'home-checkin' | Out-Null
+function Set-Text([string]$id, [string]$value) {
+    (Find-Control $id).GetCurrentPattern([System.Windows.Automation.ValuePattern]::Pattern).SetValue($value)
+    Start-Sleep -Milliseconds 150
+}
+
+function Restart-Calme {
+    $app.Kill()
+    $app.WaitForExit()
+    Start-Calme
+}
+
+# Fecha o app e apaga só a sessão salva da identidade de teste: reabre na tela de acesso.
+function Clear-Session {
+    $app.Kill()
+    $app.WaitForExit()
+    $session = Join-Path (Split-Path -Parent $dataDirectory) 'Settings/securestorage.dat'
+    if (Test-Path -LiteralPath $session) { Remove-Item -LiteralPath $session }
+    Start-Calme
+    Find-Control 'Criar minha conta' | Out-Null
+}
+
+# Grava dados fictícios direto no banco da identidade de teste, com o SQLite que acompanha o Windows.
+Add-Type -Namespace CalmeTests -Name Sqlite -MemberDefinition @'
+[DllImport("winsqlite3.dll", CharSet = CharSet.Ansi)] public static extern int sqlite3_open(string filename, out IntPtr db);
+[DllImport("winsqlite3.dll", CharSet = CharSet.Ansi)] public static extern int sqlite3_exec(IntPtr db, string sql, IntPtr callback, IntPtr arg, IntPtr errmsg);
+[DllImport("winsqlite3.dll")] public static extern int sqlite3_close(IntPtr db);
+'@
+
+function Invoke-Sqlite([string]$sql) {
+    $db = [IntPtr]::Zero
+    if ([CalmeTests.Sqlite]::sqlite3_open($dataPath, [ref]$db) -ne 0) { throw "Não foi possível abrir $dataPath" }
+    try {
+        $code = [CalmeTests.Sqlite]::sqlite3_exec($db, $sql, [IntPtr]::Zero, [IntPtr]::Zero, [IntPtr]::Zero)
+        if ($code -ne 0) { throw "SQLite retornou $code" }
+    } finally { [CalmeTests.Sqlite]::sqlite3_close($db) | Out-Null }
 }
 
 try {
+    # Pasta exclusiva da identidade de teste: banco, sessão e preferências começam do zero.
+    $testAppDirectory = Split-Path -Parent $dataDirectory
+    if (Test-Path -LiteralPath $testAppDirectory) { Remove-Item -LiteralPath $testAppDirectory -Recurse -Force }
     [IO.Directory]::CreateDirectory($dataDirectory) | Out-Null
-    [IO.File]::WriteAllText($dataPath, '[]')
     Start-Calme
-    Test-Flow 'Convidado chega ao início funcional' { Enter-Home }
+    Test-Flow 'Sem sessão, reabrir vai direto ao acesso' {
+        Click-Control 'Conhecer o Calme'
+        Click-Control 'Continuar'
+        Click-Control 'Entendi, vamos continuar'
+        Click-Control 'Prefiro explorar primeiro'
+        Find-Control 'Criar minha conta' | Out-Null
+        Restart-Calme
+        Find-Control 'Criar minha conta' | Out-Null
+    }
+    Test-Flow 'Cadastro valida campos, abre a sessão e continua após reabrir' {
+        Click-Control 'Criar minha conta'
+        Set-Text 'signup-name' 'Pessoa Teste'
+        Set-Text 'signup-email' 'Pessoa.Teste@Exemplo.com'
+        Set-Text 'signup-password' '12345'
+        Click-Control 'signup-submit'
+        Assert-Equal (Find-Control 'signup-error').Current.Name 'Confira seu nome, e-mail e senha. A senha precisa ter pelo menos 6 caracteres.' 'Validação do cadastro não apareceu'
+        Set-Text 'signup-password' 'senha-ficticia'
+        Click-Control 'signup-submit'
+        Wait-Text 'home-greeting' 'Olá, Pessoa Teste.'
+        Restart-Calme
+        Wait-Text 'home-greeting' 'Olá, Pessoa Teste.'
+    }
+    Test-Flow 'Login errado e e-mail repetido mostram mensagens, login certo entra' {
+        Clear-Session
+        Click-Control 'Já tenho uma conta'
+        Set-Text 'login-email' 'pessoa.teste@exemplo.com'
+        Set-Text 'login-password' 'senha-errada'
+        Click-Control 'login-submit'
+        Assert-Equal (Find-Control 'login-error').Current.Name 'E-mail ou senha incorretos.' 'Mensagem de login incorreta'
+        Click-Control 'Criar uma conta'
+        Set-Text 'signup-name' 'Outra Pessoa'
+        Set-Text 'signup-email' ' PESSOA.TESTE@exemplo.com '
+        Set-Text 'signup-password' 'outra-senha'
+        Click-Control 'signup-submit'
+        Assert-Equal (Find-Control 'signup-error').Current.Name 'Este e-mail já tem uma conta. Que tal entrar?' 'E-mail repetido foi aceito'
+        Click-Control 'Já tenho uma conta'
+        Set-Text 'login-email' 'pessoa.teste@exemplo.com'
+        Set-Text 'login-password' 'senha-ficticia'
+        Click-Control 'login-submit'
+        Wait-Text 'home-greeting' 'Olá, Pessoa Teste.'
+    }
+    Test-Flow 'Convidado chega ao início' {
+        Clear-Session
+        Click-Control 'Continuar como convidado'
+        Find-Control 'home-checkin' | Out-Null
+        Assert-Equal (Find-Control 'home-greeting').Current.Name 'Olá, que bom ter você.' 'Saudação de convidado incorreta'
+    }
+    Test-Flow 'Convidado reabre o aplicativo direto no início' {
+        Restart-Calme
+        Find-Control 'home-checkin' | Out-Null
+        Assert-Equal (Find-Control 'home-greeting').Current.Name 'Olá, que bom ter você.' 'Sessão de convidado não foi restaurada'
+    }
     Test-Flow 'Histórico vazio não apresenta dados de exemplo' {
         Click-Control 'home-history'
         Assert-Equal (Find-Control 'history-count').Current.Name '0 registros no período' 'Histórico deveria estar vazio'
         Find-Control 'Nenhum registro neste período.' | Out-Null
         Click-Control 'history-home'
+    }
+    Test-Flow 'Técnicas exibem passos, concluem e retornam à biblioteca' {
+        Click-Control 'home-techniques'
+        Find-Control 'techniques-title' | Out-Null
+        $cases = @(
+            @{ Key = 'mindfulness'; Title = 'Um momento de presença.'; Count = 4; Last = 'Volte com gentileza' },
+            @{ Key = 'stop'; Title = 'Pare por um instante.'; Count = 4; Last = 'Prossiga com cuidado' },
+            @{ Key = 'acalme'; Title = 'Dê espaço ao que sente.'; Count = 8; Last = 'Espere com abertura' }
+        )
+        foreach ($case in $cases) {
+            Click-Control "techniques-$($case.Key)"
+            Assert-Equal (Find-Control 'technique-title').Current.Name $case.Title 'Técnica incorreta'
+            Find-Control $case.Last | Out-Null
+            $description = (Find-Control 'technique-steps').Current.Name
+            if ($description -notmatch "$($case.Count) passos") { throw 'Quantidade de passos incorreta' }
+            Click-Control 'technique-complete'
+            Assert-Equal (Find-Control 'technique-finish-title').Current.Name 'Uma pausa conta.' 'Conclusão não apareceu'
+            Click-Control 'technique-library'
+            Find-Control 'techniques-title' | Out-Null
+        }
+        Click-Control 'Voltar'
+        Find-Control 'home-checkin' | Out-Null
+    }
+    Test-Flow 'Apoio imediato abre STOP e ACALME-SE' {
+        Click-Control 'open-support'
+        Click-Control 'STOP. Pare, respire, observe e prossiga'
+        Assert-Equal (Find-Control 'technique-title').Current.Name 'Pare por um instante.' 'STOP continuou provisório'
+        Click-Control 'Voltar'
+        Click-Control 'ACALME-SE. Acolha o que sente, passo a passo'
+        Assert-Equal (Find-Control 'technique-title').Current.Name 'Dê espaço ao que sente.' 'ACALME-SE continuou provisório'
+        Click-Control 'Voltar'
+        Click-Control 'Voltar ao que eu estava fazendo'
+        Find-Control 'home-checkin' | Out-Null
+    }
+    Test-Flow 'Barra inferior abre cada aba com o destaque certo' {
+        Assert-Equal (Find-Control 'nav-home').Current.Name 'Início, aba atual' 'Início sem destaque'
+        $tabs = @(
+            @{ Id = 'nav-history'; Screen = 'history-period'; Label = 'Histórico' },
+            @{ Id = 'nav-techniques'; Screen = 'techniques-title'; Label = 'Técnicas' },
+            @{ Id = 'nav-challenges'; Screen = 'challenges-title'; Label = 'Desafios' },
+            @{ Id = 'nav-profile'; Screen = 'profile-title'; Label = 'Perfil' },
+            @{ Id = 'nav-home'; Screen = 'home-checkin'; Label = 'Início' }
+        )
+        foreach ($tab in $tabs) {
+            Click-Control $tab.Id
+            Find-Control $tab.Screen | Out-Null
+            Assert-Equal (Find-Control $tab.Id).Current.Name "$($tab.Label), aba atual" "Destaque incorreto em $($tab.Label)"
+        }
+        # Tocar na aba atual não navega; de Histórico para Técnicas, voltar leva ao início (sem telas acumuladas).
+        Click-Control 'nav-history'
+        Click-Control 'nav-history'
+        Find-Control 'history-period' | Out-Null
+        Click-Control 'nav-techniques'
+        Find-Control 'techniques-title' | Out-Null
+        Click-Control 'Voltar'
+        Find-Control 'home-checkin' | Out-Null
     }
     Test-Flow 'Voltar do check-in cancela sem gravar' {
         Click-Control 'home-checkin'
@@ -166,8 +313,48 @@ try {
         $app.Kill()
         $app.WaitForExit()
         Start-Calme
-        Enter-Home
+        Find-Control 'home-checkin' | Out-Null
         Assert-Equal (Find-Control 'home-latest').Current.Name '1 de 5 · Pouca' 'Persistência falhou'
+    }
+    Test-Flow 'Trilha libera, conclui o nível 2 uma vez e mantém após reiniciar' {
+        # Check-in próprio: o caso não depende dos anteriores (salvar de novo no mesmo dia substitui).
+        Click-Control 'home-checkin'
+        Click-Control 'score-3'
+        Click-Control 'checkin-save'
+        Click-Control 'feedback-home'
+        Click-Control 'home-challenges'
+        Wait-Text 'challenges-progress' '1 de 3 níveis concluídos'
+        Click-Control 'challenge-open-3'
+        Find-Control 'locked-title' | Out-Null
+        Click-Control 'locked-back'
+        Click-Control 'challenge-open-2'
+        Find-Control 'active-detail' | Out-Null
+        Click-Control 'active-later'
+        Wait-Text 'challenges-progress' '1 de 3 níveis concluídos'
+        Click-Control 'challenge-open-2'
+        Click-Control 'active-accept'
+        Find-Control 'active-progress' | Out-Null
+        Click-Control 'active-complete'
+        Find-Control 'done-title' | Out-Null
+        Find-Control 'Pequeno passo · por experimentar um desafio social.' | Out-Null
+        Find-Control 'done-next' | Out-Null
+        Click-Control 'done-trail'
+        Wait-Text 'challenges-progress' '2 de 3 níveis concluídos'
+        Assert-Equal (Test-Absent 'challenge-open-2') $true 'Nível 2 concluído ainda oferece o desafio'
+        Click-Control 'challenge-open-3'
+        Click-Control 'active-accept'
+        Click-Control 'active-complete'
+        Find-Control 'Uma conversa · por experimentar um desafio social.' | Out-Null
+        Assert-Equal (Test-Absent 'done-next') $true 'Último nível não tem próximo nível'
+        Click-Control 'done-trail'
+        Wait-Text 'challenges-progress' '3 de 3 níveis concluídos'
+        Assert-Equal (Find-Control 'achievement-pequeno-passo').Current.Name 'Conquista Pequeno passo, conquistada' 'Conquista do nível 2'
+        Assert-Equal (Find-Control 'achievement-uma-conversa').Current.Name 'Conquista Uma conversa, conquistada' 'Conquista do nível 3'
+        Restart-Calme
+        Click-Control 'home-challenges'
+        Wait-Text 'challenges-progress' '3 de 3 níveis concluídos'
+        Click-Control 'challenges-home'
+        Find-Control 'home-checkin' | Out-Null
     }
     Test-Flow 'Todos os níveis da escala chegam corretamente ao histórico e detalhe' {
         $labels = @('Pouca', 'Leve', 'Moderada', 'Intensa', 'Muito intensa')
@@ -186,16 +373,27 @@ try {
     Test-Flow 'Semana e mês filtram as datas na interface' {
         $app.Kill()
         $app.WaitForExit()
-        $fixtures = @(0, 6, 7, 29, 30) | ForEach-Object {
-            @{ Id = [Guid]::NewGuid().ToString(); Date = (Get-Date).Date.AddDays(-$_).ToString('yyyy-MM-dd'); Score = 2 }
+        $rows = @(0, 6, 7, 29, 30) | ForEach-Object {
+            "('$([Guid]::NewGuid())', 2, $([DateTime]::UtcNow.Ticks), '$((Get-Date).Date.AddDays(-$_).ToString('yyyy-MM-dd'))')"
         }
-        [IO.File]::WriteAllText($dataPath, (ConvertTo-Json -InputObject @($fixtures)))
+        Invoke-Sqlite "delete from checkins; insert into checkins (Id, Score, RecordedAtUtc, LocalDay) values $($rows -join ', ');"
         Start-Calme
-        Enter-Home
+        Find-Control 'home-checkin' | Out-Null
         Click-Control 'home-history'
         Assert-Equal (Find-Control 'history-count').Current.Name '2 registros no período' 'Filtro de semana incorreto'
+        $weeklyDescription = (Find-Control 'history-graph').Current.Name
+        if ($weeklyDescription -notmatch 'sem registro') { throw 'Dias sem registro não aparecem na descrição semanal' }
         Click-Control 'history-month'
-        Assert-Equal (Find-Control 'history-count').Current.Name '4 registros no período' 'Filtro de mês incorreto'
+        $today = (Get-Date).Date
+        $monthCount = @(@(0, 6, 7, 29, 30) | Where-Object {
+            $date = $today.AddDays(-$_)
+            $date.Year -eq $today.Year -and $date.Month -eq $today.Month
+        }).Count
+        Assert-Equal (Find-Control 'history-count').Current.Name "$monthCount registros no período" 'Filtro do mês de calendário incorreto'
+        $monthlyDescription = (Find-Control 'history-graph').Current.Name
+        foreach ($block in @('Sem 1', 'Sem 2', 'Sem 3', 'Sem 4')) {
+            if (!$monthlyDescription.Contains($block)) { throw "Bloco mensal ausente: $block" }
+        }
         Click-Control 'history-home'
     }
     Test-Flow 'Respiração inicia, pausa e conclui' {
@@ -260,9 +458,10 @@ try {
     Test-Flow 'Arquivo inválido apresenta erro e permanece intacto' {
         $app.Kill()
         $app.WaitForExit()
+        Remove-Item -LiteralPath "$dataPath-wal", "$dataPath-shm" -ErrorAction SilentlyContinue
         [IO.File]::WriteAllText($dataPath, 'dados inválidos de teste')
         Start-Calme
-        Enter-Home
+        Find-Control 'home-checkin' | Out-Null
         Assert-Equal (Find-Control 'home-error').Current.Name 'Não foi possível ler os registros. Seus dados foram preservados.' 'Erro de leitura não foi mostrado'
         Click-Control 'home-checkin'
         Click-Control 'score-2'
@@ -271,12 +470,12 @@ try {
         Click-Control 'Voltar'
         Click-Control 'home-history'
         Assert-Equal (Find-Control 'history-error').Current.Name 'Não foi possível ler o histórico. Seus dados foram preservados.' 'Erro no histórico não foi mostrado'
+        $app.Kill()
+        $app.WaitForExit()
         Assert-Equal ([IO.File]::ReadAllText($dataPath)) 'dados inválidos de teste' 'Arquivo inválido foi sobrescrito'
     }
 } finally {
     if ($app -and !$app.HasExited) { $app.Kill(); $app.WaitForExit() }
-    if ($null -ne $backup) { [IO.File]::WriteAllBytes($dataPath, $backup) }
-    elseif (Test-Path -LiteralPath $dataPath) { Remove-Item -LiteralPath $dataPath }
     $directory = Split-Path -Parent $ReportPath
     [IO.Directory]::CreateDirectory($directory) | Out-Null
     $results | ConvertTo-Json -Depth 4 | Set-Content -Path $ReportPath -Encoding UTF8

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:challenges="clr-namespace:Social_Anxiety.Core.Challenges"
+    x:Class="Social_Anxiety.ChallengeActivePage"
+    Title="Seu desafio"
+    Style="{StaticResource FlowPage}">
+    <Grid RowDefinitions="*,Auto">
+        <ScrollView>
+            <VerticalStackLayout Padding="24,8,24,28" Spacing="16">
+                <VerticalStackLayout x:Name="MessageContent" Spacing="16" IsVisible="False">
+                    <Label x:Name="StatusMessage" Style="{StaticResource FlowCopy}" AutomationId="active-message" />
+                    <Button Text="Voltar para a trilha" Clicked="OnLaterClicked" AutomationId="active-back" Style="{StaticResource CalmeButton}" />
+                </VerticalStackLayout>
+                <VerticalStackLayout x:Name="DetailContent" Spacing="16" IsVisible="False" AutomationId="active-detail">
+                    <Label x:Name="LevelTag" Style="{StaticResource FlowSmall}" />
+                    <Label x:Name="LevelTitle" Style="{StaticResource FlowHeading}" SemanticProperties.HeadingLevel="Level1" AutomationId="active-title" />
+                    <Label x:Name="LevelDescription" Style="{StaticResource FlowCopy}" />
+                    <VerticalStackLayout x:Name="StepsList" Spacing="16" AutomationId="active-steps">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate x:DataType="challenges:ChallengeStep">
+                                <Border Style="{StaticResource FlowCard}">
+                                    <Grid ColumnDefinitions="40,*" ColumnSpacing="12">
+                                        <Label Text="{Binding Number}" Style="{StaticResource FlowCardTitle}" HorizontalTextAlignment="Center" />
+                                        <VerticalStackLayout Grid.Column="1" Spacing="8">
+                                            <Label Text="{Binding Title}" Style="{StaticResource FlowCardTitle}" SemanticProperties.HeadingLevel="Level2" />
+                                            <Label Text="{Binding Description}" Style="{StaticResource FlowCopy}" />
+                                        </VerticalStackLayout>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </VerticalStackLayout>
+                    <Label Text="Você está no controle. Adapte, adie ou pare se precisar." Style="{StaticResource FlowCopy}" />
+                    <Button Text="Aceitar desafio" Clicked="OnAcceptClicked" AutomationId="active-accept" Style="{StaticResource CalmeButton}" />
+                    <Button Text="Deixar para outro momento" Clicked="OnLaterClicked" AutomationId="active-later" Style="{StaticResource CalmeTextButton}" />
+                </VerticalStackLayout>
+                <VerticalStackLayout x:Name="ProgressContent" Spacing="16" IsVisible="False" AutomationId="active-progress">
+                    <Label Text="UM PASSO DE CADA VEZ" Style="{StaticResource FlowSmall}" />
+                    <Label Text="Você escolhe quando tentar." Style="{StaticResource FlowHeading}" SemanticProperties.HeadingLevel="Level1" AutomationId="active-progress-title" />
+                    <Label Text="Seu desafio está aqui quando você se sentir pronto(a). Não há cronômetro nem cobrança." Style="{StaticResource FlowCopy}" />
+                    <Border Style="{StaticResource FlowCard}">
+                        <VerticalStackLayout Spacing="6">
+                            <Label x:Name="SummaryTitle" Style="{StaticResource FlowCardTitle}" />
+                            <Label Text="Depois de tentar, você pode registrar sua conclusão." Style="{StaticResource FlowCopy}" />
+                        </VerticalStackLayout>
+                    </Border>
+                    <Button x:Name="CompleteButton" Text="Concluí meu desafio" Clicked="OnCompleteClicked" AutomationId="active-complete" Style="{StaticResource CalmeButton}" />
+                    <Button Text="Preciso de uma pausa" Clicked="OnSupportClicked" AutomationId="active-pause" Style="{StaticResource CalmeButton}" />
+                    <Button Text="Quero adiar por agora" Clicked="OnLaterClicked" AutomationId="active-postpone" Style="{StaticResource CalmeTextButton}" />
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+        </ScrollView>
+        <Button Grid.Row="1" Margin="24,8,24,12" Text="Preciso de apoio agora" Clicked="OnSupportClicked" AutomationId="open-support" Style="{StaticResource FlowSupportButton}" />
+    </Grid>
+</ContentPage>

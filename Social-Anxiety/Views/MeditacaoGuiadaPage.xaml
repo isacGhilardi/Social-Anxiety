@@ -1,0 +1,184 @@
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="Social_Anxiety.Views.MeditacaoGuiadaPage"
+    Title="Meditação guiada"
+    Shell.NavBarIsVisible="False"
+    BackgroundColor="{AppThemeBinding Light={StaticResource CalmeBg}, Dark={StaticResource CalmeBgDark}}">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="24,32" Spacing="22">
+
+            <Button
+                Text="‹  Voltar"
+                Clicked="OnVoltarClicked"
+                HorizontalOptions="Start"
+                BackgroundColor="Transparent"
+                TextColor="{AppThemeBinding Light={StaticResource CalmeText}, Dark={StaticResource CalmeTextDark}}"
+                FontFamily="Nunito"
+                Padding="0,4" />
+
+            <VerticalStackLayout Spacing="8">
+                <Label
+                    Text="MOMENTO DE PAUSA"
+                    FontFamily="NunitoExtraBold"
+                    FontSize="12"
+                    CharacterSpacing="2"
+                    TextColor="#568D83" />
+
+                <Label
+                    Text="Meditação guiada"
+                    FontFamily="NunitoExtraBold"
+                    FontSize="30"
+                    TextColor="{AppThemeBinding Light={StaticResource CalmeText}, Dark={StaticResource CalmeTextDark}}" />
+
+                <Label
+                    Text="Encontre um lugar confortável e reserve alguns minutos para você."
+                    FontFamily="Nunito"
+                    FontSize="15"
+                    LineBreakMode="WordWrap"
+                    TextColor="{AppThemeBinding Light={StaticResource CalmeMuted}, Dark={StaticResource CalmeMutedDark}}" />
+            </VerticalStackLayout>
+
+            <Border
+                BackgroundColor="{AppThemeBinding Light={StaticResource CalmeSurface}, Dark={StaticResource CalmeSurfaceDark}}"
+                StrokeThickness="0"
+                StrokeShape="RoundRectangle 28"
+                Padding="22">
+
+                <VerticalStackLayout Spacing="22">
+
+                    <Border
+                        BackgroundColor="#E0F0EA"
+                        StrokeThickness="0"
+                        StrokeShape="RoundRectangle 24"
+                        HeightRequest="190">
+
+                        <VerticalStackLayout
+                            HorizontalOptions="Center"
+                            VerticalOptions="Center"
+                            Spacing="10">
+
+                            <Border
+                                BackgroundColor="#C2E2D8"
+                                StrokeThickness="0"
+                                StrokeShape="RoundRectangle 60"
+                                WidthRequest="100"
+                                HeightRequest="100">
+
+                                <Label
+                                    Text="◉"
+                                    FontSize="54"
+                                    TextColor="#39796D"
+                                    HorizontalTextAlignment="Center"
+                                    VerticalTextAlignment="Center" />
+                            </Border>
+
+                            <Label
+                                Text="Respire. Este momento é seu."
+                                FontFamily="Nunito"
+                                FontSize="14"
+                                TextColor="#286B65"
+                                HorizontalTextAlignment="Center" />
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <VerticalStackLayout Spacing="5">
+                        <Label
+                            Text="Calma e presença"
+                            FontFamily="NunitoExtraBold"
+                            FontSize="21"
+                            TextColor="{AppThemeBinding Light={StaticResource CalmeText}, Dark={StaticResource CalmeTextDark}}" />
+
+                        <Label
+                            Text="Meditação para iniciantes • 5 minutos"
+                            FontFamily="Nunito"
+                            FontSize="14"
+                            TextColor="{AppThemeBinding Light={StaticResource CalmeMuted}, Dark={StaticResource CalmeMutedDark}}" />
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Spacing="8">
+                        <ProgressBar
+                            x:Name="Progresso"
+                            Progress="0"
+                            ProgressColor="#568D83"
+                            BackgroundColor="#DDE7E2"
+                            HeightRequest="7" />
+
+                        <Grid ColumnDefinitions="*,*">
+                            <Label
+                                x:Name="TempoAtual"
+                                Text="00:00"
+                                FontFamily="Nunito"
+                                FontSize="12"
+                                TextColor="{AppThemeBinding Light={StaticResource CalmeMuted}, Dark={StaticResource CalmeMutedDark}}" />
+
+                            <Label
+                                Text="05:00"
+                                Grid.Column="1"
+                                HorizontalTextAlignment="End"
+                                FontFamily="Nunito"
+                                FontSize="12"
+                                TextColor="{AppThemeBinding Light={StaticResource CalmeMuted}, Dark={StaticResource CalmeMutedDark}}" />
+                        </Grid>
+                    </VerticalStackLayout>
+
+                    <Button
+                        x:Name="BotaoReproduzir"
+                        Text="▶  Iniciar meditação"
+                        Clicked="OnReproduzirClicked"
+                        BackgroundColor="#39796D"
+                        TextColor="White"
+                        FontFamily="NunitoExtraBold"
+                        FontSize="16"
+                        HeightRequest="54"
+                        CornerRadius="27" />
+
+                    <Button
+                        Text="Recomeçar sessão"
+                        Clicked="OnRecomecarClicked"
+                        BackgroundColor="Transparent"
+                        TextColor="#568D83"
+                        FontFamily="NunitoExtraBold"
+                        FontSize="14" />
+
+                </VerticalStackLayout>
+            </Border>
+
+            <Border
+                BackgroundColor="{AppThemeBinding Light={StaticResource CalmeSurface}, Dark={StaticResource CalmeSurfaceDark}}"
+                StrokeThickness="0"
+                StrokeShape="RoundRectangle 22"
+                Padding="20">
+
+                <VerticalStackLayout Spacing="10">
+                    <Label
+                        Text="Durante a prática"
+                        FontFamily="NunitoExtraBold"
+                        FontSize="18"
+                        TextColor="{AppThemeBinding Light={StaticResource CalmeText}, Dark={StaticResource CalmeTextDark}}" />
+
+                    <Label
+                        Text="1. Encontre uma posição confortável."
+                        FontFamily="Nunito"
+                        FontSize="14"
+                        TextColor="{AppThemeBinding Light={StaticResource CalmeMuted}, Dark={StaticResource CalmeMutedDark}}" />
+
+                    <Label
+                        Text="2. Perceba sua respiração sem tentar controlá-la."
+                        FontFamily="Nunito"
+                        FontSize="14"
+                        TextColor="{AppThemeBinding Light={StaticResource CalmeMuted}, Dark={StaticResource CalmeMutedDark}}" />
+
+                    <Label
+                        Text="3. Se sua atenção se dispersar, volte gentilmente ao momento presente."
+                        FontFamily="Nunito"
+                        FontSize="14"
+                        LineBreakMode="WordWrap"
+                        TextColor="{AppThemeBinding Light={StaticResource CalmeMuted}, Dark={StaticResource CalmeMutedDark}}" />
+                </VerticalStackLayout>
+            </Border>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
