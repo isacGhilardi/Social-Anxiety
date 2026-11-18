@@ -50,13 +50,14 @@
                 Padding="0"
                 Clicked="OnDesafiosClicked"/>
 
-        <Label Text="Perfil"
-               Grid.Column="4"
-               FontFamily="Nunito"
-               TextColor="{StaticResource Muted}"
-               FontSize="12"
-               HorizontalTextAlignment="Center"
-               VerticalTextAlignment="Center"/>
+        <Button Grid.Column="4"
+                Text="Configurações"
+                FontFamily="Nunito"
+                FontSize="10"
+                TextColor="{StaticResource Muted}"
+                BackgroundColor="Transparent"
+                Padding="0"
+                Clicked="OnConfiguracoesClicked"/>
 
     </Grid>
 </ContentView>

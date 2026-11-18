@@ -11,4 +11,9 @@ public partial class BottomNavBar : ContentView
     {
         await Shell.Current.GoToAsync("challenge");
     }
+
+    private async void OnConfiguracoesClicked(object sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync("settings");
+    }
 }
