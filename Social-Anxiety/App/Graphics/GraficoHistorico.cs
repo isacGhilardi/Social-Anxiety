@@ -17,7 +17,8 @@ public sealed class GraficoHistorico(ChartSeries serie) : IDrawable
         var recursos = Application.Current!.Resources;
         bool escuro = Application.Current.RequestedTheme == AppTheme.Dark;
         canvas.FontColor = (Color)recursos[escuro ? "CalmeMutedDark" : "CalmeMuted"];
-        Color grade = (Color)recursos[escuro ? "CalmeTrackDark" : "CalmeTrack"];
+        // CalmeTrack some no fundo (contraste 1,2:1); CalmeBorder deixa a grade visível nos dois temas.
+        Color grade = (Color)recursos[escuro ? "CalmeBorderDark" : "CalmeBorder"];
         Color destaque = (Color)recursos[escuro ? "CalmePrimaryDark" : "CalmePrimary"];
         canvas.FontSize = 12;
         for (int nivel = 1; nivel <= 5; nivel++)
@@ -47,7 +48,7 @@ public sealed class GraficoHistorico(ChartSeries serie) : IDrawable
             }
             float y = topo + altura - (float)(valor - 1) * altura / 4;
             if (anterior is PointF ultimo) canvas.DrawLine(ultimo.X, ultimo.Y, x, y);
-            canvas.FillCircle(x, y, 4);
+            canvas.FillCircle(x, y, 5);
             anterior = new PointF(x, y);
         }
     }

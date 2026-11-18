@@ -78,6 +78,16 @@ public partial class ProfilePage : ContentPage
         var resources = Application.Current!.Resources;
         var status = achievement.Obtained ? "Conquistada" : "Em breve";
 
+        var icon = new Image
+        {
+            Source = Icons.GetValueOrDefault(achievement.Key, "leaf.png"),
+            WidthRequest = 28,
+            HeightRequest = 28,
+            Opacity = achievement.Obtained ? 1 : 0.35
+        };
+        // O cartão já descreve a conquista; o ícone sozinho não precisa ser lido.
+        AutomationProperties.SetIsInAccessibleTree(icon, false);
+
         var medal = new Border
         {
             WidthRequest = 52,
@@ -85,13 +95,7 @@ public partial class ProfilePage : ContentPage
             StrokeThickness = 0,
             StrokeShape = new RoundRectangle { CornerRadius = new CornerRadius(26) },
             HorizontalOptions = LayoutOptions.Center,
-            Content = new Image
-            {
-                Source = Icons.GetValueOrDefault(achievement.Key, "leaf.png"),
-                WidthRequest = 28,
-                HeightRequest = 28,
-                Opacity = achievement.Obtained ? 1 : 0.35
-            }
+            Content = icon
         };
         var (light, dark) = achievement.Obtained ? ("CalmeLilac", "CalmeLilacDark") : ("CalmeSubtle", "CalmeSubtleDark");
         medal.SetAppThemeColor(BackgroundColorProperty, (Color)resources[light], (Color)resources[dark]);
