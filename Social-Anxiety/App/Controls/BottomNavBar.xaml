@@ -26,10 +26,35 @@
     <Grid ColumnDefinitions="*,*,*,*,*"
           HeightRequest="80"
           BackgroundColor="{AppThemeBinding Light={StaticResource CalmeSurface}, Dark={StaticResource CalmeSurfaceDark}}">
-        <Button x:Name="HomeItem" Grid.Column="0" Text="Início" AutomationId="nav-home" Style="{StaticResource NavItem}" Clicked="OnItemClicked" />
-        <Button x:Name="HistoryItem" Grid.Column="1" Text="Histórico" AutomationId="nav-history" Style="{StaticResource NavItem}" Clicked="OnItemClicked" />
-        <Button x:Name="TechniquesItem" Grid.Column="2" Text="Técnicas" AutomationId="nav-techniques" Style="{StaticResource NavItem}" Clicked="OnItemClicked" />
-        <Button x:Name="ChallengesItem" Grid.Column="3" Text="Desafios" AutomationId="nav-challenges" Style="{StaticResource NavItem}" Clicked="OnItemClicked" />
-        <Button x:Name="ProfileItem" Grid.Column="4" Text="Perfil" AutomationId="nav-profile" Style="{StaticResource NavItem}" Clicked="OnItemClicked" />
+
+        <Button x:Name="HomeItem" Grid.Column="0"
+                Text="Início"
+                AutomationId="nav-home"
+                Style="{StaticResource NavItem}"
+                Clicked="OnItemClicked" />
+
+        <Button x:Name="HistoryItem" Grid.Column="1"
+                Text="Histórico"
+                AutomationId="nav-history"
+                Style="{StaticResource NavItem}"
+                Clicked="OnItemClicked" />
+
+        <Button x:Name="TechniquesItem" Grid.Column="2"
+                Text="Técnicas"
+                AutomationId="nav-techniques"
+                Style="{StaticResource NavItem}"
+                Clicked="OnItemClicked" />
+
+        <Button x:Name="ChallengesItem" Grid.Column="3"
+                Text="Desafios"
+                AutomationId="nav-challenges"
+                Style="{StaticResource NavItem}"
+                Clicked="OnItemClicked" />
+
+        <Button x:Name="SettingsItem" Grid.Column="4"
+                Text="Configurações"
+                AutomationId="nav-settings"
+                Style="{StaticResource NavItem}"
+                Clicked="OnConfiguracoesClicked" />
     </Grid>
 </ContentView>
