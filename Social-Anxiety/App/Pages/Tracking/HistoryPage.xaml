@@ -14,10 +14,10 @@
                 </Grid>
                 <Label Text="Últimos 7 dias" x:Name="PeriodLabel" Style="{StaticResource FlowCopy}" AutomationId="history-period"/>
                 <GraphicsView x:Name="HistoryGraph" AutomationId="history-graph" HeightRequest="160" />
-                <ActivityIndicator x:Name="LoadingIndicator" AutomationId="history-loading" IsVisible="False" IsRunning="False" />
-                <Label x:Name="ChartLegend" Style="{StaticResource FlowCopy}" />
+                <ActivityIndicator x:Name="LoadingIndicator" AutomationId="history-loading" SemanticProperties.Description="Carregando histórico" IsVisible="False" IsRunning="False" />
+                <Label x:Name="ChartLegend" Style="{StaticResource FlowCopy}" AutomationId="history-legend" />
                 <Label Text="" x:Name="RecordCount" Style="{StaticResource FlowCopy}" AutomationId="history-count"/>
-                <Label Text="Nenhum registro neste período." x:Name="EmptyMessage" Style="{StaticResource FlowCopy}" />
+                <Label Text="Nenhum registro neste período." x:Name="EmptyMessage" Style="{StaticResource FlowCopy}" AutomationId="history-empty" />
                 <Label Text="" x:Name="ErrorMessage" Style="{StaticResource FlowCopy}" AutomationId="history-error"/>
                 <VerticalStackLayout x:Name="RecordList" Spacing="12">
                     <BindableLayout.ItemTemplate>
@@ -28,7 +28,7 @@
                                         <Label Text="{Binding Day}" Style="{StaticResource FlowCardTitle}"/>
                                         <Label Text="{Binding Summary}" Style="{StaticResource FlowCopy}"/>
                                     </VerticalStackLayout>
-                                    <Button Style="{StaticResource CalmeTextButton}" Text=" " SemanticProperties.Description="{Binding Day}" CommandParameter="{Binding Id}" Clicked="OnRecordClicked" MinimumHeightRequest="88" />
+                                    <Button Style="{StaticResource CalmeTextButton}" Text=" " SemanticProperties.Description="{Binding Day}" AutomationId="{Binding Id, StringFormat='history-record-{0}'}" CommandParameter="{Binding Id}" Clicked="OnRecordClicked" MinimumHeightRequest="88" />
                                 </Grid>
                             </Border>
                         </DataTemplate>
