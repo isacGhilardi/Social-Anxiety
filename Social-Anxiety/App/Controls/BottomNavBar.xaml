@@ -51,10 +51,10 @@
                 Style="{StaticResource NavItem}"
                 Clicked="OnItemClicked" />
 
-        <Button x:Name="SettingsItem" Grid.Column="4"
-                Text="Configurações"
-                AutomationId="nav-settings"
+        <Button x:Name="ProfileItem" Grid.Column="4"
+                Text="Perfil"
+                AutomationId="nav-profile"
                 Style="{StaticResource NavItem}"
-                Clicked="OnConfiguracoesClicked" />
+                Clicked="OnItemClicked" />
     </Grid>
 </ContentView>

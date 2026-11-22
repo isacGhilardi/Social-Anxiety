@@ -79,15 +79,5 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>
-	<ItemGroup>
-    <Compile Remove="MainPage.xaml.cs" />
-    <MauiXaml Remove="MainPage.xaml" />
-
-    <Compile Remove="CheckinPage.cs" />
-    <Compile Remove="RecordPage.cs" />
-    <Compile Remove="ResumoGrafico.cs" />
-    <Compile Remove="CheckinRecord.cs" />
-    <Compile Remove="HistoryTestPage.cs" />
-</ItemGroup>
 
 </Project>
