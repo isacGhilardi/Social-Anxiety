@@ -54,6 +54,8 @@ namespace Social_Anxiety
             builder.Services.AddTransient<ChallengeActivePage>();
             builder.Services.AddTransient<ChallengeDonePage>();
             builder.Services.AddTransient<ProfilePage>();
+            builder.Services.AddTransient<SettingsPage>();
+            builder.Services.AddTransient<PrivacyPage>();
 
             return builder.Build();
         }

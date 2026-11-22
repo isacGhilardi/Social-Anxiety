@@ -16,6 +16,7 @@
                 <Label Text="Pelo menos 6 caracteres." Style="{StaticResource FlowSmall}"/>
                 <Label x:Name="ErrorMessage" Text="" Style="{StaticResource FlowCopy}" AutomationId="signup-error"/>
                 <Label Text="Ao criar sua conta, você concorda com os termos e a política de privacidade." Style="{StaticResource FlowSmall}"/>
+                <Button Text="Ler a política de privacidade" Clicked="OnPrivacyClicked" AutomationId="signup-privacy" Style="{StaticResource CalmeTextButton}"/>
                 <Button x:Name="SubmitButton" Text="Criar minha conta" Clicked="OnSubmitClicked" AutomationId="signup-submit" Style="{StaticResource CalmeButton}"/>
                 <Button Text="Já tenho uma conta" Clicked="OnLoginClicked" Style="{StaticResource CalmeTextButton}"/>
                 <Button Text="Continuar como convidado" Clicked="OnGuestClicked" Style="{StaticResource CalmeTextButton}"/>

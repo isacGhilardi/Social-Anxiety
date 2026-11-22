@@ -52,6 +52,8 @@
                     <Label Text="Você não perde conquistas ao descansar. Cuidar de si também inclui fazer pausas." Style="{StaticResource FlowCopy}" FontSize="14"
                            TextColor="{AppThemeBinding Light={StaticResource CalmeTeal}, Dark={StaticResource CalmeTealDark}}" />
                 </Border>
+                <Button Text="Configurações" Clicked="OnSettingsClicked" AutomationId="profile-settings" Style="{StaticResource CalmeButton}" />
+                <Button Text="Buscar ajuda profissional" Clicked="OnHelpClicked" AutomationId="profile-help" Style="{StaticResource CalmeTextButton}" />
                 <Button Text="Voltar ao início" Clicked="OnHomeClicked" AutomationId="profile-home" Style="{StaticResource CalmeTextButton}" />
             </VerticalStackLayout>
         </ScrollView>

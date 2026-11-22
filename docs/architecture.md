@@ -22,6 +22,7 @@ Social-Anxiety/
   App/Pages/Tracking/    MainPage, CheckinPage, FeedbackPage, HistoryPage, RecordPage
   App/Pages/Breathing/   BreathePage, BreatheFinishPage
   App/Pages/Challenges/  ChallengesPage (trilha e conquistas), ChallengeLockedPage, ChallengeActivePage (detalhe e desafio em andamento), ChallengeDonePage, CompleteChallengeAction
+  App/Pages/Profile/     ProfilePage, SettingsPage (tema, reduzir movimentos, sair da conta), PrivacyPage
   Views/                 MeditacaoGuiadaPage (rota de empilhar `meditacao-guiada`)
   Core/Auth/             User, SessionState, AuthService, PasswordHasher, SignupValidator, EmailNormalizer, interfaces
   Core/CheckIns/         CheckIn, CheckInService, ICheckInRepository
