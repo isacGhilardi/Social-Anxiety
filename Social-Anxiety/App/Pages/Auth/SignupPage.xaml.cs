@@ -32,6 +32,7 @@ public partial class SignupPage : ContentPage
     }
 
     private async void OnLoginClicked(object? sender, EventArgs e) => await Shell.Current.GoToAsync("../login");
+    private async void OnPrivacyClicked(object? sender, EventArgs e) => await Shell.Current.GoToAsync("privacy");
     private async void OnGuestClicked(object? sender, EventArgs e)
     {
         await session.StartGuestAsync();

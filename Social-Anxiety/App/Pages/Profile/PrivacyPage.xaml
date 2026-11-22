@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Tela privacy (US24). Texto do README ("Texto sugerido para a tela de privacidade"), conferido com o código. -->
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Social_Anxiety.PrivacyPage" Title="Privacidade" Style="{StaticResource FlowPage}">
+    <Grid RowDefinitions="*,Auto">
+        <ScrollView>
+            <VerticalStackLayout Padding="24,8,24,28" Spacing="16">
+                <Label Text="Sua história merece cuidado." Style="{StaticResource FlowHeading}" SemanticProperties.HeadingLevel="Level1" AutomationId="privacy-title" />
+
+                <Border Style="{StaticResource FlowCard}">
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="O que o Calme guarda" Style="{StaticResource FlowCardTitle}" SemanticProperties.HeadingLevel="Level2" />
+                        <Label Text="• Seus check-ins: a nota de 1 a 5, o dia e o horário de cada registro." Style="{StaticResource FlowCopy}" />
+                        <Label Text="• Seu caminho na trilha de desafios: quais níveis você concluiu, as conquistas e as datas." Style="{StaticResource FlowCopy}" />
+                        <Label Text="• Se você criar uma conta: seu nome, seu e-mail e um código gerado a partir da senha. A senha em si não é guardada, e o código não permite descobri-la." Style="{StaticResource FlowCopy}" />
+                        <Label Text="• Qual conta está aberta, ou se você entrou como convidado." Style="{StaticResource FlowCopy}" />
+                        <Label Text="• Algumas escolhas suas: se você já passou pelas boas-vindas, o tema e as opções da respiração guiada (pular a pausa e reduzir movimentos)." Style="{StaticResource FlowCopy}" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border Style="{StaticResource FlowCard}">
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Onde fica" Style="{StaticResource FlowCardTitle}" SemanticProperties.HeadingLevel="Level2" />
+                        <Label Text="Tudo fica só neste aparelho. O Calme não tem servidor e não envia seus dados pela internet. Se o backup do aparelho estiver ligado, o sistema pode incluir os dados do Calme na cópia de segurança." Style="{StaticResource FlowCopy}" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border Style="{StaticResource FlowCard}">
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Limites" Style="{StaticResource FlowCardTitle}" SemanticProperties.HeadingLevel="Level2" />
+                        <Label Text="• Sua conta é uma simulação. Nesta versão, ela serve para experimentar o app, fica só neste aparelho e não pode ser recuperada em outro." Style="{StaticResource FlowCopy}" />
+                        <Label Text="• Os registros não são criptografados. Quem tiver acesso ao aparelho e aos arquivos dele pode chegar a eles." Style="{StaticResource FlowCopy}" />
+                        <Label Text="• Quem usa este aparelho vê os mesmos registros. Os check-ins, o progresso e as conquistas não ficam separados por conta: qualquer pessoa que abrir o Calme aqui, com outra conta ou como convidada, verá o que foi registrado." Style="{StaticResource FlowCopy}" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border Style="{StaticResource FlowCard}">
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Como apagar" Style="{StaticResource FlowCardTitle}" SemanticProperties.HeadingLevel="Level2" />
+                        <Label Text="• Por enquanto, não há como apagar seus dados dentro do app." Style="{StaticResource FlowCopy}" />
+                        <Label Text="• Sair da conta não apaga nada: só encerra a sessão. Check-ins, progresso, conquistas e a conta continuam no aparelho." Style="{StaticResource FlowCopy}" />
+                        <Label Text="• Para apagar tudo, limpe os dados do Calme nas configurações do aparelho (no Android, em Apps › Calme › Armazenamento; o caminho muda conforme o modelo) ou desinstale o app." Style="{StaticResource FlowCopy}" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border Style="{StaticResource FlowCard}" BackgroundColor="{AppThemeBinding Light={StaticResource CalmeMint}, Dark={StaticResource CalmeMintDark}}">
+                    <Label Text="As informações do Calme são para autoconhecimento. Não são resultados de uma avaliação clínica." Style="{StaticResource FlowCopy}"
+                           TextColor="{AppThemeBinding Light={StaticResource CalmeTeal}, Dark={StaticResource CalmeTealDark}}" />
+                </Border>
+                <Button Text="Voltar" Clicked="OnBackClicked" AutomationId="privacy-back" Style="{StaticResource CalmeButton}" />
+            </VerticalStackLayout>
+        </ScrollView>
+        <Button Grid.Row="1" Margin="24,8,24,12" Text="Preciso de apoio agora" Clicked="OnSupportClicked" AutomationId="open-support" Style="{StaticResource FlowSupportButton}" />
+    </Grid>
+</ContentPage>

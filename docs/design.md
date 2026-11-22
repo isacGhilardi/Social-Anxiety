@@ -14,7 +14,7 @@ Fonte da verdade em `Social-Anxiety/Resources/Styles/`:
 - `Styles.xaml`: estilos base, incluindo `CalmeButton` e `CalmeTextButton`.
 - Fontes Nunito (400/700/800) registradas em `MauiProgram.cs`.
 
-Use as chaves existentes em vez de cores fixas. `ApoioImediatoPage` ainda usa cores literais (`#DDEFEA`, `#286B65`); migre para tokens ao alterá-la.
+Use as chaves existentes em vez de cores fixas. `Views/MeditacaoGuiadaPage` ainda usa cores literais (`#568D83`, `#E0F0EA`, `#C2E2D8`, `#39796D`, `#286B65`, `#DDE7E2`); migre para tokens ao alterá-la.
 
 ## Interação e acessibilidade
 

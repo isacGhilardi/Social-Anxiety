@@ -22,7 +22,10 @@ function Start-Calme {
     $deadline = (Get-Date).AddSeconds(25)
     do {
         if ($app.HasExited) { throw "Aplicativo encerrou: $($app.ExitCode)" }
-        $condition = [System.Windows.Automation.PropertyCondition]::new([System.Windows.Automation.AutomationElement]::ProcessIdProperty, $app.Id)
+        # Só a janela principal: outro elemento de topo do mesmo processo não tem WindowPattern (usado ao minimizar).
+        $condition = [System.Windows.Automation.AndCondition]::new(
+            [System.Windows.Automation.PropertyCondition]::new([System.Windows.Automation.AutomationElement]::ProcessIdProperty, $app.Id),
+            [System.Windows.Automation.PropertyCondition]::new([System.Windows.Automation.AutomationElement]::ControlTypeProperty, [System.Windows.Automation.ControlType]::Window))
         $script:window = [System.Windows.Automation.AutomationElement]::RootElement.FindFirst([System.Windows.Automation.TreeScope]::Children, $condition)
         if ($window) { return }
         Start-Sleep -Milliseconds 200
@@ -269,6 +272,48 @@ try {
         Click-Control 'Voltar'
         Find-Control 'home-checkin' | Out-Null
     }
+    Test-Flow 'Configurações guardam preferências e abrem a privacidade' {
+        Click-Control 'nav-profile'
+        Click-Control 'profile-settings'
+        Find-Control 'settings-title' | Out-Null
+        Assert-Equal (Find-Control 'settings-account').Current.Name 'Criar uma conta' 'Convidado deveria ver Criar uma conta'
+        Set-Switch 'settings-dark' $true
+        Set-Switch 'settings-dark' $false
+        Set-Switch 'settings-reduce-motion' $true
+        Click-Control 'settings-privacy'
+        Find-Control 'privacy-title' | Out-Null
+        Find-Control 'Onde fica' | Out-Null
+        Click-Control 'privacy-back'
+        Find-Control 'settings-title' | Out-Null
+        Restart-Calme
+        Click-Control 'nav-profile'
+        Click-Control 'profile-settings'
+        $toggle = (Find-Control 'settings-reduce-motion').GetCurrentPattern([System.Windows.Automation.TogglePattern]::Pattern)
+        Assert-Equal $toggle.Current.ToggleState ([System.Windows.Automation.ToggleState]::On) 'Reduzir movimentos não persistiu'
+        Set-Switch 'settings-reduce-motion' $false
+        Click-Control 'settings-back'
+        Find-Control 'profile-title' | Out-Null
+        Click-Control 'nav-home'
+        Find-Control 'home-checkin' | Out-Null
+    }
+    Test-Flow 'Sair da conta encerra a sessão e reabre no acesso' {
+        Clear-Session
+        Click-Control 'Já tenho uma conta'
+        Set-Text 'login-email' 'pessoa.teste@exemplo.com'
+        Set-Text 'login-password' 'senha-ficticia'
+        Click-Control 'login-submit'
+        Wait-Text 'home-greeting' 'Olá, Pessoa Teste.'
+        Click-Control 'nav-profile'
+        Click-Control 'profile-settings'
+        Assert-Equal (Find-Control 'settings-account').Current.Name 'Sair da minha conta' 'Conta logada deveria ver Sair da minha conta'
+        Click-Control 'settings-account'
+        Find-Control 'Criar minha conta' | Out-Null
+        Restart-Calme
+        Find-Control 'Criar minha conta' | Out-Null
+        # Volta ao estado dos casos seguintes: convidado no início.
+        Click-Control 'Continuar como convidado'
+        Find-Control 'home-checkin' | Out-Null
+    }
     Test-Flow 'Voltar do check-in cancela sem gravar' {
         Click-Control 'home-checkin'
         Click-Control 'score-3'
@@ -413,6 +458,14 @@ try {
         Click-Control 'Voltar'
         Find-Control 'home-checkin' | Out-Null
     }
+    Test-Flow 'Meditação abre pelo início e volta ao início' {
+        Click-Control 'home-meditacao'
+        Find-Control 'meditacao-title' | Out-Null
+        Find-Control 'meditacao-sem-audio' | Out-Null
+        Assert-Equal (Find-Control 'meditacao-tempo').Current.Name '00:00' 'Meditação não começou zerada'
+        Click-Control 'meditacao-voltar'
+        Find-Control 'home-checkin' | Out-Null
+    }
     Test-Flow 'Fases, pausa, retomada e opções da respiração funcionam na interface' {
         Click-Control 'home-breathe'
         Set-Switch 'breathe-skip-hold' $false
@@ -433,6 +486,15 @@ try {
         Click-Control 'breathe-again'
         Assert-Equal (Find-Control 'breathe-phase').Current.Name 'Quando quiser, comece.' 'Nova prática não reiniciou'
         Click-Control 'Voltar'
+        Find-Control 'home-checkin' | Out-Null
+    }
+    Test-Flow 'Meditação mostra o botão de apoio e o apoio volta à meditação' {
+        Click-Control 'home-meditacao'
+        Click-Control 'open-support'
+        Find-Control 'Respiração guiada. Acompanhe um ritmo suave' | Out-Null
+        Click-Control 'Voltar ao que eu estava fazendo'
+        Find-Control 'Calma e presença' | Out-Null
+        Click-Control 'meditacao-voltar'
         Find-Control 'home-checkin' | Out-Null
     }
     Test-Flow 'Minimizar pausa a respiração sem retomar automaticamente' {

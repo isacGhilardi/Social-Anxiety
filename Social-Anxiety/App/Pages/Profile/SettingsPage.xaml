@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Social_Anxiety.SettingsPage" Title="Configurações" Style="{StaticResource FlowPage}">
+    <Grid RowDefinitions="*,Auto">
+        <ScrollView>
+            <VerticalStackLayout Padding="24,8,24,28" Spacing="16">
+                <Label Text="Do seu jeito." Style="{StaticResource FlowHeading}" SemanticProperties.HeadingLevel="Level1" AutomationId="settings-title" />
+                <Label Text="Ajuste este espaço para ficar mais confortável para você." Style="{StaticResource FlowCopy}" />
+                <Border Style="{StaticResource FlowCard}">
+                    <VerticalStackLayout Spacing="12">
+                        <Label Text="Aparência e acessibilidade" Style="{StaticResource FlowCardTitle}" SemanticProperties.HeadingLevel="Level2" />
+                        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
+                            <Label Text="Modo escuro" Style="{StaticResource FlowCopy}" VerticalOptions="Center" />
+                            <Switch x:Name="DarkSwitch" Grid.Column="1" AutomationId="settings-dark" SemanticProperties.Description="Modo escuro" Toggled="OnDarkToggled" />
+                        </Grid>
+                        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
+                            <Label Text="Reduzir movimentos" Style="{StaticResource FlowCopy}" VerticalOptions="Center" />
+                            <Switch x:Name="ReduceMotionSwitch" Grid.Column="1" AutomationId="settings-reduce-motion" SemanticProperties.Description="Reduzir movimentos" Toggled="OnReduceMotionToggled" />
+                        </Grid>
+                    </VerticalStackLayout>
+                </Border>
+                <Button Text="Conta e privacidade" Clicked="OnPrivacyClicked" AutomationId="settings-privacy" Style="{StaticResource CalmeTextButton}" />
+                <Button Text="Buscar ajuda profissional" Clicked="OnHelpClicked" AutomationId="settings-help" Style="{StaticResource CalmeTextButton}" />
+                <Button x:Name="AccountButton" Clicked="OnAccountClicked" AutomationId="settings-account" Style="{StaticResource CalmeButton}" />
+                <Button Text="Voltar ao meu espaço" Clicked="OnBackClicked" AutomationId="settings-back" Style="{StaticResource CalmeTextButton}" />
+            </VerticalStackLayout>
+        </ScrollView>
+        <Button Grid.Row="1" Margin="24,8,24,12" Text="Preciso de apoio agora" Clicked="OnSupportClicked" AutomationId="open-support" Style="{StaticResource FlowSupportButton}" />
+    </Grid>
+</ContentPage>

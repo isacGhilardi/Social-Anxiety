@@ -19,7 +19,7 @@ Não há variáveis de ambiente nem segredos. Os dados ficam num banco SQLite lo
 
 - **Conta local simulada.** Não há backend. Cadastro e login existem para simular o fluxo no MVP; a conta fica só no aparelho, no banco SQLite `calme.db3`. Não há recuperação de senha nem sincronização.
 - **Senha com PBKDF2.** A senha nunca é guardada. Guardamos o hash `Rfc2898DeriveBytes.Pbkdf2` com SHA-256, 100.000 iterações e salt aleatório de 16 bytes por usuário; a verificação usa `CryptographicOperations.FixedTimeEquals`. O e-mail é normalizado (sem espaços nas pontas, minúsculo) antes de gravar e de buscar, e é único (índice no banco e checagem no serviço). Login com falha sempre mostra "E-mail ou senha incorretos.".
-- **Sessão no SecureStorage.** Guardamos só o id do usuário ou a marca de convidado, nunca a senha. Ao abrir: primeira vez, onboarding; com sessão salva, início; sem sessão, tela de acesso. `SessionState.SignOutAsync()` apaga a sessão; ainda não há tela de configurações com o botão "Sair da minha conta".
+- **Sessão no SecureStorage.** Guardamos só o id do usuário ou a marca de convidado, nunca a senha. Ao abrir: primeira vez, onboarding; com sessão salva, início; sem sessão, tela de acesso. "Sair da minha conta", em Configurações, chama `SessionState.SignOutAsync()`, que apaga a sessão e volta à tela de acesso.
 - **Um check-in por dia.** Salvar de novo no mesmo dia substitui o anterior (mesmo id). A regra fica no `CheckInService` e no índice único do dia local no banco. Notas fora de 1 a 5 são recusadas. O rótulo (Pouca, Leve, Moderada, Intensa, Muito intensa) é calculado, não guardado. Os check-ins ficam no aparelho, sem vínculo com usuário.
 - **UTC + dia local.** Cada check-in guarda o momento em UTC e o dia local, calculado no fuso do aparelho no momento do salvamento. Um check-in às 22h em UTC-3 é do mesmo dia local, mesmo que em UTC já seja o dia seguinte.
 - **Semana e mês no gráfico.** Semana: os últimos 7 dias locais terminando hoje, um ponto por dia. Mês: o mês de calendário em 4 blocos (dias 1–7, 8–14, 15–21 e 22 até o fim do mês), rotulados "Sem 1" a "Sem 4", com a média das notas do bloco. Registros fora do período são ignorados.
@@ -48,9 +48,9 @@ As telas atuais ainda desenham o gráfico com a lista de check-ins (`ResumoGrafi
 
 `CheckInService` (injeção de dependência): `SaveTodayAsync(nota)` salva ou substitui o de hoje e devolve o registro; `GetTodayAsync()`, `GetLastDaysAsync(dias)`, `GetByIdAsync(id)` e `GetAllAsync()` (do mais recente ao mais antigo). As telas de check-in, feedback, histórico, registro e início já usam o serviço; a tela de feedback só abre depois que o salvamento deu certo.
 
-### Texto sugerido para a tela de privacidade
+### Texto da tela de privacidade
 
-A tela `privacy` ainda não existe. Texto sugerido, no tom do protótipo, conferido com o código em 2026-11-16 (`b9e1538`):
+Texto usado na tela `privacy` (`App/Pages/Profile/PrivacyPage.xaml`), conferido com o código em 2026-11-22:
 
 > **O que o Calme guarda**
 >
@@ -58,7 +58,7 @@ A tela `privacy` ainda não existe. Texto sugerido, no tom do protótipo, confer
 > - Seu caminho na trilha de desafios: quais níveis você concluiu, as conquistas e as datas.
 > - Se você criar uma conta: seu nome, seu e-mail e um código gerado a partir da senha. A senha em si não é guardada, e o código não permite descobri-la.
 > - Qual conta está aberta, ou se você entrou como convidado.
-> - Algumas escolhas suas: se você já passou pelas boas-vindas e as opções da respiração guiada (pular a pausa e reduzir movimentos).
+> - Algumas escolhas suas: se você já passou pelas boas-vindas, o tema e as opções da respiração guiada (pular a pausa e reduzir movimentos).
 >
 > **Onde fica**
 >
@@ -81,9 +81,9 @@ Base no código, para quem for montar a tela:
 
 - Banco `calme.db3` em `FileSystem.AppDataDirectory`, aberto sem chave de criptografia (`Data/Sqlite/CalmeDatabase.cs`). Tabelas em `CalmeDatabase.Tables`: `users` (`UserRow`: `Id`, `DisplayName`, `Email`, `PasswordHash`, `Salt`, `CreatedAtUtc`), `checkins` (`CheckInRow`: `Id`, `Score`, `RecordedAtUtc`, `LocalDay`), `challenge_progress` (`ChallengeProgressRow`: `Id`, `Level`, `CompletedAtUtc`, só níveis 2 e 3) e `achievements` (`AchievementRow`: `Id`, `Key`, `ObtainedAtUtc`). O nível 1 e a conquista "Primeiro cuidado" são calculados a partir dos check-ins, sem gravação. Nenhuma tabela tem vínculo com usuário.
 - `SecureStorage`, chave `calme.session`: o id do usuário ou `guest` (`Data/SecureSessionStore.cs`).
-- `Preferences`: `calme.onboarding_done` (`App.xaml.cs`, `OnboardingPage.xaml.cs`), `breathing-skip-hold` e `breathing-reduced-motion` (`BreathePage.xaml.cs`). `calme.theme` existe em `AppPreferences.cs`, mas nenhuma tela grava o tema ainda; quando a tela de configurações gravar, inclua o tema no texto. O motivo escolhido nas boas-vindas (`OnboardingState.Motive`) fica só na memória.
+- `Preferences`: `calme.onboarding_done` (`App.xaml.cs`, `OnboardingPage.xaml.cs`), `breathing-skip-hold` e `breathing-reduced-motion` (`BreathePage.xaml.cs`). `calme.theme` (`AppPreferences.cs`), gravado pela tela de configurações. O motivo escolhido nas boas-vindas (`OnboardingState.Motive`) fica só na memória.
 - Sem código de rede no projeto. O `AndroidManifest.xml` tem `android:allowBackup="true"` e as permissões `INTERNET` e `ACCESS_NETWORK_STATE` do modelo MAUI, que não são usadas.
-- Nenhum código apaga check-ins, progresso, conquistas ou contas. `SessionState.SignOutAsync()` só remove `calme.session`, e ainda não há botão que o chame.
+- Nenhum código apaga check-ins, progresso, conquistas ou contas. `SessionState.SignOutAsync()` só remove `calme.session`; é chamado por "Sair da minha conta" em Configurações.
 - No Windows (exe não empacotado), os dados ficam em `%LOCALAPPDATA%\<PublisherDisplayName>\<ApplicationId>\` (`Data\calme.db3`, `Settings\preferences.dat` e `Settings\securestorage.dat`), como na identidade de teste `Calme Tests\com.calme.functionaltests`. Apagar o exe não apaga essa pasta. Desinstalar no iOS pode manter o `calme.session` no Keychain: [a confirmar].
 
 ## Documentação
@@ -98,4 +98,4 @@ Base no código, para quem for montar a tela:
 
 ## Próxima entrega
 
-Criar as telas `settings` (com "Sair da minha conta" ligado a `SessionState.SignOutAsync()`) e `privacy` (com o texto acima), e passar os gráficos a usar o `ChartAggregator`.
+Passar os gráficos a usar o `ChartAggregator`.

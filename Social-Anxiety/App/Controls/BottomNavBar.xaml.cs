@@ -54,8 +54,4 @@ public partial class BottomNavBar : ContentView
         try { await Shell.Current.GoToAsync(target.Route); }
         finally { navigating = false; }
     }
-    private async void OnConfiguracoesClicked(object sender, EventArgs e)
-    {
-        await Shell.Current.GoToAsync("settings");
-    }
 }

@@ -21,10 +21,13 @@ namespace Social_Anxiety
             Routing.RegisterRoute("signup", typeof(SignupPage));
             Routing.RegisterRoute("login", typeof(LoginPage));
             Routing.RegisterRoute("library", typeof(TechniquesPage));
+            Routing.RegisterRoute("meditacao-guiada", typeof(Views.MeditacaoGuiadaPage));
             Routing.RegisterRoute("technique", typeof(TechniquePage));
             Routing.RegisterRoute("challengeLocked", typeof(ChallengeLockedPage));
             Routing.RegisterRoute("challengeActive", typeof(ChallengeActivePage));
             Routing.RegisterRoute("challengeDone", typeof(ChallengeDonePage));
+            Routing.RegisterRoute("settings", typeof(SettingsPage));
+            Routing.RegisterRoute("privacy", typeof(PrivacyPage));
         }
 
         // Onboarding só na primeira abertura; depois, home com sessão salva ou tela de acesso sem ela.

@@ -126,5 +126,7 @@ public partial class ProfilePage : ContentPage
     }
 
     private async void OnHomeClicked(object? sender, EventArgs e) => await Shell.Current.GoToAsync("//home");
+    private async void OnSettingsClicked(object? sender, EventArgs e) => await Shell.Current.GoToAsync("settings");
+    private async void OnHelpClicked(object? sender, EventArgs e) => await App.OpenHelp();
     private async void OnSupportClicked(object? sender, EventArgs e) => await App.OpenSupport();
 }
