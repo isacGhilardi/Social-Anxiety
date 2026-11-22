@@ -19,7 +19,7 @@ public partial class BreathePage : ContentPage
         timer = Dispatcher.CreateTimer();
         timer.Interval = TimeSpan.FromMilliseconds(16);
         timer.Tick += OnFrame;
-        SkipHoldSwitch.IsToggled = Preferences.Default.Get("breathing-skip-hold", false);
+        SkipHoldSwitch.IsToggled = Preferences.Default.Get("breathing-skip-hold", true);
         systemReducesMotion = SystemReducesMotion;
         ReducedMotionSwitch.IsToggled = Preferences.Default.Get("breathing-reduced-motion", false) || systemReducesMotion;
         session.SkipHold = SkipHoldSwitch.IsToggled;

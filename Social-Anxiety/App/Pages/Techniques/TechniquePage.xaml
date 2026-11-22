@@ -31,7 +31,7 @@
                             </DataTemplate>
                         </BindableLayout.ItemTemplate>
                     </VerticalStackLayout>
-                    <Label Text="Você pode pausar ou trocar de técnica quando quiser." Style="{StaticResource FlowCopy}" />
+                    <Label Text="Se a prática aumentar seu desconforto, interrompa. Você pode manter os olhos abertos, olhar um objeto ao redor ou trocar de prática. Não precisa insistir para concluir." Style="{StaticResource FlowCopy}" />
                     <Button Text="Concluir minha prática" Clicked="OnCompleteClicked" AutomationId="technique-complete" Style="{StaticResource CalmeButton}" />
                 </VerticalStackLayout>
                 <VerticalStackLayout x:Name="FinishContent" Spacing="16" IsVisible="False">
@@ -43,6 +43,7 @@
                 </VerticalStackLayout>
                 <Button Text="Ver outras técnicas" Clicked="OnLibraryClicked" AutomationId="technique-library" Style="{StaticResource CalmeTextButton}" />
                 <Label Text="Este app não substitui acompanhamento profissional e não realiza diagnósticos." Style="{StaticResource FlowSmall}" />
+                <Label Text="Se a ansiedade persistir ou atrapalhar seu dia a dia, procure avaliação profissional. Não é preciso esperar ficar pior para buscar ajuda." Style="{StaticResource FlowCopy}" />
                 <Button Text="Buscar ajuda profissional" Clicked="OnHelpClicked" AutomationId="technique-help" Style="{StaticResource CalmeTextButton}" />
             </VerticalStackLayout>
         </ScrollView>
