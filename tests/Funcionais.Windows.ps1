@@ -461,6 +461,7 @@ try {
     Test-Flow 'Meditação abre pelo início e volta ao início' {
         Click-Control 'home-meditacao'
         Find-Control 'meditacao-title' | Out-Null
+        Find-Control 'meditacao-sem-audio' | Out-Null
         Assert-Equal (Find-Control 'meditacao-tempo').Current.Name '00:00' 'Meditação não começou zerada'
         Click-Control 'meditacao-voltar'
         Find-Control 'home-checkin' | Out-Null

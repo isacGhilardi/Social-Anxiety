@@ -102,6 +102,13 @@
                             FontFamily="Nunito"
                             FontSize="14"
                             TextColor="{AppThemeBinding Light={StaticResource CalmeMuted}, Dark={StaticResource CalmeMutedDark}}" />
+                        <!-- US17: o MVP não tem áudio; a tela precisa dizer que é uma simulação. -->
+                        <Label
+                            Text="Esta versão não tem áudio: o cronômetro acompanha você enquanto segue os passos abaixo."
+                            AutomationId="meditacao-sem-audio"
+                            FontFamily="Nunito"
+                            FontSize="14"
+                            TextColor="{AppThemeBinding Light={StaticResource CalmeMuted}, Dark={StaticResource CalmeMutedDark}}" />
                     </VerticalStackLayout>
 
                     <VerticalStackLayout Spacing="8">
