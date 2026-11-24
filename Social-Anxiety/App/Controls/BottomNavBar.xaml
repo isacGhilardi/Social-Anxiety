@@ -5,56 +5,107 @@
     x:Class="Social_Anxiety.Controls.BottomNavBar">
 
     <ContentView.Resources>
-        <Style x:Key="NavItem" TargetType="Button">
-            <Setter Property="FontFamily" Value="Nunito" />
-            <Setter Property="FontSize" Value="12" />
-            <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource CalmeMuted}, Dark={StaticResource CalmeMutedDark}}" />
-            <Setter Property="BackgroundColor" Value="Transparent" />
-            <Setter Property="CornerRadius" Value="100" />
-            <Setter Property="Padding" Value="8,4" />
-            <Setter Property="MinimumHeightRequest" Value="44" />
+        <Style x:Key="NavIcon" TargetType="Path">
+            <Setter Property="WidthRequest" Value="24" />
+            <Setter Property="HeightRequest" Value="24" />
+            <Setter Property="Aspect" Value="None" />
+            <Setter Property="StrokeThickness" Value="1.8" />
+            <Setter Property="StrokeLineCap" Value="Round" />
+            <Setter Property="StrokeLineJoin" Value="Round" />
             <Setter Property="HorizontalOptions" Value="Center" />
             <Setter Property="VerticalOptions" Value="Center" />
+            <Setter Property="AutomationProperties.IsInAccessibleTree" Value="False" />
+            <Setter Property="Stroke" Value="{AppThemeBinding Light={StaticResource CalmeNavInactive}, Dark={StaticResource CalmeNavInactiveDark}}" />
         </Style>
-        <Style x:Key="NavItemActive" TargetType="Button" BasedOn="{StaticResource NavItem}">
-            <Setter Property="FontAttributes" Value="Bold" />
+        <Style x:Key="NavIconActive" TargetType="Path" BasedOn="{StaticResource NavIcon}">
+            <Setter Property="Stroke" Value="{AppThemeBinding Light={StaticResource CalmeNavActive}, Dark={StaticResource CalmeNavActiveDark}}" />
+        </Style>
+        <Style x:Key="NavLabel" TargetType="Label">
+            <Setter Property="FontFamily" Value="NunitoBold" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="LineBreakMode" Value="NoWrap" />
+            <Setter Property="HorizontalTextAlignment" Value="Center" />
+            <!-- O leitor de tela lê o Button do item ("Início, aba atual"); o rótulo visível não entra na árvore. -->
+            <Setter Property="AutomationProperties.IsInAccessibleTree" Value="False" />
+            <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource CalmeNavInactive}, Dark={StaticResource CalmeNavInactiveDark}}" />
+        </Style>
+        <Style x:Key="NavLabelActive" TargetType="Label" BasedOn="{StaticResource NavLabel}">
+            <Setter Property="FontFamily" Value="NunitoExtraBold" />
             <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource CalmeText}, Dark={StaticResource CalmeTextDark}}" />
-            <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource CalmeBlue}, Dark={StaticResource CalmeBlueDark}}" />
+        </Style>
+        <Style x:Key="NavHit" TargetType="Button" BasedOn="{StaticResource CalmeOverlayButton}">
+            <Setter Property="CornerRadius" Value="16" />
+            <Setter Property="MinimumHeightRequest" Value="56" />
         </Style>
     </ContentView.Resources>
 
-    <Grid ColumnDefinitions="*,*,*,*,*"
-          HeightRequest="80"
-          BackgroundColor="{AppThemeBinding Light={StaticResource CalmeSurface}, Dark={StaticResource CalmeSurfaceDark}}">
+    <!-- Barra de borda a borda: linha fina no topo, um indicador único que desliza e 5 itens (ícone + rótulo).
+         Cada item é um Button transparente por cima do ícone e do rótulo, para manter os testes (nav-*). -->
+    <Grid RowDefinitions="1,Auto"
+          BackgroundColor="{AppThemeBinding Light={StaticResource CalmeBar}, Dark={StaticResource CalmeBarDark}}">
+        <BoxView HeightRequest="1"
+                 Color="{AppThemeBinding Light={StaticResource CalmeOutline}, Dark={StaticResource CalmeOutlineDark}}"
+                 AutomationProperties.IsInAccessibleTree="False" />
 
-        <Button x:Name="HomeItem" Grid.Column="0"
-                Text="Início"
-                AutomationId="nav-home"
-                Style="{StaticResource NavItem}"
-                Clicked="OnItemClicked" />
+        <Grid x:Name="ItemsGrid" Grid.Row="1" ColumnDefinitions="*,*,*,*,*" Padding="4,8,4,10">
 
-        <Button x:Name="HistoryItem" Grid.Column="1"
-                Text="Histórico"
-                AutomationId="nav-history"
-                Style="{StaticResource NavItem}"
-                Clicked="OnItemClicked" />
+            <Border x:Name="Indicator" Grid.Column="0"
+                    WidthRequest="56" HeightRequest="32"
+                    HorizontalOptions="Center" VerticalOptions="Start"
+                    StrokeThickness="0" StrokeShape="RoundRectangle 16"
+                    BackgroundColor="{AppThemeBinding Light={StaticResource CalmeIndicator}, Dark={StaticResource CalmeIndicatorDark}}"
+                    InputTransparent="True" IsVisible="False"
+                    AutomationProperties.IsInAccessibleTree="False" />
 
-        <Button x:Name="TechniquesItem" Grid.Column="2"
-                Text="Técnicas"
-                AutomationId="nav-techniques"
-                Style="{StaticResource NavItem}"
-                Clicked="OnItemClicked" />
+            <VerticalStackLayout Grid.Column="0" Spacing="4" InputTransparent="True" AutomationProperties.IsInAccessibleTree="False">
+                <Grid HeightRequest="32">
+                    <Path x:Name="HomeIcon" Style="{StaticResource NavIcon}"
+                          Data="M3,10.5 L12,3 L21,10.5 L21,20 C21,20.55 20.55,21 20,21 L15,21 L15,15 L9,15 L9,21 L4,21 C3.45,21 3,20.55 3,20 Z" />
+                </Grid>
+                <Label x:Name="HomeLabel" Text="Início" Style="{StaticResource NavLabel}" />
+            </VerticalStackLayout>
+            <Button x:Name="HomeItem" Grid.Column="0" AutomationId="nav-home"
+                    Style="{StaticResource NavHit}" Clicked="OnItemClicked" />
 
-        <Button x:Name="ChallengesItem" Grid.Column="3"
-                Text="Desafios"
-                AutomationId="nav-challenges"
-                Style="{StaticResource NavItem}"
-                Clicked="OnItemClicked" />
+            <VerticalStackLayout Grid.Column="1" Spacing="4" InputTransparent="True" AutomationProperties.IsInAccessibleTree="False">
+                <Grid HeightRequest="32">
+                    <Path x:Name="HistoryIcon" Style="{StaticResource NavIcon}"
+                          Data="M4,20 L4,11 M10,20 L10,4 M16,20 L16,13 M3,20 L21,20" />
+                </Grid>
+                <Label x:Name="HistoryLabel" Text="Histórico" Style="{StaticResource NavLabel}" />
+            </VerticalStackLayout>
+            <Button x:Name="HistoryItem" Grid.Column="1" AutomationId="nav-history"
+                    Style="{StaticResource NavHit}" Clicked="OnItemClicked" />
 
-        <Button x:Name="ProfileItem" Grid.Column="4"
-                Text="Perfil"
-                AutomationId="nav-profile"
-                Style="{StaticResource NavItem}"
-                Clicked="OnItemClicked" />
+            <VerticalStackLayout Grid.Column="2" Spacing="4" InputTransparent="True" AutomationProperties.IsInAccessibleTree="False">
+                <Grid HeightRequest="32">
+                    <Path x:Name="TechniquesIcon" Style="{StaticResource NavIcon}"
+                          Data="M5,19 C5,11 10,5 20,4 C19,14 13,19 5,19 Z M5,19 L12,12" />
+                </Grid>
+                <Label x:Name="TechniquesLabel" Text="Técnicas" Style="{StaticResource NavLabel}" />
+            </VerticalStackLayout>
+            <Button x:Name="TechniquesItem" Grid.Column="2" AutomationId="nav-techniques"
+                    Style="{StaticResource NavHit}" Clicked="OnItemClicked" />
+
+            <VerticalStackLayout Grid.Column="3" Spacing="4" InputTransparent="True" AutomationProperties.IsInAccessibleTree="False">
+                <Grid HeightRequest="32">
+                    <Path x:Name="ChallengesIcon" Style="{StaticResource NavIcon}"
+                          Data="M5,21 L5,4 L16,4 L14,8 L16,12 L5,12" />
+                </Grid>
+                <Label x:Name="ChallengesLabel" Text="Desafios" Style="{StaticResource NavLabel}" />
+            </VerticalStackLayout>
+            <Button x:Name="ChallengesItem" Grid.Column="3" AutomationId="nav-challenges"
+                    Style="{StaticResource NavHit}" Clicked="OnItemClicked" />
+
+            <VerticalStackLayout Grid.Column="4" Spacing="4" InputTransparent="True" AutomationProperties.IsInAccessibleTree="False">
+                <Grid HeightRequest="32">
+                    <Path x:Name="ProfileIcon" Style="{StaticResource NavIcon}"
+                          Data="M12,12 A4,4 0 1 0 12,4 A4,4 0 1 0 12,12 Z M4,21 C5.5,17 8.5,15 12,15 C15.5,15 18.5,17 20,21" />
+                </Grid>
+                <Label x:Name="ProfileLabel" Text="Perfil" Style="{StaticResource NavLabel}" />
+            </VerticalStackLayout>
+            <Button x:Name="ProfileItem" Grid.Column="4" AutomationId="nav-profile"
+                    Style="{StaticResource NavHit}" Clicked="OnItemClicked" />
+        </Grid>
     </Grid>
 </ContentView>
