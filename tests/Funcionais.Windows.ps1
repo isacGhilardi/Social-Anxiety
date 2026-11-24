@@ -214,7 +214,7 @@ try {
         Click-Control 'home-history'
         Assert-Equal (Find-Control 'history-count').Current.Name '0 registros no período' 'Histórico deveria estar vazio'
         Find-Control 'Nenhum registro neste período.' | Out-Null
-        Click-Control 'history-home'
+        Click-Control 'nav-home'
     }
     Test-Flow 'Técnicas exibem passos, concluem e retornam à biblioteca' {
         Click-Control 'home-techniques'
@@ -320,7 +320,7 @@ try {
         Click-Control 'Voltar'
         Click-Control 'home-history'
         Assert-Equal (Find-Control 'history-count').Current.Name '0 registros no período' 'Cancelamento gravou um registro'
-        Click-Control 'history-home'
+        Click-Control 'nav-home'
     }
     Test-Flow 'Check-in exige seleção e salva o valor escolhido' {
         Click-Control 'home-checkin'
@@ -342,7 +342,7 @@ try {
         Click-Control 'history-month'
         Find-Control 'history-graph' | Out-Null
         Click-Control 'history-week'
-        Click-Control 'history-home'
+        Click-Control 'nav-home'
         Assert-Equal (Find-Control 'home-latest').Current.Name '4 de 5 · Intensa' 'Resumo não atualizou'
     }
     Test-Flow 'Novo check-in no mesmo dia atualiza o registro sem duplicar' {
@@ -398,7 +398,7 @@ try {
         Restart-Calme
         Click-Control 'home-challenges'
         Wait-Text 'challenges-progress' '3 de 3 níveis concluídos'
-        Click-Control 'challenges-home'
+        Click-Control 'nav-home'
         Find-Control 'home-checkin' | Out-Null
     }
     Test-Flow 'Todos os níveis da escala chegam corretamente ao histórico e detalhe' {
@@ -412,7 +412,7 @@ try {
             Click-Control ((Get-Date).ToString("dd 'de' MMMM 'de' yyyy", [Globalization.CultureInfo]::GetCultureInfo('pt-BR')))
             Assert-Equal (Find-Control 'record-score').Current.Name "$score de 5 · $($labels[$score - 1])" 'Detalhe incorreto'
             Click-Control 'record-history'
-            Click-Control 'history-home'
+            Click-Control 'nav-home'
         }
     }
     Test-Flow 'Semana e mês filtram as datas na interface' {
@@ -439,7 +439,7 @@ try {
         foreach ($block in @('Sem 1', 'Sem 2', 'Sem 3', 'Sem 4')) {
             if (!$monthlyDescription.Contains($block)) { throw "Bloco mensal ausente: $block" }
         }
-        Click-Control 'history-home'
+        Click-Control 'nav-home'
     }
     Test-Flow 'Respiração inicia, pausa e conclui' {
         Click-Control 'home-breathe'

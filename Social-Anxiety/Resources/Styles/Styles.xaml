@@ -10,14 +10,14 @@
         <Setter Property="Padding" Value="18,14" />
         <Setter Property="CornerRadius" Value="16" />
         <Setter Property="BorderWidth" Value="0" />
-        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource CalmeOn}, Dark={StaticResource CalmeOnDark}}" />
-        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource CalmePrimary}, Dark={StaticResource CalmePrimaryDark}}" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource CalmeOnAction}, Dark={StaticResource CalmeOnActionDark}}" />
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource CalmeAction}, Dark={StaticResource CalmeActionDark}}" />
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="CommonStates">
                     <VisualState x:Name="Normal"><VisualState.Setters><Setter Property="Opacity" Value="1" /></VisualState.Setters></VisualState>
                     <VisualState x:Name="Disabled"><VisualState.Setters><Setter Property="Opacity" Value="0.62" /></VisualState.Setters></VisualState>
-                    <VisualState x:Name="Pressed"><VisualState.Setters><Setter Property="Opacity" Value="0.8" /></VisualState.Setters></VisualState>
+                    <VisualState x:Name="Pressed"><VisualState.Setters><Setter Property="Opacity" Value="0.85" /></VisualState.Setters></VisualState>
                     <VisualState x:Name="Focused" />
                 </VisualStateGroup>
             </VisualStateGroupList>
@@ -26,6 +26,45 @@
     <Style x:Key="CalmeTextButton" TargetType="Button" BasedOn="{StaticResource CalmeButton}">
         <Setter Property="BackgroundColor" Value="Transparent" />
         <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource CalmePrimary}, Dark={StaticResource CalmePrimaryDark}}" />
+    </Style>
+
+    <!-- Secundário com box: navegação e ações comuns. Substitui o CalmeTextButton visível. -->
+    <Style x:Key="CalmeSecondaryButton" TargetType="Button" BasedOn="{StaticResource CalmeButton}">
+        <Setter Property="BorderWidth" Value="1" />
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource CalmeTonal}, Dark={StaticResource CalmeTonalDark}}" />
+        <Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource CalmeTonalBorder}, Dark={StaticResource CalmeTonalBorderDark}}" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource CalmeOnTonal}, Dark={StaticResource CalmeOnTonalDark}}" />
+    </Style>
+
+    <!-- Link: só para ações terciárias ("Voltar", "Ler a política"). -->
+    <Style x:Key="CalmeLinkButton" TargetType="Button" BasedOn="{StaticResource CalmeTextButton}">
+        <Setter Property="FontFamily" Value="NunitoBold" />
+        <Setter Property="MinimumHeightRequest" Value="44" />
+        <Setter Property="Padding" Value="12,8" />
+        <Setter Property="HorizontalOptions" Value="Center" />
+    </Style>
+
+    <!-- Camada de toque invisível sobre um cartão (o conteúdo fica com InputTransparent="True").
+         Continua sendo Button para os testes (InvokePattern). Dê SemanticProperties.Description. -->
+    <Style x:Key="CalmeOverlayButton" TargetType="Button">
+        <Setter Property="Text" Value=" " />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="BorderWidth" Value="0" />
+        <Setter Property="CornerRadius" Value="20" />
+        <Setter Property="BackgroundColor" Value="Transparent" />
+        <Setter Property="TextColor" Value="Transparent" />
+        <Setter Property="MinimumHeightRequest" Value="44" />
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal"><VisualState.Setters><Setter Property="BackgroundColor" Value="Transparent" /></VisualState.Setters></VisualState>
+                    <VisualState x:Name="PointerOver"><VisualState.Setters><Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource CalmePressed}, Dark={StaticResource CalmePressedDark}}" /></VisualState.Setters></VisualState>
+                    <VisualState x:Name="Pressed"><VisualState.Setters><Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource CalmePressed}, Dark={StaticResource CalmePressedDark}}" /></VisualState.Setters></VisualState>
+                    <VisualState x:Name="Disabled" />
+                    <VisualState x:Name="Focused" />
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
     </Style>
 
     <Style TargetType="ActivityIndicator">
@@ -48,9 +87,9 @@
     </Style>
 
     <Style TargetType="Button">
-        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource PrimaryDarkText}}" />
-        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}" />
-        <Setter Property="FontFamily" Value="OpenSansRegular"/>
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource CalmeOnAction}, Dark={StaticResource CalmeOnActionDark}}" />
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource CalmeAction}, Dark={StaticResource CalmeActionDark}}" />
+        <Setter Property="FontFamily" Value="NunitoBold"/>
         <Setter Property="FontSize" Value="14"/>
         <Setter Property="BorderWidth" Value="0"/>
         <Setter Property="CornerRadius" Value="8"/>
@@ -113,11 +152,11 @@
     </Style>
 
     <Style TargetType="Editor">
-        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource CalmeText}, Dark={StaticResource CalmeTextDark}}" />
         <Setter Property="BackgroundColor" Value="Transparent" />
-        <Setter Property="FontFamily" Value="OpenSansRegular"/>
-        <Setter Property="FontSize" Value="14" />
-        <Setter Property="PlaceholderColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray500}}" />
+        <Setter Property="FontFamily" Value="Nunito"/>
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="PlaceholderColor" Value="{AppThemeBinding Light={StaticResource CalmeMuted}, Dark={StaticResource CalmeMutedDark}}" />
         <Setter Property="MinimumHeightRequest" Value="44"/>
         <Setter Property="MinimumWidthRequest" Value="44"/>
         <Setter Property="VisualStateManager.VisualStateGroups">
@@ -135,11 +174,11 @@
     </Style>
 
     <Style TargetType="Entry">
-        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource CalmeText}, Dark={StaticResource CalmeTextDark}}" />
         <Setter Property="BackgroundColor" Value="Transparent" />
-        <Setter Property="FontFamily" Value="OpenSansRegular"/>
-        <Setter Property="FontSize" Value="14" />
-        <Setter Property="PlaceholderColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray500}}" />
+        <Setter Property="FontFamily" Value="Nunito"/>
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="PlaceholderColor" Value="{AppThemeBinding Light={StaticResource CalmeMuted}, Dark={StaticResource CalmeMutedDark}}" />
         <Setter Property="MinimumHeightRequest" Value="44"/>
         <Setter Property="MinimumWidthRequest" Value="44"/>
         <Setter Property="VisualStateManager.VisualStateGroups">
@@ -352,8 +391,8 @@
     </Style>
 
     <Style TargetType="Switch">
-        <Setter Property="OnColor" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource White}}" />
-        <Setter Property="ThumbColor" Value="{StaticResource White}" />
+        <Setter Property="OnColor" Value="{AppThemeBinding Light={StaticResource CalmeAction}, Dark={StaticResource CalmeActionDark}}" />
+        <Setter Property="ThumbColor" Value="{AppThemeBinding Light={StaticResource CalmeOnAction}, Dark={StaticResource CalmeOnActionDark}}" />
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="CommonStates">
@@ -366,13 +405,13 @@
                     </VisualState>
                     <VisualState x:Name="On">
                         <VisualState.Setters>
-                            <Setter Property="OnColor" Value="{AppThemeBinding Light={StaticResource Secondary}, Dark={StaticResource Gray200}}" />
-                            <Setter Property="ThumbColor" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource White}}" />
+                            <Setter Property="OnColor" Value="{AppThemeBinding Light={StaticResource CalmeAction}, Dark={StaticResource CalmeActionDark}}" />
+                            <Setter Property="ThumbColor" Value="{AppThemeBinding Light={StaticResource CalmeOnAction}, Dark={StaticResource CalmeOnActionDark}}" />
                         </VisualState.Setters>
                     </VisualState>
                     <VisualState x:Name="Off">
                         <VisualState.Setters>
-                            <Setter Property="ThumbColor" Value="{AppThemeBinding Light={StaticResource Gray400}, Dark={StaticResource Gray500}}" />
+                            <Setter Property="ThumbColor" Value="{AppThemeBinding Light={StaticResource CalmeBorder}, Dark={StaticResource CalmeBorderDark}}" />
                         </VisualState.Setters>
                     </VisualState>
                 </VisualStateGroup>
@@ -456,27 +495,4 @@
         <Setter Property="SelectedTabColor" Value="{AppThemeBinding Light={StaticResource Gray950}, Dark={StaticResource Gray200}}" />
     </Style>
 
-	<Style x:Key="BtnPrimary" TargetType="Button">
-		<Setter Property="BackgroundColor" Value="{StaticResource Primary}" />
-		<Setter Property="TextColor" Value="White" />
-		<Setter Property="FontFamily" Value="Nunito" />
-		<Setter Property="FontAttributes" Value="Bold" />
-		<Setter Property="FontSize" Value="16" />
-		<Setter Property="CornerRadius" Value="16" />
-		<Setter Property="MinimumHeightRequest" Value="54" />
-		<Setter Property="Padding" Value="18,14" />
-	</Style>
-
-	<Style x:Key="BtnSecondary" TargetType="Button" BasedOn="{StaticResource BtnPrimary}">
-		<Setter Property="BackgroundColor" Value="{StaticResource SoftBlue}" />
-		<Setter Property="TextColor" Value="{StaticResource Primary}" />
-	</Style>
-
-	<Style x:Key="CardStyle" TargetType="Border">
-		<Setter Property="BackgroundColor" Value="{StaticResource Surface}" />
-		<Setter Property="StrokeShape" Value="RoundRectangle 24" />
-		<Setter Property="Stroke" Value="Transparent" />
-		<Setter Property="Padding" Value="16" />
-	</Style>
-	
 </ResourceDictionary>

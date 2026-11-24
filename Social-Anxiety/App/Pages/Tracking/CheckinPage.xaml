@@ -4,7 +4,7 @@
              x:Class="Social_Anxiety.CheckinPage" Title="Seu check-in" Style="{StaticResource FlowPage}">
     <Grid RowDefinitions="*,Auto">
         <ScrollView>
-            <VerticalStackLayout Padding="24,8,24,28" Spacing="16">
+            <VerticalStackLayout Padding="24,8,24,24" Spacing="16">
                 <Label Text="Como você se percebe hoje?"  Style="{StaticResource FlowHeading}" SemanticProperties.HeadingLevel="Level1"/>
                 <Label Text="Ao pensar em situações sociais, quanta ansiedade você percebeu?"  Style="{StaticResource FlowCopy}" />
                 <Grid ColumnDefinitions="*,*,*,*,*" ColumnSpacing="8">
@@ -27,9 +27,6 @@
 
             </VerticalStackLayout>
         </ScrollView>
-        <VerticalStackLayout Grid.Row="1" Padding="24,8,24,12" Spacing="8">
-            <Button Text="Preciso de apoio agora" Clicked="OnSupportClicked" AutomationId="open-support" Style="{StaticResource FlowSupportButton}" />
-
-        </VerticalStackLayout>
+        <Button Grid.Row="1" Margin="24,8,24,12" Text="Preciso de apoio agora" Clicked="OnSupportClicked" AutomationId="open-support" Style="{StaticResource FlowSupportButton}" />
     </Grid>
 </ContentPage>

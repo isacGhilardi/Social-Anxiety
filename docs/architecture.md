@@ -14,8 +14,8 @@
 Social-Anxiety/
   App.xaml(.cs)          App, atalhos OpenSupport/OpenHelp/EnterHomeAsync
   AppShell.xaml(.cs)     Shell, rotas e decisão da tela inicial (boas-vindas, acesso ou início)
-  MauiProgram.cs         Fontes, logging de debug e injeção de dependência (serviços e páginas)
-  App/Controls/          BottomNavBar (5 abas; aba ativa pela propriedade Active, definida no XAML da página), SupportButton ("Preciso de apoio agora", chama App.OpenSupport)
+  MauiProgram.cs         Fontes, logging de debug, injeção de dependência (serviços e páginas) e mapeamento do Entry sem borda nativa (o box vem do Border)
+  App/Controls/          BottomNavBar (5 abas com ícone Path; aba ativa pela propriedade Active, definida no XAML da página; indicador que desliza a partir da aba anterior), SupportButton ("Preciso de apoio agora", chama App.OpenSupport)
   App/Graphics/          ResumoGrafico (IDrawable do gráfico de 7/30 dias)
   App/Pages/Onboarding/  OnboardingPage (boas-vindas, aviso, motivo, acesso, apoio, ajuda) e AccessPage
   App/Pages/Auth/        SignupPage, LoginPage
@@ -70,6 +70,7 @@ Páginas (XAML + code-behind, sem ViewModels) recebem serviços do `Core` pela i
 | `ApoioImediatoPage` (PR #24) e `Views/LibraryPage.cs` removidas, e a meditação guiada passou de `ShellContent` para rota de empilhar (`meditacao-guiada`), 2026-11-16 | A `ApoioImediatoPage` não tinha ponto de acesso (o apoio é a tela "Uma pausa agora" do onboarding) e a `LibraryPage` era uma versão antiga da tela de Técnicas, sem uso (a rota `library` é da `TechniquesPage`). Como `ShellContent`, a meditação virava raiz e o "‹ Voltar" (`GoToAsync("..")`) não tinha para onde voltar | Mover a meditação para `App/Pages/` |
 | Textos das telas de desafio alinhados ao `Calme_Prototipo.html` aprovado pela psicóloga, 2026-11-10; sem "Ver minhas conquistas" na tela de parabéns | Fonte única dos textos; ainda não existe tela de perfil | Houver tela de perfil |
 | Barra inferior nas abas (`MainPage`, `HistoryPage`, `TechniquesPage`, `ChallengesPage`, `ProfilePage`), abaixo do botão de apoio; telas de fluxo sem barra. Destinos absolutos (`//home`, `//home/history`, `//home/library`, `//challenges`, `//profile`); aba ativa definida no XAML de cada página; uma navegação por vez (trava estática), 2026-11-16 | Rotas absolutas recomeçam a pilha, sem telas acumuladas. Perfil habilitado porque a rota `//profile` existe desde o PR #44 | Histórico ou Técnicas virarem `ShellContent` próprios |
+| Ajustes de UX, 2026-11-24: paleta escura nova (`CalmeAction` para fundo de botão; `CalmePrimary` só como texto, ícone e gráfico), hierarquia de botões (`CalmeButton`, `CalmeSecondaryButton`, `CalmeLinkButton`, `CalmeOverlayButton`), grade de atalhos na Início, cartões nas Técnicas, barra inferior sem animação de empilhar (`GoToAsync(rota, false)`) e com indicador deslizante; "Voltar ao início" removido das abas; `Cards.xaml` e `BtnPrimary`/`BtnSecondary`/`CardStyle` aposentados | O `#B5C9FF` como fundo era o elemento mais claro da tela no escuro; o `CalmeTextButton` visível parecia texto solto; a barra misturava push, troca de raiz e pop. Cartões continuam com um `Button` por cima porque os testes usam `InvokePattern` | Os testes funcionais passarem a aceitar outro controle clicável |
 
 ## Manutenção
 

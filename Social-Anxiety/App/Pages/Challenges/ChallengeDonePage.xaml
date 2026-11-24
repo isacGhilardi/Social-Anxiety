@@ -7,20 +7,20 @@
     Style="{StaticResource FlowPage}">
     <Grid RowDefinitions="*,Auto">
         <ScrollView>
-            <VerticalStackLayout Padding="24,8,24,28" Spacing="16">
+            <VerticalStackLayout Padding="24,8,24,24" Spacing="16">
                 <Image Source="leaf.png" HeightRequest="80" SemanticProperties.Description="Folha, símbolo de um passo dado" />
-                <Label Text="UM CUIDADO PARA CELEBRAR" Style="{StaticResource FlowSmall}" />
+                <Label Text="UM CUIDADO PARA CELEBRAR" Style="{StaticResource FlowEyebrow}" />
                 <Label Text="Seu esforço merece ser reconhecido." Style="{StaticResource FlowHeading}" SemanticProperties.HeadingLevel="Level1" AutomationId="done-title" />
                 <Label Text="Cada tentativa conta, mesmo com ansiedade. Você deu um passo no seu próprio ritmo." Style="{StaticResource FlowCopy}" />
                 <Border x:Name="AchievementCard" Style="{StaticResource FlowCard}" IsVisible="False" AutomationId="done-achievement" BackgroundColor="{AppThemeBinding Light={StaticResource CalmeLilac}, Dark={StaticResource CalmeLilacDark}}">
-                    <VerticalStackLayout Spacing="6">
+                    <VerticalStackLayout Spacing="12">
                         <Label Text="Conquista desbloqueada" Style="{StaticResource FlowSmall}" />
                         <Label x:Name="AchievementName" Style="{StaticResource FlowCardTitle}" />
                     </VerticalStackLayout>
                 </Border>
                 <Label x:Name="NextLevelNotice" Text="O próximo nível está disponível. Continue quando fizer sentido para você." Style="{StaticResource FlowCopy}" IsVisible="False" AutomationId="done-next" />
                 <Button Text="Voltar à trilha" Clicked="OnTrailClicked" AutomationId="done-trail" Style="{StaticResource CalmeButton}" />
-                <Button Text="Voltar ao início" Clicked="OnHomeClicked" AutomationId="done-home" Style="{StaticResource CalmeTextButton}" />
+                <Button Text="Voltar ao início" Clicked="OnHomeClicked" AutomationId="done-home" Style="{StaticResource CalmeLinkButton}" />
             </VerticalStackLayout>
         </ScrollView>
         <Button Grid.Row="1" Margin="24,8,24,12" Text="Preciso de apoio agora" Clicked="OnSupportClicked" AutomationId="open-support" Style="{StaticResource FlowSupportButton}" />

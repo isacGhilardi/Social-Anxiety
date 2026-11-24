@@ -47,7 +47,8 @@ public partial class ChallengesPage : ContentPage
         {
             TrailState.Completed => ("Concluído", "CalmeMint", "CalmeMintDark"),
             TrailState.Available => ("Disponível", "CalmeBlue", "CalmeBlueDark"),
-            _ => ("Bloqueado", "CalmeSubtle", "CalmeSubtleDark")
+            // No escuro, CalmeSubtleDark é mais claro que a superfície e destacaria o bloqueado; o fundo da página o deixa recuado.
+            _ => ("Bloqueado", "CalmeSubtle", "CalmeBgDark")
         };
         var resources = Application.Current!.Resources;
 
@@ -76,15 +77,19 @@ public partial class ChallengesPage : ContentPage
             _ => null
         };
         // Botão, e não toque no cartão, para funcionar com teclado e leitor de tela.
+        // Secundário com box na largura do cartão, alinhado aos textos. A margem de 6 soma com o Spacing 6: 12 entre texto e botão.
         if (route is not null)
         {
             var open = new Button
             {
                 Text = item.State == TrailState.Locked ? "Ver o que falta" : level.Number == 1 ? "Fazer check-in" : "Ver desafio",
-                Style = (Style)resources["CalmeTextButton"],
+                Style = (Style)resources["CalmeSecondaryButton"],
                 AutomationId = $"challenge-open-{level.Number}",
-                HorizontalOptions = LayoutOptions.Start
+                HorizontalOptions = LayoutOptions.Fill,
+                Margin = new Thickness(0, 6, 0, 0)
             };
+            // O cartão "Disponível" usa CalmeBlue, a mesma cor do secundário: o botão fica com a cor de superfície para se destacar.
+            open.SetAppThemeColor(BackgroundColorProperty, (Color)resources["CalmeSurface"], (Color)resources["CalmeSurfaceDark"]);
             open.Clicked += async (_, _) => await OpenAsync(route);
             SemanticProperties.SetDescription(open, $"{open.Text}, nível {level.Number}");
             texts.Children.Add(open);
@@ -122,6 +127,5 @@ public partial class ChallengesPage : ContentPage
         finally { navigating = false; }
     }
 
-    private async void OnHomeClicked(object? sender, EventArgs e) => await Shell.Current.GoToAsync("//home");
     private async void OnSupportClicked(object? sender, EventArgs e) => await App.OpenSupport();
 }

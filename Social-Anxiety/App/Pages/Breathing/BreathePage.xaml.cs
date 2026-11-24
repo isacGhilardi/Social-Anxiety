@@ -34,7 +34,10 @@ public partial class BreathePage : ContentPage
         observedWindow = Window ?? Application.Current?.Windows.FirstOrDefault();
         if (observedWindow is not null)
         {
+#if !WINDOWS
+            // No Windows, Deactivated é só perda de foco (a prática continua visível); minimizar e ocultar são tratados abaixo.
             observedWindow.Deactivated += OnWindowInactive;
+#endif
             observedWindow.Stopped += OnWindowInactive;
 #if WINDOWS
             nativeWindow = (observedWindow.Handler?.PlatformView as Microsoft.UI.Xaml.Window)?.AppWindow;
@@ -53,7 +56,9 @@ public partial class BreathePage : ContentPage
 #endif
         if (observedWindow is not null)
         {
+#if !WINDOWS
             observedWindow.Deactivated -= OnWindowInactive;
+#endif
             observedWindow.Stopped -= OnWindowInactive;
             observedWindow = null;
         }

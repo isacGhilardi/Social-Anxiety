@@ -85,7 +85,7 @@
                         <Border WidthRequest="8" HeightRequest="8" StrokeThickness="0" StrokeShape="RoundRectangle 99" BackgroundColor="{AppThemeBinding Light={StaticResource CalmeTrack}, Dark={StaticResource CalmeTrackDark}}"/>
                     </HorizontalStackLayout>
                     <Button Text="Conhecer o Calme" Style="{StaticResource CalmeButton}" CommandParameter="purpose" Clicked="OnNavigateClicked"/>
-                    <Button Text="Já tenho uma conta" Style="{StaticResource CalmeTextButton}" CommandParameter="login" Clicked="OnNavigateClicked"/>
+                    <Button Text="Já tenho uma conta" Style="{StaticResource CalmeLinkButton}" CommandParameter="login" Clicked="OnNavigateClicked"/>
                 </VerticalStackLayout>
                 <VerticalStackLayout Spacing="16" IsVisible="{Binding IsPurpose}">
                     <Border HorizontalOptions="Start" Padding="12,6" StrokeThickness="0" StrokeShape="RoundRectangle 99" BackgroundColor="{AppThemeBinding Light={StaticResource CalmeBlue}, Dark={StaticResource CalmeBlueDark}}">
@@ -161,7 +161,7 @@
                         <Border WidthRequest="8" HeightRequest="8" StrokeThickness="0" StrokeShape="RoundRectangle 99" BackgroundColor="{AppThemeBinding Light={StaticResource CalmeTrack}, Dark={StaticResource CalmeTrackDark}}"/>
                     </HorizontalStackLayout>
                     <Button Text="Entendi, vamos continuar" Style="{StaticResource CalmeButton}" CommandParameter="motive" Clicked="OnNavigateClicked"/>
-                    <Button Text="Quando buscar ajuda?" Style="{StaticResource CalmeTextButton}" CommandParameter="help" Clicked="OnNavigateClicked"/>
+                    <Button Text="Quando buscar ajuda?" Style="{StaticResource CalmeSecondaryButton}" CommandParameter="help" Clicked="OnNavigateClicked"/>
                 </VerticalStackLayout>
                 <VerticalStackLayout Spacing="16" IsVisible="{Binding IsMotive}">
                     <Border HorizontalOptions="Start" Padding="12,6" StrokeThickness="0" StrokeShape="RoundRectangle 99" BackgroundColor="{AppThemeBinding Light={StaticResource CalmeBlue}, Dark={StaticResource CalmeBlueDark}}">
@@ -185,7 +185,7 @@
                         <Border WidthRequest="24" HeightRequest="8" StrokeThickness="0" StrokeShape="RoundRectangle 99" BackgroundColor="{AppThemeBinding Light={StaticResource CalmePrimary}, Dark={StaticResource CalmePrimaryDark}}"/>
                     </HorizontalStackLayout>
                     <Button Text="{Binding ContinueText}" IsEnabled="{Binding CanContinue}" Style="{StaticResource CalmeButton}" CommandParameter="access" Clicked="OnNavigateClicked"/>
-                    <Button Text="Prefiro explorar primeiro" Style="{StaticResource CalmeTextButton}" CommandParameter="access" Clicked="OnNavigateClicked"/>
+                    <Button Text="Prefiro explorar primeiro" Style="{StaticResource CalmeSecondaryButton}" CommandParameter="access" Clicked="OnNavigateClicked"/>
                 </VerticalStackLayout>
                 <VerticalStackLayout Spacing="16" IsVisible="{Binding IsAccess}">
                     <Grid HeightRequest="156">
@@ -198,8 +198,8 @@
                     <Label Text="Este espaço é seu." Style="{StaticResource OnboardingHeading}"/>
                     <Label Text="Crie uma conta para continuar seu cuidado ou explore como convidado." Style="{StaticResource OnboardingCopy}"/>
                     <Button Text="Criar minha conta" Style="{StaticResource CalmeButton}" CommandParameter="signup" Clicked="OnNavigateClicked"/>
-                    <Button Text="Já tenho uma conta" Style="{StaticResource CalmeTextButton}" CommandParameter="login" Clicked="OnNavigateClicked"/>
-                    <Button Text="Continuar como convidado" Style="{StaticResource CalmeTextButton}" CommandParameter="guest" Clicked="OnNavigateClicked"/>
+                    <Button Text="Continuar como convidado" Style="{StaticResource CalmeSecondaryButton}" CommandParameter="guest" Clicked="OnNavigateClicked"/>
+                    <Button Text="Já tenho uma conta" Style="{StaticResource CalmeLinkButton}" CommandParameter="login" Clicked="OnNavigateClicked"/>
                     <Border Style="{StaticResource OnboardingCard}" BackgroundColor="{AppThemeBinding Light={StaticResource CalmeMint}, Dark={StaticResource CalmeMintDark}}">
                         <VerticalStackLayout Spacing="12">
                             <Label Text="No seu ritmo" Style="{StaticResource OnboardingCardTitle}"/>
@@ -302,7 +302,7 @@
                 <VerticalStackLayout Spacing="16" IsVisible="{Binding IsPlaceholder}">
                     <Label Text="{Binding PlaceholderTitle}" Style="{StaticResource OnboardingHeading}"/>
                     <Label Text="Esta funcionalidade ainda não foi implementada nesta versão do Calme." Style="{StaticResource OnboardingCopy}"/>
-                    <Button Text="Voltar" Style="{StaticResource CalmeTextButton}" Clicked="OnBackClicked"/>
+                    <Button Text="Voltar" Style="{StaticResource CalmeLinkButton}" Clicked="OnBackClicked"/>
                 </VerticalStackLayout>
             </VerticalStackLayout>
         </ScrollView>

@@ -22,20 +22,30 @@
     <Style x:Key="FlowCardTitle" TargetType="Label" BasedOn="{StaticResource FlowHeading}"><Setter Property="FontSize" Value="18" /></Style>
     <Style x:Key="FlowSmall" TargetType="Label" BasedOn="{StaticResource FlowCopy}"><Setter Property="FontSize" Value="12" /></Style>
     <Style x:Key="FlowCard" TargetType="Border">
-        <Setter Property="Padding" Value="20" /><Setter Property="StrokeThickness" Value="0" />
+        <Setter Property="Padding" Value="20" /><Setter Property="StrokeThickness" Value="1" />
+        <Setter Property="Stroke" Value="{AppThemeBinding Light={StaticResource CalmeOutline}, Dark={StaticResource CalmeOutlineDark}}" />
         <Setter Property="StrokeShape" Value="RoundRectangle 24" />
         <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource CalmeSurface}, Dark={StaticResource CalmeSurfaceDark}}" />
     </Style>
     <Style x:Key="FlowSupportButton" TargetType="Button" BasedOn="{StaticResource CalmeButton}">
         <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource CalmeMint}, Dark={StaticResource CalmeMintDark}}" />
         <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource CalmeTeal}, Dark={StaticResource CalmeTealDark}}" />
+        <Setter Property="BorderWidth" Value="1.5" />
+        <Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource CalmeSupportBorder}, Dark={StaticResource CalmeSupportBorderDark}}" />
     </Style>
     <Style x:Key="FlowScore" TargetType="Button" BasedOn="{StaticResource CalmeButton}">
         <Setter Property="Padding" Value="0" /><Setter Property="MinimumHeightRequest" Value="86" /><Setter Property="BorderWidth" Value="1" />
         <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource CalmeSurface}, Dark={StaticResource CalmeSurfaceDark}}" />
         <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource CalmeText}, Dark={StaticResource CalmeTextDark}}" />
         <Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource CalmeBorder}, Dark={StaticResource CalmeBorderDark}}" />
-        <Setter Property="VisualStateManager.VisualStateGroups"><VisualStateGroupList><VisualStateGroup x:Name="SelectionStates">
+        <Setter Property="VisualStateManager.VisualStateGroups"><VisualStateGroupList>
+        <VisualStateGroup x:Name="CommonStates">
+            <VisualState x:Name="Normal"><VisualState.Setters><Setter Property="Opacity" Value="1" /></VisualState.Setters></VisualState>
+            <VisualState x:Name="Disabled"><VisualState.Setters><Setter Property="Opacity" Value="0.62" /></VisualState.Setters></VisualState>
+            <VisualState x:Name="Pressed"><VisualState.Setters><Setter Property="Opacity" Value="0.85" /></VisualState.Setters></VisualState>
+            <VisualState x:Name="Focused" />
+        </VisualStateGroup>
+        <VisualStateGroup x:Name="SelectionStates">
             <VisualState x:Name="Unselected" />
             <VisualState x:Name="Selected"><VisualState.Setters>
                 <Setter Property="BorderWidth" Value="2" />
@@ -43,5 +53,58 @@
                 <Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource CalmePrimary}, Dark={StaticResource CalmePrimaryDark}}" />
             </VisualState.Setters></VisualState>
         </VisualStateGroup></VisualStateGroupList></Setter>
+    </Style>
+
+    <!-- Cartão-atalho da grade (Início) e cartão de lista (Técnicas). O toque vai num CalmeOverlayButton por cima. -->
+    <Style x:Key="FlowTile" TargetType="Border" BasedOn="{StaticResource FlowCard}">
+        <Setter Property="Padding" Value="14" />
+        <Setter Property="StrokeShape" Value="RoundRectangle 20" />
+        <Setter Property="MinimumHeightRequest" Value="108" />
+    </Style>
+    <Style x:Key="FlowListCard" TargetType="Border" BasedOn="{StaticResource FlowCard}">
+        <Setter Property="Padding" Value="14,12" />
+        <Setter Property="StrokeShape" Value="RoundRectangle 20" />
+        <Setter Property="MinimumHeightRequest" Value="76" />
+    </Style>
+    <Style x:Key="FlowIconBox" TargetType="Border">
+        <Setter Property="WidthRequest" Value="40" /><Setter Property="HeightRequest" Value="40" />
+        <Setter Property="StrokeThickness" Value="0" /><Setter Property="StrokeShape" Value="RoundRectangle 12" />
+        <Setter Property="HorizontalOptions" Value="Start" /><Setter Property="VerticalOptions" Value="Center" />
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource CalmeBlue}, Dark={StaticResource CalmeTonalDark}}" />
+    </Style>
+    <Style x:Key="FlowIcon" TargetType="Path">
+        <Setter Property="WidthRequest" Value="24" /><Setter Property="HeightRequest" Value="24" />
+        <Setter Property="Aspect" Value="None" />
+        <Setter Property="StrokeThickness" Value="1.8" />
+        <Setter Property="StrokeLineCap" Value="Round" /><Setter Property="StrokeLineJoin" Value="Round" />
+        <Setter Property="HorizontalOptions" Value="Center" /><Setter Property="VerticalOptions" Value="Center" />
+        <Setter Property="Stroke" Value="{AppThemeBinding Light={StaticResource CalmePrimary}, Dark={StaticResource CalmeOnTonalDark}}" />
+    </Style>
+    <Style x:Key="FlowIconBoxMint" TargetType="Border" BasedOn="{StaticResource FlowIconBox}">
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource CalmeMint}, Dark={StaticResource CalmeMintDark}}" />
+    </Style>
+    <Style x:Key="FlowIconBoxLilac" TargetType="Border" BasedOn="{StaticResource FlowIconBox}">
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource CalmeLilac}, Dark={StaticResource CalmeLilacDark}}" />
+    </Style>
+    <Style x:Key="FlowIconMint" TargetType="Path" BasedOn="{StaticResource FlowIcon}">
+        <Setter Property="Stroke" Value="{AppThemeBinding Light={StaticResource CalmeTeal}, Dark={StaticResource CalmeTealDark}}" />
+    </Style>
+    <Style x:Key="FlowIconLilac" TargetType="Path" BasedOn="{StaticResource FlowIcon}">
+        <Setter Property="Stroke" Value="{AppThemeBinding Light={StaticResource CalmePurple}, Dark={StaticResource CalmePurpleDark}}" />
+    </Style>
+    <Style x:Key="FlowIconMuted" TargetType="Path" BasedOn="{StaticResource FlowIcon}">
+        <Setter Property="Stroke" Value="{AppThemeBinding Light={StaticResource CalmeMuted}, Dark={StaticResource CalmeMutedDark}}" />
+    </Style>
+    <Style x:Key="FlowTileTitle" TargetType="Label" BasedOn="{StaticResource FlowCopy}">
+        <Setter Property="FontFamily" Value="NunitoExtraBold" />
+        <Setter Property="FontSize" Value="15" />
+        <Setter Property="LineHeight" Value="1.1" />
+        <!-- Nos cartões, o CalmeOverlayButton por cima já anuncia o título. -->
+        <Setter Property="AutomationProperties.IsInAccessibleTree" Value="False" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource CalmeText}, Dark={StaticResource CalmeTextDark}}" />
+    </Style>
+    <Style x:Key="FlowEyebrow" TargetType="Label" BasedOn="{StaticResource FlowSmall}">
+        <Setter Property="FontFamily" Value="NunitoExtraBold" />
+        <Setter Property="CharacterSpacing" Value="1" />
     </Style>
 </ResourceDictionary>

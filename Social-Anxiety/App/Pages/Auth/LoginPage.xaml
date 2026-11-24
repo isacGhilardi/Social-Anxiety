@@ -4,21 +4,27 @@
              x:Class="Social_Anxiety.LoginPage" Title="Entrar" Style="{StaticResource FlowPage}">
     <Grid RowDefinitions="*,Auto">
         <ScrollView>
-            <VerticalStackLayout Padding="24,8,24,28" Spacing="16">
+            <VerticalStackLayout Padding="24,8,24,24" Spacing="16">
                 <Label Text="Que bom te ver." Style="{StaticResource FlowHeading}" SemanticProperties.HeadingLevel="Level1"/>
                 <Label Text="Continue do ponto em que parou." Style="{StaticResource FlowCopy}"/>
+                <!-- Campos com box: o Border é só visual; o Entry dentro mantém id e descrição. Borda CalmeBorder (3:1) para o campo se destacar do fundo. -->
                 <Label Text="E-mail" Style="{StaticResource FlowCopy}"/>
-                <Entry x:Name="EmailEntry" Placeholder="seuemail@exemplo.com" Keyboard="Email" IsSpellCheckEnabled="False" AutomationId="login-email" SemanticProperties.Description="E-mail"/>
+                <Border Style="{StaticResource FlowCard}" Padding="14,4" StrokeShape="RoundRectangle 16"
+                        Stroke="{AppThemeBinding Light={StaticResource CalmeBorder}, Dark={StaticResource CalmeBorderDark}}">
+                    <Entry x:Name="EmailEntry" Placeholder="seuemail@exemplo.com" Keyboard="Email" IsSpellCheckEnabled="False" AutomationId="login-email" SemanticProperties.Description="E-mail"/>
+                </Border>
                 <Label Text="Senha" Style="{StaticResource FlowCopy}"/>
-                <Entry x:Name="PasswordEntry" Placeholder="Sua senha" IsPassword="True" AutomationId="login-password" SemanticProperties.Description="Senha"/>
+                <Border Style="{StaticResource FlowCard}" Padding="14,4" StrokeShape="RoundRectangle 16"
+                        Stroke="{AppThemeBinding Light={StaticResource CalmeBorder}, Dark={StaticResource CalmeBorderDark}}">
+                    <Entry x:Name="PasswordEntry" Placeholder="Sua senha" IsPassword="True" AutomationId="login-password" SemanticProperties.Description="Senha"/>
+                </Border>
                 <Label x:Name="ErrorMessage" Text="" Style="{StaticResource FlowCopy}" AutomationId="login-error"/>
                 <Button x:Name="SubmitButton" Text="Entrar" Clicked="OnSubmitClicked" AutomationId="login-submit" Style="{StaticResource CalmeButton}"/>
-                <Button Text="Criar uma conta" Clicked="OnSignupClicked" Style="{StaticResource CalmeTextButton}"/>
-                <Button Text="Continuar como convidado" Clicked="OnGuestClicked" Style="{StaticResource CalmeTextButton}"/>
+                <!-- O teste acha estes dois pelo texto: não mudar o Text nem dar SemanticProperties.Description. -->
+                <Button Text="Criar uma conta" Clicked="OnSignupClicked" Style="{StaticResource CalmeSecondaryButton}"/>
+                <Button Text="Continuar como convidado" Clicked="OnGuestClicked" Style="{StaticResource CalmeLinkButton}"/>
             </VerticalStackLayout>
         </ScrollView>
-        <VerticalStackLayout Grid.Row="1" Padding="24,8,24,16">
-            <Button Text="Preciso de apoio agora" Clicked="OnSupportClicked" AutomationId="open-support" Style="{StaticResource FlowSupportButton}" />
-        </VerticalStackLayout>
+        <Button Grid.Row="1" Margin="24,8,24,12" Text="Preciso de apoio agora" Clicked="OnSupportClicked" AutomationId="open-support" Style="{StaticResource FlowSupportButton}" />
     </Grid>
 </ContentPage>

@@ -15,7 +15,7 @@ Sem lint configurado. O compilador com `Nullable` é o check de tipos; mantenha 
 
 ## Regras de base
 
-- Arquivos até ~350 linhas, organizados por responsabilidade. Exceção conhecida: `Resources/Styles/Styles.xaml` (482 linhas, estilos do template MAUI).
+- Arquivos até ~350 linhas, organizados por responsabilidade. Exceção conhecida: `Resources/Styles/Styles.xaml` (cerca de 500 linhas, estilos do template MAUI e botões Calme).
 - Lógica nova fica no `Core/` (sem MAUI nem SQLite) e é testada em `tests/Calme.Core.Tests`, que inclui `Core/**` e `Data/Sqlite/**` por link de código-fonte.
 - Leitura e gravação de dados nunca apagam o arquivo existente em caso de erro; a mensagem ao usuário não expõe detalhes internos.
 - Interface nova: `AutomationId` em controles e `SemanticProperties` em conteúdo não textual.
