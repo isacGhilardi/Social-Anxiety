@@ -47,7 +47,8 @@ public partial class ChallengesPage : ContentPage
         {
             TrailState.Completed => ("Concluído", "CalmeMint", "CalmeMintDark"),
             TrailState.Available => ("Disponível", "CalmeBlue", "CalmeBlueDark"),
-            _ => ("Bloqueado", "CalmeSubtle", "CalmeSubtleDark")
+            // No escuro, CalmeSubtleDark é mais claro que a superfície e destacaria o bloqueado; o fundo da página o deixa recuado.
+            _ => ("Bloqueado", "CalmeSubtle", "CalmeBgDark")
         };
         var resources = Application.Current!.Resources;
 

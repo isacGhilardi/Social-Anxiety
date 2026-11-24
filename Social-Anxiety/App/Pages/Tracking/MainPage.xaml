@@ -52,7 +52,7 @@
                                     <Path Style="{StaticResource FlowIcon}" Data="M5,19 C5,11 10,5 20,4 C19,14 13,19 5,19 Z M5,19 L12,12" />
                                 </Border>
                                 <Label Text="Técnicas" Style="{StaticResource FlowTileTitle}" />
-                                <Label Text="Mindfulness, STOP e ACALME-SE" Style="{StaticResource FlowSmall}" />
+                                <Label Text="Mindfulness, STOP e mais" Style="{StaticResource FlowSmall}" />
                             </VerticalStackLayout>
                         </Border>
                         <Button Style="{StaticResource CalmeOverlayButton}" Clicked="OnTechniquesClicked" AutomationId="home-techniques"
