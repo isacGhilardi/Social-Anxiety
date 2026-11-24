@@ -18,6 +18,21 @@ namespace Social_Anxiety
                     fonts.AddFont("Nunito-800.ttf", "NunitoExtraBold");
                 });
 
+            // Os campos de texto ficam dentro de um Border com o box do Calme (Login e Cadastro).
+            // Tira a borda e o sublinhado nativos para não desenhar uma caixa dupla.
+            Microsoft.Maui.Handlers.EntryHandler.Mapper.AppendToMapping("CalmeSemBordaNativa", (handler, _) =>
+            {
+#if WINDOWS
+                handler.PlatformView.BorderThickness = new Microsoft.UI.Xaml.Thickness(0);
+                // O estado de foco do TextBox reaplica a borda por este recurso.
+                handler.PlatformView.Resources["TextControlBorderThemeThicknessFocused"] = new Microsoft.UI.Xaml.Thickness(0);
+#elif IOS || MACCATALYST
+                handler.PlatformView.BorderStyle = UIKit.UITextBorderStyle.None;
+#elif ANDROID
+                handler.PlatformView.BackgroundTintList = Android.Content.Res.ColorStateList.ValueOf(Android.Graphics.Color.Transparent);
+#endif
+            });
+
 #if DEBUG
     		builder.Logging.AddDebug();
 #endif
