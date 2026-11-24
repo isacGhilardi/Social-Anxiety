@@ -4,7 +4,7 @@
              x:Class="Social_Anxiety.FeedbackPage" Title="Um cuidado por você" Style="{StaticResource FlowPage}">
     <Grid RowDefinitions="*,Auto">
         <ScrollView>
-            <VerticalStackLayout Padding="24,8,24,28" Spacing="16">
+            <VerticalStackLayout Padding="24,8,24,24" Spacing="16">
                 <Label Text="Check-in salvo"  Style="{StaticResource FlowHeading}" AutomationId="feedback-title"/>
                 <Label Text="Seu registro foi guardado neste aparelho. Você pode acompanhar como seus dias mudam."  Style="{StaticResource FlowCopy}" />
                 <Border Style="{StaticResource FlowCard}" BackgroundColor="{AppThemeBinding Light={StaticResource CalmeBlue}, Dark={StaticResource CalmeBlueDark}}"><VerticalStackLayout Spacing="12">
@@ -14,13 +14,9 @@
                 <Label Text="Cada dia pode ser diferente. Um registro não define você."  Style="{StaticResource FlowCopy}" />
                 <Label Text="Este app não realiza diagnósticos e não substitui acompanhamento profissional."  Style="{StaticResource FlowSmall}" />
                 <Button Text="Ver meu histórico" Clicked="OnHistoryClicked" AutomationId="feedback-history" Style="{StaticResource CalmeButton}" />
-                <Button Text="Voltar ao início" Clicked="OnHomeClicked" AutomationId="feedback-home" Style="{StaticResource CalmeTextButton}" />
-
+                <Button Text="Voltar ao início" Clicked="OnHomeClicked" AutomationId="feedback-home" Style="{StaticResource CalmeLinkButton}" />
             </VerticalStackLayout>
         </ScrollView>
-        <VerticalStackLayout Grid.Row="1" Padding="24,8,24,12" Spacing="8">
-            <Button Text="Preciso de apoio agora" Clicked="OnSupportClicked" AutomationId="open-support" Style="{StaticResource FlowSupportButton}" />
-
-        </VerticalStackLayout>
+        <Button Grid.Row="1" Margin="24,8,24,12" Text="Preciso de apoio agora" Clicked="OnSupportClicked" AutomationId="open-support" Style="{StaticResource FlowSupportButton}" />
     </Grid>
 </ContentPage>

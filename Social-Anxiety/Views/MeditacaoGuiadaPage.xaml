@@ -5,59 +5,48 @@
     x:Class="Social_Anxiety.Views.MeditacaoGuiadaPage"
     Title="Meditação guiada"
     Shell.NavBarIsVisible="False"
+    SafeAreaEdges="Container"
     BackgroundColor="{AppThemeBinding Light={StaticResource CalmeBg}, Dark={StaticResource CalmeBgDark}}">
 
+    <!-- Sem a barra do Shell: o "Voltar" próprio (meditacao-voltar) faz o papel da seta. Cores só por tokens Calme. -->
     <Grid RowDefinitions="*,Auto">
     <ScrollView>
-        <VerticalStackLayout Padding="24,32" Spacing="22">
+        <VerticalStackLayout Padding="24,8,24,24" Spacing="16">
 
             <Button
                 Text="‹  Voltar"
                 Clicked="OnVoltarClicked"
                 AutomationId="meditacao-voltar"
                 SemanticProperties.Description="Voltar"
+                Style="{StaticResource CalmeLinkButton}"
                 HorizontalOptions="Start"
-                BackgroundColor="Transparent"
-                TextColor="{AppThemeBinding Light={StaticResource CalmeText}, Dark={StaticResource CalmeTextDark}}"
-                FontFamily="Nunito"
-                Padding="0,4" />
+                Padding="0,8" />
 
             <VerticalStackLayout Spacing="8">
                 <Label
                     Text="MOMENTO DE PAUSA"
-                    FontFamily="NunitoExtraBold"
-                    FontSize="12"
-                    CharacterSpacing="2"
-                    TextColor="#568D83" />
+                    Style="{StaticResource FlowEyebrow}"
+                    TextColor="{AppThemeBinding Light={StaticResource CalmeTeal}, Dark={StaticResource CalmeTealDark}}" />
 
                 <Label
                     Text="Meditação guiada"
                     AutomationId="meditacao-title"
                     SemanticProperties.HeadingLevel="Level1"
-                    FontFamily="NunitoExtraBold"
-                    FontSize="30"
-                    TextColor="{AppThemeBinding Light={StaticResource CalmeText}, Dark={StaticResource CalmeTextDark}}" />
+                    Style="{StaticResource FlowHeading}" />
 
                 <Label
                     Text="Encontre um lugar confortável e reserve alguns minutos para você."
-                    FontFamily="Nunito"
-                    FontSize="15"
-                    LineBreakMode="WordWrap"
-                    TextColor="{AppThemeBinding Light={StaticResource CalmeMuted}, Dark={StaticResource CalmeMutedDark}}" />
+                    Style="{StaticResource FlowCopy}" />
             </VerticalStackLayout>
 
-            <Border
-                BackgroundColor="{AppThemeBinding Light={StaticResource CalmeSurface}, Dark={StaticResource CalmeSurfaceDark}}"
-                StrokeThickness="0"
-                StrokeShape="RoundRectangle 28"
-                Padding="22">
+            <Border Style="{StaticResource FlowCard}">
 
-                <VerticalStackLayout Spacing="22">
+                <VerticalStackLayout Spacing="12">
 
                     <Border
-                        BackgroundColor="#E0F0EA"
+                        BackgroundColor="{AppThemeBinding Light={StaticResource CalmeMint}, Dark={StaticResource CalmeMintDark}}"
                         StrokeThickness="0"
-                        StrokeShape="RoundRectangle 24"
+                        StrokeShape="RoundRectangle 20"
                         HeightRequest="190">
 
                         <VerticalStackLayout
@@ -66,9 +55,10 @@
                             Spacing="10">
 
                             <Border
-                                BackgroundColor="#C2E2D8"
-                                StrokeThickness="0"
-                                StrokeShape="RoundRectangle 60"
+                                BackgroundColor="{AppThemeBinding Light={StaticResource CalmeMint}, Dark={StaticResource CalmeMintDark}}"
+                                Stroke="{AppThemeBinding Light={StaticResource CalmeSupportBorder}, Dark={StaticResource CalmeSupportBorderDark}}"
+                                StrokeThickness="1.5"
+                                StrokeShape="Ellipse"
                                 WidthRequest="100"
                                 HeightRequest="100">
 
@@ -76,39 +66,32 @@
                                     Text="◉"
                                     SemanticProperties.Description="Círculo de respiração"
                                     FontSize="54"
-                                    TextColor="#39796D"
+                                    TextColor="{AppThemeBinding Light={StaticResource CalmeTeal}, Dark={StaticResource CalmeTealDark}}"
                                     HorizontalTextAlignment="Center"
                                     VerticalTextAlignment="Center" />
                             </Border>
 
                             <Label
                                 Text="Respire. Este momento é seu."
-                                FontFamily="Nunito"
-                                FontSize="14"
-                                TextColor="#286B65"
+                                Style="{StaticResource FlowCopy}"
+                                TextColor="{AppThemeBinding Light={StaticResource CalmeTeal}, Dark={StaticResource CalmeTealDark}}"
                                 HorizontalTextAlignment="Center" />
                         </VerticalStackLayout>
                     </Border>
 
-                    <VerticalStackLayout Spacing="5">
+                    <VerticalStackLayout Spacing="4">
                         <Label
                             Text="Calma e presença"
-                            FontFamily="NunitoExtraBold"
-                            FontSize="21"
-                            TextColor="{AppThemeBinding Light={StaticResource CalmeText}, Dark={StaticResource CalmeTextDark}}" />
+                            Style="{StaticResource FlowCardTitle}" />
 
                         <Label
                             Text="Meditação para iniciantes • 5 minutos"
-                            FontFamily="Nunito"
-                            FontSize="14"
-                            TextColor="{AppThemeBinding Light={StaticResource CalmeMuted}, Dark={StaticResource CalmeMutedDark}}" />
+                            Style="{StaticResource FlowCopy}" />
                         <!-- US17: o MVP não tem áudio; a tela precisa dizer que é uma simulação. -->
                         <Label
                             Text="Esta versão não tem áudio: o cronômetro acompanha você enquanto segue os passos abaixo."
                             AutomationId="meditacao-sem-audio"
-                            FontFamily="Nunito"
-                            FontSize="14"
-                            TextColor="{AppThemeBinding Light={StaticResource CalmeMuted}, Dark={StaticResource CalmeMutedDark}}" />
+                            Style="{StaticResource FlowCopy}" />
                     </VerticalStackLayout>
 
                     <VerticalStackLayout Spacing="8">
@@ -117,8 +100,8 @@
                             AutomationId="meditacao-progresso"
                             SemanticProperties.Description="Progresso da meditação"
                             Progress="0"
-                            ProgressColor="#568D83"
-                            BackgroundColor="#DDE7E2"
+                            ProgressColor="{AppThemeBinding Light={StaticResource CalmeTeal}, Dark={StaticResource CalmeTealDark}}"
+                            BackgroundColor="{AppThemeBinding Light={StaticResource CalmeTrack}, Dark={StaticResource CalmeTrackDark}}"
                             HeightRequest="7" />
 
                         <Grid ColumnDefinitions="*,*">
@@ -126,82 +109,56 @@
                                 x:Name="TempoAtual"
                                 AutomationId="meditacao-tempo"
                                 Text="00:00"
-                                FontFamily="Nunito"
-                                FontSize="12"
-                                TextColor="{AppThemeBinding Light={StaticResource CalmeMuted}, Dark={StaticResource CalmeMutedDark}}" />
+                                Style="{StaticResource FlowSmall}" />
 
                             <Label
                                 Text="05:00"
                                 Grid.Column="1"
                                 HorizontalTextAlignment="End"
-                                FontFamily="Nunito"
-                                FontSize="12"
-                                TextColor="{AppThemeBinding Light={StaticResource CalmeMuted}, Dark={StaticResource CalmeMutedDark}}" />
+                                Style="{StaticResource FlowSmall}" />
                         </Grid>
                     </VerticalStackLayout>
 
+                    <!-- Ação principal da tela; o texto muda no code-behind (Iniciar/Pausar/Repetir). -->
                     <Button
                         x:Name="BotaoReproduzir"
                         Text="▶  Iniciar meditação"
                         Clicked="OnReproduzirClicked"
                         AutomationId="meditacao-reproduzir"
-                        BackgroundColor="#39796D"
-                        TextColor="White"
-                        FontFamily="NunitoExtraBold"
-                        FontSize="16"
-                        HeightRequest="54"
-                        CornerRadius="27" />
+                        Style="{StaticResource CalmeButton}" />
 
                     <Button
                         Text="Recomeçar sessão"
                         Clicked="OnRecomecarClicked"
                         AutomationId="meditacao-recomecar"
-                        BackgroundColor="Transparent"
-                        TextColor="#568D83"
-                        FontFamily="NunitoExtraBold"
-                        FontSize="14" />
+                        Style="{StaticResource CalmeLinkButton}" />
 
                 </VerticalStackLayout>
             </Border>
 
-            <Border
-                BackgroundColor="{AppThemeBinding Light={StaticResource CalmeSurface}, Dark={StaticResource CalmeSurfaceDark}}"
-                StrokeThickness="0"
-                StrokeShape="RoundRectangle 22"
-                Padding="20">
+            <Border Style="{StaticResource FlowCard}">
 
-                <VerticalStackLayout Spacing="10">
+                <VerticalStackLayout Spacing="12">
                     <Label
                         Text="Durante a prática"
-                        FontFamily="NunitoExtraBold"
-                        FontSize="18"
-                        TextColor="{AppThemeBinding Light={StaticResource CalmeText}, Dark={StaticResource CalmeTextDark}}" />
+                        Style="{StaticResource FlowCardTitle}" />
 
                     <Label
                         Text="1. Encontre uma posição confortável."
-                        FontFamily="Nunito"
-                        FontSize="14"
-                        TextColor="{AppThemeBinding Light={StaticResource CalmeMuted}, Dark={StaticResource CalmeMutedDark}}" />
+                        Style="{StaticResource FlowCopy}" />
 
                     <Label
                         Text="2. Perceba sua respiração sem tentar controlá-la."
-                        FontFamily="Nunito"
-                        FontSize="14"
-                        TextColor="{AppThemeBinding Light={StaticResource CalmeMuted}, Dark={StaticResource CalmeMutedDark}}" />
+                        Style="{StaticResource FlowCopy}" />
 
                     <Label
                         Text="3. Se sua atenção se dispersar, volte gentilmente ao momento presente."
-                        FontFamily="Nunito"
-                        FontSize="14"
-                        LineBreakMode="WordWrap"
-                        TextColor="{AppThemeBinding Light={StaticResource CalmeMuted}, Dark={StaticResource CalmeMutedDark}}" />
+                        Style="{StaticResource FlowCopy}" />
                 </VerticalStackLayout>
             </Border>
 
         </VerticalStackLayout>
     </ScrollView>
-        <VerticalStackLayout Grid.Row="1" Padding="24,8,24,12">
-            <controls:SupportButton />
-        </VerticalStackLayout>
+        <controls:SupportButton Grid.Row="1" Margin="24,8,24,12" />
     </Grid>
 </ContentPage>

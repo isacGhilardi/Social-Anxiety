@@ -8,11 +8,11 @@
     Style="{StaticResource FlowPage}">
     <Grid RowDefinitions="*,Auto">
         <ScrollView x:Name="ContentScroll">
-            <VerticalStackLayout Padding="24,8,24,28" Spacing="16">
+            <VerticalStackLayout Padding="24,8,24,24" Spacing="16">
                 <Label x:Name="MissingMessage" Text="Esta técnica não está disponível. Escolha uma das práticas da biblioteca." IsVisible="False" Style="{StaticResource FlowCopy}" AutomationId="technique-error" />
                 <VerticalStackLayout x:Name="PracticeContent" Spacing="16">
                     <Border x:Name="TechniqueBadge" Style="{StaticResource FlowCard}" Padding="12,6" HorizontalOptions="Start" BackgroundColor="{AppThemeBinding Light={StaticResource CalmeMint}, Dark={StaticResource CalmeMintDark}}">
-                        <Label x:Name="TechniqueTag" Style="{StaticResource FlowSmall}" />
+                        <Label x:Name="TechniqueTag" Style="{StaticResource FlowEyebrow}" />
                     </Border>
                     <Label x:Name="TechniqueTitle" Style="{StaticResource FlowHeading}" SemanticProperties.HeadingLevel="Level1" AutomationId="technique-title" />
                     <Label x:Name="TechniqueDescription" Style="{StaticResource FlowCopy}" />
@@ -39,12 +39,13 @@
                     <Label Text="Uma pausa conta." Style="{StaticResource FlowHeading}" SemanticProperties.HeadingLevel="Level1" AutomationId="technique-finish-title" />
                     <Label Text="Obrigado por reservar esse momento para você. Não é preciso se sentir diferente imediatamente." Style="{StaticResource FlowCopy}" />
                     <Label Text="Volte ao seu dia no ritmo que for possível." Style="{StaticResource FlowCopy}" />
-                    <Button Text="Voltar ao início" Clicked="OnHomeClicked" AutomationId="technique-home" Style="{StaticResource CalmeButton}" />
+                    <!-- Secundário: a tela já tem um primário (technique-complete), mesmo que os dois estados não apareçam juntos. -->
+                    <Button Text="Voltar ao início" Clicked="OnHomeClicked" AutomationId="technique-home" Style="{StaticResource CalmeSecondaryButton}" />
                 </VerticalStackLayout>
-                <Button Text="Ver outras técnicas" Clicked="OnLibraryClicked" AutomationId="technique-library" Style="{StaticResource CalmeTextButton}" />
+                <Button Text="Ver outras técnicas" Clicked="OnLibraryClicked" AutomationId="technique-library" Style="{StaticResource CalmeSecondaryButton}" />
                 <Label Text="Este app não substitui acompanhamento profissional e não realiza diagnósticos." Style="{StaticResource FlowSmall}" />
                 <Label Text="Se a ansiedade persistir ou atrapalhar seu dia a dia, procure avaliação profissional. Não é preciso esperar ficar pior para buscar ajuda." Style="{StaticResource FlowCopy}" />
-                <Button Text="Buscar ajuda profissional" Clicked="OnHelpClicked" AutomationId="technique-help" Style="{StaticResource CalmeTextButton}" />
+                <Button Text="Buscar ajuda profissional" Clicked="OnHelpClicked" AutomationId="technique-help" Style="{StaticResource CalmeSecondaryButton}" />
             </VerticalStackLayout>
         </ScrollView>
         <Button Grid.Row="1" Margin="24,8,24,12" Text="Preciso de apoio agora" Clicked="OnSupportClicked" AutomationId="open-support" Style="{StaticResource FlowSupportButton}" />

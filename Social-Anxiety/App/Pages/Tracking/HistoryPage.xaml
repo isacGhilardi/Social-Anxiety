@@ -2,15 +2,18 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:local="clr-namespace:Social_Anxiety"
              xmlns:checkins="clr-namespace:Social_Anxiety.Core.CheckIns"
+             xmlns:controls="clr-namespace:Social_Anxiety.Controls"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Social_Anxiety.HistoryPage" Title="Histórico" Style="{StaticResource FlowPage}">
     <Grid RowDefinitions="*,Auto">
         <ScrollView>
-            <VerticalStackLayout Padding="24,8,24,28" Spacing="16">
+            <VerticalStackLayout Padding="24,8,24,24" Spacing="16">
                 <Label Text="Seus registros"  Style="{StaticResource FlowHeading}" SemanticProperties.HeadingLevel="Level1"/>
                 <Label Text="Observe o que muda ao longo do tempo, sem se cobrar."  Style="{StaticResource FlowCopy}" />
-                <Grid ColumnDefinitions="*,*" ColumnSpacing="8"><Button x:Name="WeekButton" Text="Semana" Clicked="OnPeriodClicked" AutomationId="history-week" Style="{StaticResource CalmeButton}" CommandParameter="7"/>
-                <Button x:Name="MonthButton" Text="Mês" Clicked="OnPeriodClicked" AutomationId="history-month" Style="{StaticResource CalmeTextButton}" Grid.Column="1" CommandParameter="30"/>
+                <!-- Seletor de período: o selecionado é CalmeButton e o outro CalmeSecondaryButton (o code-behind troca os estilos). -->
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="8">
+                    <Button x:Name="WeekButton" Text="Semana" Clicked="OnPeriodClicked" AutomationId="history-week" Style="{StaticResource CalmeButton}" CommandParameter="7"/>
+                    <Button x:Name="MonthButton" Text="Mês" Clicked="OnPeriodClicked" AutomationId="history-month" Style="{StaticResource CalmeSecondaryButton}" Grid.Column="1" CommandParameter="30"/>
                 </Grid>
                 <Label Text="Últimos 7 dias" x:Name="PeriodLabel" Style="{StaticResource FlowCopy}" AutomationId="history-period"/>
                 <GraphicsView x:Name="HistoryGraph" AutomationId="history-graph" HeightRequest="160" />
@@ -19,28 +22,27 @@
                 <Label Text="" x:Name="RecordCount" Style="{StaticResource FlowCopy}" AutomationId="history-count"/>
                 <Label Text="Nenhum registro neste período." x:Name="EmptyMessage" Style="{StaticResource FlowCopy}" AutomationId="history-empty" />
                 <Label Text="" x:Name="ErrorMessage" Style="{StaticResource FlowCopy}" AutomationId="history-error"/>
+                <!-- Cada registro é um cartão de lista com uma camada de toque por cima (o teste clica nela pelo Name, a data da Description). -->
                 <VerticalStackLayout x:Name="RecordList" Spacing="12">
                     <BindableLayout.ItemTemplate>
                         <DataTemplate x:DataType="checkins:CheckIn">
-                            <Border Style="{StaticResource FlowCard}" Padding="0">
+                            <Border Style="{StaticResource FlowListCard}" Padding="0">
                                 <Grid>
                                     <VerticalStackLayout Padding="16" Spacing="4" InputTransparent="True">
                                         <Label Text="{Binding Day}" Style="{StaticResource FlowCardTitle}"/>
                                         <Label Text="{Binding Summary}" Style="{StaticResource FlowCopy}"/>
                                     </VerticalStackLayout>
-                                    <Button Style="{StaticResource CalmeTextButton}" Text=" " SemanticProperties.Description="{Binding Day}" AutomationId="{Binding Id, StringFormat='history-record-{0}'}" CommandParameter="{Binding Id}" Clicked="OnRecordClicked" MinimumHeightRequest="88" />
+                                    <Button Style="{StaticResource CalmeOverlayButton}" Text=" " SemanticProperties.Description="{Binding Day}" AutomationId="{Binding Id, StringFormat='history-record-{0}'}" CommandParameter="{Binding Id}" Clicked="OnRecordClicked" MinimumHeightRequest="88" />
                                 </Grid>
                             </Border>
                         </DataTemplate>
                     </BindableLayout.ItemTemplate>
                 </VerticalStackLayout>
-                <Button Text="Voltar ao início" Clicked="OnHomeClicked" AutomationId="history-home" Style="{StaticResource CalmeTextButton}" />
-
             </VerticalStackLayout>
         </ScrollView>
-        <VerticalStackLayout Grid.Row="1" Padding="24,8,24,12" Spacing="8">
-            <Button Text="Preciso de apoio agora" Clicked="OnSupportClicked" AutomationId="open-support" Style="{StaticResource FlowSupportButton}" />
-            <controls:BottomNavBar xmlns:controls="clr-namespace:Social_Anxiety.Controls" Active="History" />
+        <VerticalStackLayout Grid.Row="1" Spacing="0">
+            <Button Margin="24,8,24,10" Text="Preciso de apoio agora" Clicked="OnSupportClicked" AutomationId="open-support" Style="{StaticResource FlowSupportButton}" />
+            <controls:BottomNavBar Active="History" />
         </VerticalStackLayout>
     </Grid>
 </ContentPage>

@@ -81,8 +81,9 @@ public partial class HistoryPage : ContentPage
         {
             LoadingIndicator.IsVisible = LoadingIndicator.IsRunning = false;
             WeekButton.IsEnabled = MonthButton.IsEnabled = true;
-            WeekButton.Style = (Style)Application.Current!.Resources[mensal ? "CalmeTextButton" : "CalmeButton"];
-            MonthButton.Style = (Style)Application.Current.Resources[mensal ? "CalmeButton" : "CalmeTextButton"];
+            // O período selecionado é o botão primário; o outro fica como secundário com box.
+            WeekButton.Style = (Style)Application.Current!.Resources[mensal ? "CalmeSecondaryButton" : "CalmeButton"];
+            MonthButton.Style = (Style)Application.Current.Resources[mensal ? "CalmeButton" : "CalmeSecondaryButton"];
             SemanticProperties.SetDescription(WeekButton, mensal ? "Semana" : "Semana, selecionada");
             SemanticProperties.SetDescription(MonthButton, mensal ? "Mês, selecionado" : "Mês");
             carregando = false;
@@ -103,6 +104,5 @@ public partial class HistoryPage : ContentPage
             await Shell.Current.GoToAsync($"record?id={id}");
     }
 
-    private async void OnHomeClicked(object? sender, EventArgs e) => await Shell.Current.GoToAsync("//home");
     private async void OnSupportClicked(object? sender, EventArgs e) => await App.OpenSupport();
 }

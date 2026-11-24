@@ -5,7 +5,7 @@
              x:Class="Social_Anxiety.PrivacyPage" Title="Privacidade" Style="{StaticResource FlowPage}">
     <Grid RowDefinitions="*,Auto">
         <ScrollView>
-            <VerticalStackLayout Padding="24,8,24,28" Spacing="16">
+            <VerticalStackLayout Padding="24,8,24,24" Spacing="16">
                 <Label Text="Sua história merece cuidado." Style="{StaticResource FlowHeading}" SemanticProperties.HeadingLevel="Level1" AutomationId="privacy-title" />
 
                 <Border Style="{StaticResource FlowCard}">
@@ -48,7 +48,8 @@
                     <Label Text="As informações do Calme são para autoconhecimento. Não são resultados de uma avaliação clínica." Style="{StaticResource FlowCopy}"
                            TextColor="{AppThemeBinding Light={StaticResource CalmeTeal}, Dark={StaticResource CalmeTealDark}}" />
                 </Border>
-                <Button Text="Voltar" Clicked="OnBackClicked" AutomationId="privacy-back" Style="{StaticResource CalmeButton}" />
+                <!-- Terciário: a seta do Shell também volta. -->
+                <Button Text="Voltar" Clicked="OnBackClicked" AutomationId="privacy-back" Style="{StaticResource CalmeLinkButton}" />
             </VerticalStackLayout>
         </ScrollView>
         <Button Grid.Row="1" Margin="24,8,24,12" Text="Preciso de apoio agora" Clicked="OnSupportClicked" AutomationId="open-support" Style="{StaticResource FlowSupportButton}" />

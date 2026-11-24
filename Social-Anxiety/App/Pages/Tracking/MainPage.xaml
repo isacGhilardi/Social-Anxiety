@@ -1,37 +1,126 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:Social_Anxiety.Controls"
              x:Class="Social_Anxiety.MainPage" Title="Início" Style="{StaticResource FlowPage}">
     <Grid RowDefinitions="*,Auto">
         <ScrollView>
-            <VerticalStackLayout Padding="24,8,24,28" Spacing="16">
+            <VerticalStackLayout Padding="24,8,24,24" Spacing="16">
                 <Label x:Name="Greeting" Text="Olá, que bom ter você." AutomationId="home-greeting" Style="{StaticResource FlowHeading}" SemanticProperties.HeadingLevel="Level1"/>
-                <Label Text="Que tal um pequeno cuidado agora?"  Style="{StaticResource FlowCopy}" />
-                <Border Style="{StaticResource FlowCard}" BackgroundColor="{AppThemeBinding Light={StaticResource CalmeBlue}, Dark={StaticResource CalmeBlueDark}}"><VerticalStackLayout Spacing="12">
-                <Label Text="Como você está hoje?"  Style="{StaticResource FlowCardTitle}" />
-                <Label Text="Um minuto para perceber e acolher o que você sente."  Style="{StaticResource FlowCopy}" />
-                <Button Text="Fazer check-in" Clicked="OnCheckinClicked" AutomationId="home-checkin" Style="{StaticResource CalmeButton}" />
-                </VerticalStackLayout></Border>
-                <Border Style="{StaticResource FlowCard}" BackgroundColor="{AppThemeBinding Light={StaticResource CalmeSurface}, Dark={StaticResource CalmeSurfaceDark}}"><VerticalStackLayout Spacing="12">
-                <Label Text="Seus últimos 7 dias"  Style="{StaticResource FlowCardTitle}" />
-                <Label Text="Seus registros aparecerão aqui. Faça seu primeiro check-in para começar a acompanhar sua semana." x:Name="EmptyMessage" Style="{StaticResource FlowCopy}" />
-                <GraphicsView x:Name="SummaryGraph" AutomationId="home-graph" HeightRequest="160" />
-                <Label Text="" x:Name="LatestScore" Style="{StaticResource FlowCopy}" AutomationId="home-latest"/>
-                <Label Text="Ansiedade percebida: 1 = pouca; 5 = muita."  Style="{StaticResource FlowSmall}" />
-                </VerticalStackLayout></Border>
-                <Label Text="" x:Name="ErrorMessage" Style="{StaticResource FlowCopy}" AutomationId="home-error"/>
-                <Button Text="Ver meu histórico" Clicked="OnHistoryClicked" AutomationId="home-history" Style="{StaticResource CalmeButton}" />
-                <Button Text="Respiração guiada" Clicked="OnBreatheClicked" AutomationId="home-breathe" Style="{StaticResource CalmeTextButton}" />
-                <Button Text="Técnicas" Clicked="OnTechniquesClicked" AutomationId="home-techniques" Style="{StaticResource CalmeTextButton}" />
-                <Button Text="Meditação guiada" Clicked="OnMeditacaoGuiadaClicked" AutomationId="home-meditacao" Style="{StaticResource CalmeTextButton}" />
-                <Button Text="Desafios" Clicked="OnChallengesClicked" AutomationId="home-challenges" Style="{StaticResource CalmeTextButton}" />
-                <Button Text="Meu espaço" Clicked="OnProfileClicked" AutomationId="home-profile" Style="{StaticResource CalmeTextButton}" />
+                <Label Text="Que tal um pequeno cuidado agora?" Style="{StaticResource FlowCopy}" />
 
+                <Border Style="{StaticResource FlowCard}" BackgroundColor="{AppThemeBinding Light={StaticResource CalmeBlue}, Dark={StaticResource CalmeBlueDark}}">
+                    <VerticalStackLayout Spacing="12">
+                        <Label Text="Como você está hoje?" Style="{StaticResource FlowCardTitle}" />
+                        <Label Text="Um minuto para perceber e acolher o que você sente." Style="{StaticResource FlowCopy}" />
+                        <Button Text="Fazer check-in" Clicked="OnCheckinClicked" AutomationId="home-checkin" Style="{StaticResource CalmeButton}" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border Style="{StaticResource FlowCard}">
+                    <VerticalStackLayout Spacing="12">
+                        <Label Text="Seus últimos 7 dias" Style="{StaticResource FlowCardTitle}" />
+                        <Label Text="Seus registros aparecerão aqui. Faça seu primeiro check-in para começar a acompanhar sua semana." x:Name="EmptyMessage" Style="{StaticResource FlowCopy}" />
+                        <GraphicsView x:Name="SummaryGraph" AutomationId="home-graph" HeightRequest="160" />
+                        <Label Text="" x:Name="LatestScore" Style="{StaticResource FlowCopy}" AutomationId="home-latest"/>
+                        <Label Text="Ansiedade percebida: 1 = pouca; 5 = muita." Style="{StaticResource FlowSmall}" />
+                    </VerticalStackLayout>
+                </Border>
+                <Label Text="" x:Name="ErrorMessage" Style="{StaticResource FlowCopy}" AutomationId="home-error"/>
+
+                <Label Text="PARA AGORA" Style="{StaticResource FlowEyebrow}" SemanticProperties.HeadingLevel="Level2" />
+                <!-- Grade 2 colunas: cada atalho é um cartão com um Button transparente por cima (os testes usam os ids home-*). -->
+                <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto" ColumnSpacing="12" RowSpacing="12">
+                    <Grid Grid.Row="0" Grid.Column="0">
+                        <Border Style="{StaticResource FlowTile}" InputTransparent="True">
+                            <VerticalStackLayout Spacing="8">
+                                <Border Style="{StaticResource FlowIconBoxMint}">
+                                    <Path Style="{StaticResource FlowIconMint}" Data="M3,8 L14,8 A3,3 0 1 0 11,5 M3,12 L19,12 A3,3 0 1 1 16,15 M3,16 L10,16" />
+                                </Border>
+                                <Label Text="Respiração guiada" Style="{StaticResource FlowTileTitle}" />
+                                <Label Text="Acompanhe um ritmo suave" Style="{StaticResource FlowSmall}" />
+                            </VerticalStackLayout>
+                        </Border>
+                        <Button Style="{StaticResource CalmeOverlayButton}" Clicked="OnBreatheClicked" AutomationId="home-breathe"
+                                SemanticProperties.Description="Respiração guiada" />
+                    </Grid>
+
+                    <Grid Grid.Row="0" Grid.Column="1">
+                        <Border Style="{StaticResource FlowTile}" InputTransparent="True">
+                            <VerticalStackLayout Spacing="8">
+                                <Border Style="{StaticResource FlowIconBox}">
+                                    <Path Style="{StaticResource FlowIcon}" Data="M5,19 C5,11 10,5 20,4 C19,14 13,19 5,19 Z M5,19 L12,12" />
+                                </Border>
+                                <Label Text="Técnicas" Style="{StaticResource FlowTileTitle}" />
+                                <Label Text="Mindfulness, STOP e ACALME-SE" Style="{StaticResource FlowSmall}" />
+                            </VerticalStackLayout>
+                        </Border>
+                        <Button Style="{StaticResource CalmeOverlayButton}" Clicked="OnTechniquesClicked" AutomationId="home-techniques"
+                                SemanticProperties.Description="Técnicas" />
+                    </Grid>
+
+                    <Grid Grid.Row="1" Grid.Column="0">
+                        <Border Style="{StaticResource FlowTile}" InputTransparent="True">
+                            <VerticalStackLayout Spacing="8">
+                                <Border Style="{StaticResource FlowIconBoxLilac}">
+                                    <Path Style="{StaticResource FlowIconLilac}" Data="M12,16 A4,4 0 1 0 12,8 A4,4 0 1 0 12,16 Z M12,2 L12,4 M12,20 L12,22 M2,12 L4,12 M20,12 L22,12 M4.9,4.9 L6.3,6.3 M17.7,17.7 L19.1,19.1 M4.9,19.1 L6.3,17.7 M17.7,6.3 L19.1,4.9" />
+                                </Border>
+                                <Label Text="Meditação guiada" Style="{StaticResource FlowTileTitle}" />
+                                <Label Text="Uma pausa com cronômetro" Style="{StaticResource FlowSmall}" />
+                            </VerticalStackLayout>
+                        </Border>
+                        <Button Style="{StaticResource CalmeOverlayButton}" Clicked="OnMeditacaoGuiadaClicked" AutomationId="home-meditacao"
+                                SemanticProperties.Description="Meditação guiada" />
+                    </Grid>
+
+                    <Grid Grid.Row="1" Grid.Column="1">
+                        <Border Style="{StaticResource FlowTile}" InputTransparent="True">
+                            <VerticalStackLayout Spacing="8">
+                                <Border Style="{StaticResource FlowIconBox}">
+                                    <Path Style="{StaticResource FlowIcon}" Data="M5,21 L5,4 L16,4 L14,8 L16,12 L5,12" />
+                                </Border>
+                                <Label Text="Desafios" Style="{StaticResource FlowTileTitle}" />
+                                <Label Text="Pequenos passos, no seu ritmo" Style="{StaticResource FlowSmall}" />
+                            </VerticalStackLayout>
+                        </Border>
+                        <Button Style="{StaticResource CalmeOverlayButton}" Clicked="OnChallengesClicked" AutomationId="home-challenges"
+                                SemanticProperties.Description="Desafios" />
+                    </Grid>
+
+                    <Grid Grid.Row="2" Grid.Column="0">
+                        <Border Style="{StaticResource FlowTile}" InputTransparent="True">
+                            <VerticalStackLayout Spacing="8">
+                                <Border Style="{StaticResource FlowIconBoxMint}">
+                                    <Path Style="{StaticResource FlowIconMint}" Data="M4,20 L4,11 M10,20 L10,4 M16,20 L16,13 M3,20 L21,20" />
+                                </Border>
+                                <Label Text="Ver meu histórico" Style="{StaticResource FlowTileTitle}" />
+                                <Label Text="Sua semana e seu mês" Style="{StaticResource FlowSmall}" />
+                            </VerticalStackLayout>
+                        </Border>
+                        <Button Style="{StaticResource CalmeOverlayButton}" Clicked="OnHistoryClicked" AutomationId="home-history"
+                                SemanticProperties.Description="Ver meu histórico" />
+                    </Grid>
+
+                    <Grid Grid.Row="2" Grid.Column="1">
+                        <Border Style="{StaticResource FlowTile}" InputTransparent="True">
+                            <VerticalStackLayout Spacing="8">
+                                <Border Style="{StaticResource FlowIconBoxLilac}">
+                                    <Path Style="{StaticResource FlowIconLilac}" Data="M12,12 A4,4 0 1 0 12,4 A4,4 0 1 0 12,12 Z M4,21 C5.5,17 8.5,15 12,15 C15.5,15 18.5,17 20,21" />
+                                </Border>
+                                <Label Text="Meu espaço" Style="{StaticResource FlowTileTitle}" />
+                                <Label Text="Conquistas e ajustes" Style="{StaticResource FlowSmall}" />
+                            </VerticalStackLayout>
+                        </Border>
+                        <Button Style="{StaticResource CalmeOverlayButton}" Clicked="OnProfileClicked" AutomationId="home-profile"
+                                SemanticProperties.Description="Meu espaço" />
+                    </Grid>
+                </Grid>
             </VerticalStackLayout>
         </ScrollView>
-        <VerticalStackLayout Grid.Row="1" Padding="24,8,24,12" Spacing="8">
-            <Button Text="Preciso de apoio agora" Clicked="OnSupportClicked" AutomationId="open-support" Style="{StaticResource FlowSupportButton}" />
-            <controls:BottomNavBar xmlns:controls="clr-namespace:Social_Anxiety.Controls" Active="Home" />
+
+        <VerticalStackLayout Grid.Row="1" Spacing="0">
+            <Button Margin="24,8,24,10" Text="Preciso de apoio agora" Clicked="OnSupportClicked" AutomationId="open-support" Style="{StaticResource FlowSupportButton}" />
+            <controls:BottomNavBar Active="Home" />
         </VerticalStackLayout>
     </Grid>
 </ContentPage>

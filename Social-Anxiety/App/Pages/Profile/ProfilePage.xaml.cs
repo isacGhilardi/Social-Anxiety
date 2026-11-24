@@ -117,7 +117,7 @@ public partial class ProfilePage : ContentPage
         {
             Style = (Style)resources["FlowCard"],
             Padding = new Thickness(8, 12),
-            StrokeShape = new RoundRectangle { CornerRadius = new CornerRadius(16) },
+            StrokeShape = new RoundRectangle { CornerRadius = new CornerRadius(20) }, // mesmo raio dos tiles e cartões de lista
             AutomationId = $"profile-achievement-{achievement.Key}",
             Content = new VerticalStackLayout { Spacing = 8, Children = { medal, name, caption } }
         };
@@ -125,7 +125,6 @@ public partial class ProfilePage : ContentPage
         return card;
     }
 
-    private async void OnHomeClicked(object? sender, EventArgs e) => await Shell.Current.GoToAsync("//home");
     private async void OnSettingsClicked(object? sender, EventArgs e) => await Shell.Current.GoToAsync("settings");
     private async void OnHelpClicked(object? sender, EventArgs e) => await App.OpenHelp();
     private async void OnSupportClicked(object? sender, EventArgs e) => await App.OpenSupport();

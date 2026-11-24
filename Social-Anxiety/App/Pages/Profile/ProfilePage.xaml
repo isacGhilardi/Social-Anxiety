@@ -2,6 +2,7 @@
 <ContentPage
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:Social_Anxiety.Controls"
     x:Class="Social_Anxiety.ProfilePage"
     Title="Meu espaço"
     Style="{StaticResource FlowPage}">
@@ -14,7 +15,7 @@
     </ContentPage.Resources>
     <Grid RowDefinitions="*,Auto">
         <ScrollView>
-            <VerticalStackLayout Padding="24,8,24,28" Spacing="16">
+            <VerticalStackLayout Padding="24,8,24,24" Spacing="16">
                 <Grid ColumnDefinitions="Auto,*" ColumnSpacing="16">
                     <Border WidthRequest="72" HeightRequest="72" StrokeThickness="0" StrokeShape="RoundRectangle 36"
                             BackgroundColor="{AppThemeBinding Light={StaticResource CalmeLilac}, Dark={StaticResource CalmeLilacDark}}"
@@ -52,14 +53,14 @@
                     <Label Text="Você não perde conquistas ao descansar. Cuidar de si também inclui fazer pausas." Style="{StaticResource FlowCopy}" FontSize="14"
                            TextColor="{AppThemeBinding Light={StaticResource CalmeTeal}, Dark={StaticResource CalmeTealDark}}" />
                 </Border>
-                <Button Text="Configurações" Clicked="OnSettingsClicked" AutomationId="profile-settings" Style="{StaticResource CalmeButton}" />
-                <Button Text="Buscar ajuda profissional" Clicked="OnHelpClicked" AutomationId="profile-help" Style="{StaticResource CalmeTextButton}" />
-                <Button Text="Voltar ao início" Clicked="OnHomeClicked" AutomationId="profile-home" Style="{StaticResource CalmeTextButton}" />
+                <!-- Navegação e ajuda: secundários com box (a tela não tem ação primária). O Início fica na barra inferior. -->
+                <Button Text="Configurações" Clicked="OnSettingsClicked" AutomationId="profile-settings" Style="{StaticResource CalmeSecondaryButton}" />
+                <Button Text="Buscar ajuda profissional" Clicked="OnHelpClicked" AutomationId="profile-help" Style="{StaticResource CalmeSecondaryButton}" />
             </VerticalStackLayout>
         </ScrollView>
-        <VerticalStackLayout Grid.Row="1" Padding="24,8,24,12" Spacing="8">
-            <Button Text="Preciso de apoio agora" Clicked="OnSupportClicked" AutomationId="open-support" Style="{StaticResource FlowSupportButton}" />
-            <controls:BottomNavBar xmlns:controls="clr-namespace:Social_Anxiety.Controls" Active="Profile" />
+        <VerticalStackLayout Grid.Row="1" Spacing="0">
+            <Button Margin="24,8,24,10" Text="Preciso de apoio agora" Clicked="OnSupportClicked" AutomationId="open-support" Style="{StaticResource FlowSupportButton}" />
+            <controls:BottomNavBar Active="Profile" />
         </VerticalStackLayout>
     </Grid>
 </ContentPage>

@@ -4,8 +4,8 @@
              x:Class="Social_Anxiety.BreathePage" Title="Respiração guiada" Style="{StaticResource FlowPage}">
     <Grid RowDefinitions="*,Auto">
         <ScrollView>
-            <VerticalStackLayout Padding="24,8,24,28" Spacing="16">
-                <Label Text="UMA PAUSA, SEM PRESSA"  Style="{StaticResource FlowSmall}" />
+            <VerticalStackLayout Padding="24,8,24,24" Spacing="16">
+                <Label Text="UMA PAUSA, SEM PRESSA"  Style="{StaticResource FlowEyebrow}" />
                 <Label Text="Volte ao seu ritmo."  Style="{StaticResource FlowHeading}" SemanticProperties.HeadingLevel="Level1"/>
                 <Label Text="Encontre uma posição confortável. A contagem é uma sugestão: não precisa acompanhá-la nem respirar mais fundo. Respire suavemente, sem forçar."  Style="{StaticResource FlowCopy}" />
                 <Label Text="Se sentir tontura, falta de ar ou mais ansiedade, interrompa a prática e deixe a respiração voltar ao seu ritmo. Você pode olhar um objeto ou sentir os pés no chão em vez de focar na respiração." Style="{StaticResource FlowCopy}" />
@@ -26,14 +26,10 @@
                 <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12"><Label Text="Reduzir movimentos"  Style="{StaticResource FlowCopy}" VerticalOptions="Center"/>
                 <Switch x:Name="ReducedMotionSwitch" Grid.Column="1" AutomationId="breathe-reduced-motion" SemanticProperties.Description="Reduzir movimentos" Toggled="OnReducedMotionToggled" /></Grid>
                 <Button Text="Começar" Clicked="OnToggleClicked" AutomationId="breathe-toggle" Style="{StaticResource CalmeButton}" x:Name="ToggleButton"/>
-                <Button Text="Encerrar prática" Clicked="OnFinishClicked" AutomationId="breathe-finish" Style="{StaticResource CalmeTextButton}" x:Name="FinishButton" IsVisible="False"/>
+                <Button Text="Encerrar prática" Clicked="OnFinishClicked" AutomationId="breathe-finish" Style="{StaticResource CalmeSecondaryButton}" x:Name="FinishButton" IsVisible="False"/>
                 <Label Text="" x:Name="ElapsedLabel" Style="{StaticResource FlowSmall}" HorizontalTextAlignment="Center" AutomationId="breathe-elapsed"/>
-
             </VerticalStackLayout>
         </ScrollView>
-        <VerticalStackLayout Grid.Row="1" Padding="24,8,24,12" Spacing="8">
-            <Button Text="Preciso de apoio agora" Clicked="OnSupportClicked" AutomationId="open-support" Style="{StaticResource FlowSupportButton}" />
-
-        </VerticalStackLayout>
+        <Button Grid.Row="1" Margin="24,8,24,12" Text="Preciso de apoio agora" Clicked="OnSupportClicked" AutomationId="open-support" Style="{StaticResource FlowSupportButton}" />
     </Grid>
 </ContentPage>
